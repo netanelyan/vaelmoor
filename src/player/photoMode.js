@@ -18,9 +18,9 @@ export class PhotoMode {
         const s = a.shot;
         const [x, z] = [a.center[0] + s.at[0], a.center[1] + s.at[1]];
         const yAt = s.yAt ? [a.center[0] + s.yAt[0], a.center[1] + s.yAt[1]] : [x, z];
-        const y = (s.absY ?? world.groundAt(yAt[0], yAt[1])) + (s.height ?? 1.7);
+        const y = (s.absY ?? (s.aboveWater ? world.waterLevelAt(x, z) : world.groundAt(yAt[0], yAt[1]))) + (s.height ?? 1.7);
         const [tx, tz] = [a.center[0] + s.target[0], a.center[1] + s.target[1]];
-        const ty = (s.targetAbsY ?? world.groundAt(tx, tz)) + (s.target[2] ?? 0);
+        const ty = (s.targetAbsY ?? (s.aboveWater ? world.waterLevelAt(tx, tz) : world.groundAt(tx, tz))) + (s.target[2] ?? 0);
         const id = `${realm.id}:${s.key}`;
         this.shots.set(id, {
           id, key: s.key, realm, area: a.id, name: a.name, ref: a.ref,

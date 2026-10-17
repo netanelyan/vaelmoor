@@ -1418,20 +1418,22 @@
       },
       "atmosphere": {
         "sky": {
-          "zenith": "#0c0636",
-          "mid": "#3a1a90",
-          "horizon": "#9a5ad0",
-          "cloudCover": 0.45,
-          "cloudDark": "#2a1660",
-          "cloudLight": "#b080f0",
-          "cloudRim": "#e0c0ff",
+          "zenith": "#0a0630",
+          "mid": "#2a1680",
+          "horizon": "#5a3ab8",
+          "cloudCover": 0.58,
+          "cloudDark": "#140a40",
+          "cloudLight": "#5a40b8",
+          "cloudRim": "#a080ff",
           "moonDir": [
             52,
             17
           ],
           "moonPhase": 0,
-          "moonSize": 0.055,
-          "moonGlow": 0.36
+          "moonSize": 0.0001,
+          "moonGlow": 0,
+          "swirl": 2,
+          "stars": 0.3
         },
         "fog": {
           "color": "#2c2470",
@@ -1439,14 +1441,38 @@
           "falloff": 0.05
         },
         "rim": {
-          "color": "#c0a0ff",
-          "strength": 1
+          "color": "#c0b0ff",
+          "strength": 0.15
         },
         "water": {
-          "color": "#0e6a64",
-          "glint": "#e0d0ff",
-          "distortion": 1,
-          "tint": "#70e8d8"
+          "color": "#0c8a78",
+          "glint": "#c0ffe8",
+          "distortion": 0.9,
+          "tint": "#50ffd0"
+        },
+        "ambient": {
+          "sky": "#8a90b8",
+          "ground": "#1a3020",
+          "intensity": 1.1
+        },
+        "moonLight": {
+          "color": "#f0f0ff",
+          "intensity": 2.4,
+          "dir": [
+            100,
+            45
+          ]
+        },
+        "fill": {
+          "color": "#c0d0ff",
+          "intensity": 0
+        },
+        "post": {
+          "bloom": 0.12,
+          "bloomThreshold": 2.2
+        },
+        "env": {
+          "intensity": 0.6
         }
       },
       "props": [
@@ -1457,16 +1483,17 @@
         {
           "type": "boulder",
           "at": [
-            -2,
-            -2
+            -2.3,
+            -1.8
           ],
           "size": [
-            3.4,
-            2.6,
-            2.8
+            2.2,
+            0.85,
+            1.7
           ],
           "seed": 7,
-          "aboveWater": 0.15
+          "aboveWater": 0.12,
+          "color": "#b08a80"
         },
         {
           "type": "knight",
@@ -1474,61 +1501,167 @@
             -2,
             -2
           ],
-          "aboveWater": 0.42,
-          "pose": "sitSword",
-          "rot": -125,
+          "aboveWater": -0.02,
+          "pose": "sit",
+          "rot": 93.4,
+          "armor": "#9aa0b0",
           "npc": "lake_knight",
           "name": "Ser Aldric of the Glass",
           "talkY": 1.1
-        }
-      ],
-      "scatter": [
-        {
-          "kind": "pine",
-          "count": 140,
-          "at": [
-            32,
-            -26
-          ],
-          "radius": 80,
-          "minRoad": 8,
-          "scale": [
-            15,
-            27
-          ],
-          "seed": "lp"
         },
         {
-          "kind": "rock",
-          "count": 30,
+          "type": "crag",
           "at": [
-            32,
-            -26
+            -42.9,
+            9.7
           ],
-          "radius": 60,
-          "minRoad": 5,
-          "scale": [
-            0.6,
-            2.2
+          "size": [
+            10,
+            5.625,
+            6
           ],
-          "seed": "lr"
+          "seed": 610,
+          "color": "#8676c4",
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            -38.8,
+            19.1
+          ],
+          "size": [
+            12,
+            6.875,
+            7.199999999999999
+          ],
+          "seed": 611,
+          "color": "#8676c4",
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            -32.1,
+            26.7
+          ],
+          "size": [
+            11,
+            6.25,
+            6.6
+          ],
+          "seed": 612,
+          "color": "#8676c4",
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            -29.4,
+            35.8
+          ],
+          "size": [
+            10,
+            5.625,
+            6
+          ],
+          "seed": 613,
+          "color": "#8676c4",
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            -45.9,
+            2
+          ],
+          "size": [
+            9,
+            5,
+            5.3999999999999995
+          ],
+          "seed": 614,
+          "color": "#8676c4",
+          "viewDist": 1500
         }
       ],
+      "scatter": [],
       "shot": {
         "key": 7,
         "at": [
-          -11,
-          4
+          0.4,
+          -3.7
         ],
-        "height": 1.7,
+        "aboveWater": true,
+        "height": 1.15,
         "target": [
           -2,
           -2,
-          2.6
+          1.15
         ],
-        "fov": 42
+        "fov": 56
       },
-      "clearings": []
+      "clearings": [
+        [
+          -2,
+          -2,
+          3
+        ],
+        [
+          1,
+          -4.1,
+          3
+        ],
+        [
+          -10.2,
+          3.8,
+          9
+        ],
+        [
+          -20,
+          10.8,
+          13
+        ],
+        [
+          -29.9,
+          17.7,
+          10
+        ]
+      ],
+      "trees": [
+        {
+          "kind": "pine",
+          "at": [
+            -2.3,
+            6.2
+          ],
+          "scale": 20
+        },
+        {
+          "kind": "pine",
+          "at": [
+            -13.4,
+            -2.5
+          ],
+          "scale": 18
+        },
+        {
+          "kind": "pine",
+          "at": [
+            -7.1,
+            15.1
+          ],
+          "scale": 16
+        },
+        {
+          "kind": "pine",
+          "at": [
+            -22.1,
+            -2.6
+          ],
+          "scale": 15
+        }
+      ]
     },
     {
       "id": "whitewizard",

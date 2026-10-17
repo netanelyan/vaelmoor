@@ -39,8 +39,8 @@ export function armorMaterial(assets, color = 0xb4aed0, dull = false) {
   return cached(`armor:${color}`, () => {
     const t = assets.pbr('metal_plate', [2, 2], { color: false });
     const m = new THREE.MeshPhysicalMaterial({
-      color, metalness: 1.0, roughness: 0.14, roughnessMap: t.roughnessMap, normalMap: t.normalMap,
-      normalScale: new THREE.Vector2(0.25, 0.25), clearcoat: 0.6, clearcoatRoughness: 0.06, envMapIntensity: 1.15,
+      color, metalness: 0.55, roughness: 0.32, roughnessMap: t.roughnessMap, normalMap: t.normalMap,
+      normalScale: new THREE.Vector2(0.25, 0.25), clearcoat: 0.3, clearcoatRoughness: 0.2, envMapIntensity: 0.55,
     });
     return stylize(m, { rim: 0.55, rimPower: 3.0 });
   });
@@ -515,6 +515,8 @@ export function knight(ctx, o = {}) {
   const rig = makeRig();
   const A = armorMaterial(ctx.assets, o.armor ? new THREE.Color(o.armor).getHex() : 0xb4aed0, !!o.dull);
   const under = leatherMat(0x1c1420);
+  // dark chainmail between the plates (what makes a knight read as a knight)
+  const mail = cached('mail', () => { const t = ctx.assets.pbr('metal_plate', [8, 8], { color: false }); return stylize(new THREE.MeshStandardMaterial({ color: 0x24222a, metalness: 0.8, roughness: 0.55, normalMap: t.normalMap, normalScale: new THREE.Vector2(1.5, 1.5), envMapIntensity: 0.6 }), { rim: 0.3 }); });
   // breastplate + backplate
   const breast = lathe([[0.16, -0.36], [0.2, -0.28], [0.24, -0.1], [0.26, 0.04], [0.245, 0.14], [0.15, 0.21], [0.07, 0.25]], 26,
     (a) => (Math.sin(a) > 0 ? 0.06 * Math.pow(Math.sin(a), 6) : 0)); // ridge down the front
@@ -541,7 +543,7 @@ export function knight(ctx, o = {}) {
       rig[`shoulder${s}`].add(dm);
     }
     // arms
-    attach(rig[`shoulder${s}`], mesh(new THREE.CylinderGeometry(0.078, 0.07, 0.28, 12), A), 0, -0.16, 0);
+    attach(rig[`shoulder${s}`], mesh(new THREE.CylinderGeometry(0.07, 0.064, 0.28, 12), mail), 0, -0.16, 0);
     const couter = mesh(new THREE.SphereGeometry(0.08, 12, 8), A);
     attach(rig[`elbow${s}`], couter);
     const fan = mesh(new THREE.CircleGeometry(0.075, 10), A);
@@ -557,7 +559,10 @@ export function knight(ctx, o = {}) {
     gaunt.add(mesh(hand, A).translateY(-0.1));
     attach(rig[`hand${s}`], gaunt);
     // legs
-    attach(rig[`hip${s}`], mesh(new THREE.CylinderGeometry(0.105, 0.085, 0.42, 14), A), 0, -0.22, 0);
+    attach(rig[`hip${s}`], mesh(new THREE.CylinderGeometry(0.1, 0.082, 0.42, 14), mail), 0, -0.22, 0);
+    const cuisse = mesh(new THREE.CylinderGeometry(0.108, 0.09, 0.3, 14, 1, true, -1.2, 2.4), A);
+    cuisse.rotation.y = Math.PI / 2 - 1.57;
+    attach(rig[`hip${s}`], cuisse, 0, -0.18, 0.01);
     const poleyn = mesh(new THREE.SphereGeometry(0.085, 12, 8), A);
     poleyn.scale.set(1, 1.1, 1.2);
     attach(rig[`knee${s}`], poleyn, 0, 0, 0.02);

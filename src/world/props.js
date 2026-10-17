@@ -135,7 +135,7 @@ export const PROP_BUILDERS = {
 
   /** Rounded boulder (e.g. the knight's rock in the lake). */
   boulder: (ctx, p) => {
-    const m = new THREE.Mesh(rockGeometry(p.seed ?? 2, 4), cragMaterial(ctx.assets));
+    const m = new THREE.Mesh(rockGeometry(p.seed ?? 2, 4), p.color ? coloredCrag(ctx.assets, p.color) : cragMaterial(ctx.assets));
     const [sx, sy, sz] = p.size ?? [3, 1.5, 2.5];
     m.scale.set(sx, sy, sz);
     m.castShadow = m.receiveShadow = true;
