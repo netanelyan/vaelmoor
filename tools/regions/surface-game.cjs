@@ -20,5 +20,16 @@ module.exports = function addGameplay(region) {
     { type: 'chest', id: 'cottage_chest', at: [1.4, -11.2], rot: 0, loot: 'chest_common', locked: 'novice', name: 'Old Chest' },
     { type: 'loot', id: 'cottage_book', item: 'book_hollowford', at: [3.6, -10.4], rot: 0.4 },
     { type: 'loot', id: 'cottage_potion', item: 'potion_health', at: [3.9, -10.1] },
+    // a wolf pack on the road west
+    { type: 'enemy', id: 'wolf_1', kind: 'wolf', at: [-56, 30], rot: 90, patrol: 8 },
+    { type: 'enemy', id: 'wolf_2', kind: 'wolf', at: [-60, 35], rot: 60, patrol: 8 },
+    { type: 'enemy', id: 'wolf_3', kind: 'wolf', at: [-52, 37], rot: 120, patrol: 8 },
+  );
+
+  // ---- the barrow door: Hollow Ones keep watch
+  const barrow = areaById('barrow');
+  barrow.props.push(
+    { type: 'enemy', id: 'hollow_door_1', kind: 'hollow', at: [-4, 6], rot: 180, patrol: 4 },
+    { type: 'enemy', id: 'hollow_door_2', kind: 'hollow', at: [5, 5], rot: 200, patrol: 4 },
   );
 };

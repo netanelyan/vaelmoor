@@ -103,7 +103,7 @@ export class GameUI {
     show(this.hud.compass, s === 'play');
     if (s === 'play') { this.lock(); this.camera.fov = settings.get('fov'); this.camera.updateProjectionMatrix(); }
     else if (prev === 'play' && s !== 'photo') this.unlock();
-    if (s === 'pause') this.pause.show(!!load('save1'));
+    if (s === 'pause') this.pause.show(!!load('save1') || !!load('autosave'));
     if (s === 'settings') this.settingsScreen.show();
     if (s === 'journal') this.journal.show();
     if (s === 'inventory') this.inventory.show('items');
@@ -127,7 +127,7 @@ export class GameUI {
     this.hud.setFps(settings.get('showFps'));
     if (!this.started) {
       this.started = true;
-      if (!this.loaded) this.game.newGame();
+      if (!this.loaded) { this.game.newGame(); setTimeout(() => this.autosave(), 500); }
       const q = this.quests.trackedQuest();
       if (q) setTimeout(() => this.hud.questNote('QUEST STARTED', q.title), 600);
     }
@@ -177,7 +177,7 @@ export class GameUI {
     else if (v === 'journal') { this.journalFrom = 'pause'; this.setState('journal'); }
     else if (v === 'settings') this.setState('settings');
     else if (v === 'save') { this.saveGame(); this.setState('play'); this.hud.toast('Game saved'); }
-    else if (v === 'load') { if (this.loadGame()) { this.setState('play'); this.hud.toast('Game loaded'); } }
+    else if (v === 'load') { if (this.loadGame(this.latestSlot())) { this.setState('play'); this.hud.toast('Game loaded'); } }
     else if (v === 'quit') this.showTitle();
   }
 
@@ -293,6 +293,7 @@ export class GameUI {
       return;
     }
     if (this.state !== 'play' && this.state !== 'dialogue') return;
+    if (performance.now() - (this.lastAutosave ?? performance.now()) > 300000) this.autosave();
     const p = this.player.pos;
     // discovery
     for (const a of this.region.areas) {
@@ -301,6 +302,7 @@ export class GameUI {
       if (d < (a.discoverRadius ?? (a.reach ?? 60) * 0.6)) {
         this.quests.notify('discover', a.id);
         this.hud.discover(a.name);
+        this.autosave();
       }
     }
     // interaction target
@@ -342,11 +344,38 @@ export class GameUI {
     return null;
   }
 
+  // ------------------------------------------------------------ death
+  die() {
+    this.setState('dead');
+    this.hud.death(true);
+    this.hud.setEnemy(null);
+    setTimeout(() => {
+      const ok = this.loadGame(this.latestSlot());
+      if (!ok) { this.game.character.cur.health = this.game.character.max('health'); }
+      this.hud.death(false);
+      this.setState('play');
+    }, 3200);
+  }
+
   // ------------------------------------------------------------ save / load
+  autosave() {
+    if (this.state === 'dead' || this.game.character.dead || this.game.character.combat) return;
+    this.saveGame('autosave');
+    this.lastAutosave = performance.now();
+  }
+
+  /** The newest of the manual save and the autosave. */
+  latestSlot() {
+    const a = load('autosave'), m = load('save1');
+    if (!a) return 'save1';
+    if (!m) return 'autosave';
+    return (a.t ?? 0) > (m.t ?? 0) ? 'autosave' : 'save1';
+  }
+
   saveGame(slot = 'save1') {
     const pl = this.player;
     save(slot, {
-      v: 2, realm: this.realm.id, pos: [pl.pos.x, pl.pos.z], yaw: pl.yaw, pitch: pl.pitch,
+      v: 2, t: Date.now(), realm: this.realm.id, pos: [pl.pos.x, pl.pos.z], yaw: pl.yaw, pitch: pl.pitch,
       quests: this.quests.toJSON(), game: this.game.toJSON(), extra: this.saveExtra?.() ?? null,
       taken: Object.values(this.realms).flatMap((r) => r.world.interactables.list.filter((x) => x.kind === 'item' && !x.enabled).map((x) => x.id)),
     });

@@ -12,7 +12,7 @@ export class Sfx {
   }
 
   ensure() {
-    if (this.ctx) return this.ctx;
+    if (this.ctx || this.failed) return this.ctx;
     try {
       this.ctx = new AudioContext();
       this.master = this.ctx.createGain();
@@ -22,7 +22,7 @@ export class Sfx {
       this.noise = this.ctx.createBuffer(1, n, n);
       const d = this.noise.getChannelData(0);
       for (let i = 0; i < n; i++) d[i] = Math.random() * 2 - 1;
-    } catch { this.ctx = null; }
+    } catch { this.ctx = null; this.failed = true; } // no audio device: stay silent, don't retry every sound
     return this.ctx;
   }
 

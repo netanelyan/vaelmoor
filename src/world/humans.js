@@ -20,7 +20,7 @@ function load(assets, name) {
 // clips without scale tracks, so bones can be rescaled (gnome heads)
 let clipsP;
 function clips(assets) {
-  return (clipsP ||= load(assets, 'UAL1').then((g) => {
+  return (clipsP ||= load(assets, 'anims').then((g) => {
     const m = new Map();
     for (const c of g.animations) {
       const k = c.clone();
@@ -155,7 +155,7 @@ function attachRest(root, R, bone, obj, worldPos, euler = new THREE.Euler()) {
  * grip runs along world `up` (or `dir`) through the palm, so a staff stands
  * upright and a sword points up/forward, then it stays rigid in the hand.
  */
-function attachToHand(root, obj, { dir = new THREE.Vector3(0, 1, 0), side = 'r', exact = false } = {}) {
+export function attachToHand(root, obj, { dir = new THREE.Vector3(0, 1, 0), side = 'r', exact = false } = {}) {
   root.updateMatrixWorld(true);
   const hand = root.getObjectByName(`hand_${side}`);
   const fing = root.getObjectByName(`middle_01_${side}`) ?? root.getObjectByName(`index_01_${side}`);
@@ -434,7 +434,7 @@ const POSE_CLIP = {
 export async function human(ctx, o = {}) {
   const outfit = o.outfit ?? 'Male_Ranger';
   const female = outfit.startsWith('Female');
-  const want = ['UAL1', outfit, female ? 'Superhero_Female_FullBody' : 'Superhero_Male_FullBody'];
+  const want = ['anims', outfit, female ? 'Superhero_Female_FullBody' : 'Superhero_Male_FullBody'];
   if (o.hair === 'long') want.push('Hair_Long');
   if (o.beard) want.push('Hair_Beard');
   const [lib, clothes, base, ...extra] = await Promise.all([clips(ctx.assets), ...want.slice(1).map((n) => load(ctx.assets, n))]);
@@ -700,7 +700,7 @@ export async function human(ctx, o = {}) {
   };
   if (patrol) root.position.z = (phase - 0.5) * 2 * patrol;
 
-  return { object: g, colliders: [{ x: 0, z: 0, r: patrol ? 0.3 : 0.42 }], lights, update };
+  return { object: g, colliders: [{ x: 0, z: 0, r: patrol ? 0.3 : 0.42 }], lights, update, root, mixer, action, clips: lib, scale: s };
 }
 
 // ------------------------------------------------------------ prop presets (same options as the old procedural figures)

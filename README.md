@@ -23,7 +23,7 @@ Then open the printed URL. Any static server works; the game just can't be opene
 
 ## Playing
 
-Vaelmoor is a first-person RPG in the old mould. Ten skills (One-Handed, Block, Archery, Destruction, Restoration, Sneak, Lockpicking, Speech, Alchemy and Smithing) rise as you use them, and your character level rises with them. Each level-up gives +10 to health, magicka or stamina and a perk point for that skill's constellation. Chests, barrels, sacks and bodies can be searched (take one with E, everything with R); locked ones need a lockpick and a steady hand. Merchants buy and sell at prices set by your Speech. Items, loot tables, skills, perks and spells all live in `data/`.
+Vaelmoor is a first-person RPG in the old mould. Ten skills (One-Handed, Block, Archery, Destruction, Restoration, Sneak, Lockpicking, Speech, Alchemy and Smithing) rise as you use them, and your character level rises with them. Each level-up gives +10 to health, magicka or stamina and a perk point for that skill's constellation. Chests, barrels, sacks and bodies can be searched (take one with E, everything with R); locked ones need a lockpick and a steady hand. Merchants buy and sell at prices set by your Speech. Fights are light but physical: swings and power attacks, timed blocks that stagger, arrows that drop, Flames and Healing from either hand. Wolves roam the surface, Hollow Ones guard the barrow and shades drift through the Gloaming; each one notices you, gives chase, telegraphs its blows and sometimes flees. If you die, the screen fades and the last save loads. Items, loot tables, skills, perks and spells all live in `data/`.
 
 ## Controls
 
@@ -39,6 +39,10 @@ Vaelmoor is a first-person RPG in the old mould. Ten skills (One-Handed, Block, 
 | P | Magic: put Flames or Healing in either hand |
 | K | Skills: constellations and perks; level-ups choose +10 health, magicka or stamina |
 | Q | Favorites: quick-switch what each hand holds |
+| Left mouse | Right hand: swing (hold for a power attack), draw and loose a bow, cast |
+| Right mouse | Left hand: block (shield, or your blade if the left hand is empty), cast; with a bow, zoom (Eagle Eye) |
+| Left mouse while blocking | Shield bash |
+| C | Sneak: lower and slower; an eye shows how close foes are to seeing you; unaware foes take 3x melee / 2x arrow damage |
 | R | Draw / sheathe |
 | J | Journal |
 | Esc | Pause menu (resume, journal, save, load, settings, quit) |

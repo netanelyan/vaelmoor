@@ -115,7 +115,7 @@
 #book .rpg-hint { bottom: -34px; color: var(--bone-60); text-shadow: var(--shadow); }
 
 /* ---------------------------------------------------------------- HUD notices */
-.skill-note { left: 50%; top: 74px; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.skill-note { left: 50%; top: 110px; transform: translateX(-50%); text-align: center; white-space: nowrap; }
 .skill-note .t { font-size: var(--t-m); letter-spacing: var(--track-caps); text-transform: uppercase; }
 .skill-note .sb { position: relative; height: 1px; width: 180px; margin: 6px auto 0; background: var(--bone-20); }
 .skill-note .sb i { position: absolute; left: 0; top: 0; height: 1px; background: var(--bone); transition: width 900ms ease; }
@@ -129,3 +129,16 @@
 .pickup-log div { transition: opacity 600ms ease; }
 .prompt.steal .name, .prompt.steal .action span:last-child { color: #d07060; }
 .prompt .sub { margin-top: 2px; font-size: var(--t-s); letter-spacing: var(--track-caps); color: var(--bone-60); text-transform: uppercase; }
+
+/* ---------------------------------------------------------------- combat HUD */
+.sneak-eye { left: 50%; top: calc(50% - 46px); width: 40px; height: 20px; margin-left: -20px; color: var(--bone-70); }
+.sneak-eye svg { width: 40px; height: 20px; overflow: visible; }
+.sneak-eye.seen { color: var(--bone); }
+.enemy-bar { left: 50%; top: 74px; width: 260px; margin-left: -130px; text-align: center; }
+.enemy-bar .en { font-size: var(--t-s); letter-spacing: var(--track-caps); text-transform: uppercase; }
+.enemy-bar .eb { position: relative; height: 6px; margin-top: 5px; border-top: 1px solid var(--bone-40); border-bottom: 1px solid var(--bone-40); }
+.enemy-bar .eb i { position: absolute; left: 50%; top: 1px; bottom: 1px; transform: translateX(-50%); background: var(--health); }
+.hurt-flash { position: absolute; inset: 0; pointer-events: none; opacity: 0;
+  background: radial-gradient(ellipse at center, transparent 45%, rgba(110, 10, 6, 0.55) 100%); }
+.death-fade { position: absolute; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; transition: opacity 1600ms ease; }
+.death-fade .dt { font-family: var(--serif); font-size: var(--t-xl); letter-spacing: 0.2em; color: var(--bone-70); }

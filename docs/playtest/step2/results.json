@@ -1,0 +1,100 @@
+{
+  "results": [
+    {
+      "name": "wolves notice the player",
+      "ok": true,
+      "detail": "1 aware"
+    },
+    {
+      "name": "blocking a bite trains Block",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "kill the wolf pack with the sword",
+      "ok": true,
+      "detail": "3/3 dead"
+    },
+    {
+      "name": "power attack costs stamina",
+      "ok": true,
+      "detail": "stamina 90.80619999991657"
+    },
+    {
+      "name": "sword hits train One-Handed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "a wounded wolf flees",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dead wolf is searchable",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "wolf carries a pelt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sneaking at 22 m: the Hollow One has not noticed",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "arrow hits the Hollow One",
+      "ok": true,
+      "detail": "health 70 -> 40.8 in 1 shot(s)"
+    },
+    {
+      "name": "sneak shot bonus + Archery trained",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Flames burn the Hollow One",
+      "ok": true,
+      "detail": "health 40.8 -> 2.6"
+    },
+    {
+      "name": "Flames train Destruction",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Healing restores health",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Healing trains Restoration",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "sneak attack: 3x damage",
+      "ok": true,
+      "detail": "70 -> 45.6; Sneak attack for 3x damage"
+    },
+    {
+      "name": "fps 58+ in a fight",
+      "ok": false,
+      "detail": "avg 57.6, min 54"
+    },
+    {
+      "name": "death fades to black",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "reloads the last save",
+      "ok": true,
+      "detail": "{\"st\":\"play\",\"arrows\":19,\"hp\":90.4699399999976,\"saved\":19}"
+    }
+  ],
+  "console": []
+}

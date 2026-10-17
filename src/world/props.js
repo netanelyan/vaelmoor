@@ -150,6 +150,8 @@ export const PROP_BUILDERS = {
   ...CONTAINER_BUILDERS,
   /** An item lying in the world (placed by the game, see Game.placePickup). */
   loot: (ctx, p) => ({ pickup: { item: p.item, count: p.count ?? 1 } }),
+  /** A hostile creature (data/enemies.json kind), spawned and run by the game. */
+  enemy: (ctx, p) => ({ enemy: { kind: p.kind, patrol: p.patrol } }),
   /** A plain rigged person (merchants, townsfolk): options as in humans.js. */
   person: (ctx, p) => human(ctx, p),
   wizard: (ctx, p) => wizardH(ctx, p),

@@ -41,7 +41,9 @@ export class Containers {
   /** Register a world container (called by the world builder). */
   define(id, { table = null, locked = null, owner = null, name = 'Chest', fixed = null } = {}) {
     if (!this.state.has(id)) this.state.set(id, { id, table, locked, lock0: locked, owner, name, fixed, stacks: null, gold: 0, opened: false });
-    return this.state.get(id);
+    const c = this.state.get(id);
+    if (c.placeholder) Object.assign(c, { table, name, owner, fixed, placeholder: false });
+    return c;
   }
 
   get(id) { return this.state.get(id); }
@@ -83,7 +85,8 @@ export class Containers {
       else Object.assign(c, { stacks: null, gold: 0, opened: false, locked: c.lock0, unlocked: false });
     }
     for (const [id, v] of Object.entries(s || {})) {
-      const c = this.state.get(id) ?? (id.startsWith('merchant:') ? this.merchant(id.slice(9)) : null);
+      let c = this.state.get(id) ?? (id.startsWith('merchant:') ? this.merchant(id.slice(9)) : null);
+      if (!c && id.startsWith('enemy:')) { c = this.define(id, {}); c.placeholder = true; } // a body from an earlier session
       if (!c) continue;
       c.stacks = v.stacks ? new Map(v.stacks) : null;
       c.gold = v.gold; c.locked = v.locked; c.opened = v.opened; c.unlocked = v.locked == null;

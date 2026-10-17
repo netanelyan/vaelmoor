@@ -1,0 +1,3 @@
+anims.glb merges clips from the Universal Animation Library and Universal Animation Library 2 by Quaternius
+(https://quaternius.itch.io/universal-animation-library-2), CC0 1.0 Universal (public domain).
+Meshes stripped, scale tracks removed (tools: @gltf-transform).

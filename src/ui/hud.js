@@ -9,6 +9,14 @@ const CARDINALS = [['N', 0], ['NE', 45, 1], ['E', 90], ['SE', 135, 1], ['S', 180
 
 const wrapDeg = (d) => ((d + 540) % 360) - 180;
 
+/** Write a style/attribute only when it changes: every DOM write over the canvas costs a repaint. */
+function setIf(e, key, val, attr = false) {
+  const c = (e._v ||= {});
+  if (c[key] === val) return;
+  c[key] = val;
+  if (attr) e.setAttribute(key, val); else e.style[key] = val;
+}
+
 export class HUD {
   constructor(root) {
     this.root = el('div', 'hud-root ui', null, root);
@@ -68,6 +76,19 @@ export class HUD {
     const lk = el('div', 'lk', null, this.levelNoteEl);
     keyBadge('K', lk); el('span', '', 'Open Skills to choose', lk);
     this.log = el('div', 'pickup-log', null, this.root);
+
+    // sneak eye (open as foes notice you), enemy bar, hurt flash, death fade
+    this.eye = el('div', 'sneak-eye ui-fade ui-off', null, this.root);
+    this.eye.innerHTML = '<svg viewBox="-20 -10 40 20"><path class="lid" d="M -16 0 Q 0 -11 16 0 Q 0 11 -16 0 Z" fill="none" stroke="currentColor" stroke-width="1.2"/><circle class="pupil" r="3.6" fill="currentColor"/></svg>';
+    this.eyeLid = this.eye.querySelector('.lid');
+    this.eyePupil = this.eye.querySelector('.pupil');
+    this.enemy = el('div', 'enemy-bar ui-fade ui-off', null, this.root);
+    this.enemyName = el('div', 'en', '', this.enemy);
+    const eb = el('div', 'eb', null, this.enemy);
+    this.enemyFill = el('i', '', null, eb);
+    this.hurtEl = el('div', 'hurt-flash', null, root);
+    this.deathEl = el('div', 'death-fade ui-off', null, root);
+    el('div', 'dt', 'You have died', this.deathEl);
     this.fps = el('div', 'fps ui ui-off', '', root);
     this.photo = el('div', 'photo-label ui', '', root);
   }
@@ -80,8 +101,8 @@ export class HUD {
     const place = (e, deg) => {
       const d = wrapDeg(deg - heading);
       const vis = Math.abs(d) < SPAN / 2;
-      e.style.display = vis ? '' : 'none';
-      if (vis) e.style.left = `${(0.5 + d / SPAN) * w}px`;
+      setIf(e, 'display', vis ? '' : 'none');
+      if (vis) setIf(e, 'left', `${Math.round((0.5 + d / SPAN) * w)}px`);
     };
     for (const c of this.cardinals) place(c.e, c.deg);
     for (const t of this.ticks) place(t.e, t.deg);
@@ -101,11 +122,12 @@ export class HUD {
     for (const k of ['health', 'magicka', 'stamina']) {
       const bar = this.bars[k];
       const val = v.frac(k);
-      bar.fill.style.width = `${(val * 100).toFixed(1)}%`;
+      setIf(bar.fill, 'width', `${(val * 100).toFixed(0)}%`);
       // visible while not full or in combat, then linger briefly and fade
       if (val < 0.999 || v.combat) bar.shownFor = 1.5;
       else bar.shownFor -= dt;
-      show(bar.b, bar.shownFor > 0);
+      const on = bar.shownFor > 0;
+      if (bar.on !== on) { bar.on = on; show(bar.b, on); }
     }
   }
 
@@ -156,6 +178,34 @@ export class HUD {
     this.toastEl.textContent = text;
     flash(this.toastEl, ms);
   }
+
+  setSneak(on) { show(this.eye, on); }
+
+  /** v: -1 hidden (not sneaking), 0..1 how close foes are to seeing you */
+  setDetect(v) {
+    if (v < 0) return;
+    const open = Math.round(Math.min(1, v) * 10) / 10;
+    if (this._eyeOpen === open) return;
+    this._eyeOpen = open;
+    this.eyeLid.setAttribute('d', `M -16 0 Q 0 ${-11 * Math.max(0.12, open)} 16 0 Q 0 ${11 * Math.max(0.12, open)} -16 0 Z`);
+    this.eyePupil.style.opacity = open > 0.35 ? String(open) : '0';
+    this.eye.classList.toggle('seen', open >= 1);
+  }
+
+  setEnemy(e) {
+    if (!!e !== this._enemyOn) { this._enemyOn = !!e; show(this.enemy, !!e); }
+    if (!e) return;
+    if (this.enemyName.textContent !== e.name) this.enemyName.textContent = e.name;
+    setIf(this.enemyFill, 'width', `${(e.frac * 100).toFixed(0)}%`);
+  }
+
+  hurt(k) {
+    this.hurtEl.style.transition = 'none';
+    this.hurtEl.style.opacity = String(0.25 + 0.5 * k);
+    requestAnimationFrame(() => { this.hurtEl.style.transition = 'opacity 700ms ease'; this.hurtEl.style.opacity = '0'; });
+  }
+
+  death(on) { show(this.deathEl, on); }
 
   setFps(on, text = '') {
     show(this.fps, on);

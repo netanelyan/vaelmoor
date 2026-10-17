@@ -51,7 +51,8 @@
 /* ---- visibility: quick, subtle fades only */
 .ui-fade { transition: opacity var(--fast) ease; }
 .ui-fade-slow { transition: opacity var(--slow) ease; }
-.ui-off { opacity: 0 !important; pointer-events: none !important; }
+.ui-off, .ui-off * { pointer-events: none !important; }
+.ui-off { opacity: 0 !important; }
 
 /* ---- type */
 .ui-caps { text-transform: uppercase; letter-spacing: var(--track-caps); }

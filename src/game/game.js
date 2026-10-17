@@ -231,6 +231,25 @@ export class Game {
     return ok;
   }
 
+  // ------------------------------------------------------------ the fallen
+  onEnemyKilled(e) {
+    this.enemies?.killed.add(e.id);
+    this.registerCorpse(e, this.realmOf(), true);
+    this.notify({ type: 'killed', enemy: e });
+  }
+
+  /** A dead enemy becomes a searchable body (and stops being one if a load revives it). */
+  registerCorpse(e, realm, dead) {
+    const id = `enemy:${e.id}`;
+    this.containers.define(id, { table: e.def.loot, name: e.def.name });
+    let it = realm.world.interactables.list.find((x) => x.id === id);
+    if (!it && dead) {
+      it = realm.world.interactables.add({ id, name: e.def.name, action: 'Search', kind: 'container', radius: 0.6, pos: e.pos.clone().add(new THREE.Vector3(0, 0.4, 0)) });
+      it.container = id;
+    }
+    if (it) { it.enabled = dead; it.pos.copy(e.pos).y += 0.4; }
+  }
+
   setRemembrance(id) { this.remembrance = this.remembrance === id ? null : id; this.audio?.play('equip'); }
 
   // ------------------------------------------------------------ save

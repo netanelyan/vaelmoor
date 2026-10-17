@@ -753,6 +753,39 @@
             3.9,
             -10.1
           ]
+        },
+        {
+          "type": "enemy",
+          "id": "wolf_1",
+          "kind": "wolf",
+          "at": [
+            -56,
+            30
+          ],
+          "rot": 90,
+          "patrol": 8
+        },
+        {
+          "type": "enemy",
+          "id": "wolf_2",
+          "kind": "wolf",
+          "at": [
+            -60,
+            35
+          ],
+          "rot": 60,
+          "patrol": 8
+        },
+        {
+          "type": "enemy",
+          "id": "wolf_3",
+          "kind": "wolf",
+          "at": [
+            -52,
+            37
+          ],
+          "rot": 120,
+          "patrol": 8
         }
       ],
       "scatter": [
@@ -1597,6 +1630,28 @@
           "seed": 64,
           "color": "#6a7080",
           "matte": true
+        },
+        {
+          "type": "enemy",
+          "id": "hollow_door_1",
+          "kind": "hollow",
+          "at": [
+            -4,
+            6
+          ],
+          "rot": 180,
+          "patrol": 4
+        },
+        {
+          "type": "enemy",
+          "id": "hollow_door_2",
+          "kind": "hollow",
+          "at": [
+            5,
+            5
+          ],
+          "rot": 200,
+          "patrol": 4
         }
       ],
       "clearings": [

@@ -64,7 +64,8 @@ packs that share one 65-bone skeleton. They were downloaded from itch.io with
 | --- | --- |
 | [Universal Base Characters](https://quaternius.itch.io/universal-base-characters) | heads, eyes and brows (cut from the Superhero bodies by skin weight), Hair_Long, Hair_Beard, light skin textures |
 | [Modular Character Outfits - Fantasy](https://quaternius.itch.io/modular-character-outfits-fantasy) | Ranger and Peasant outfits (male and female) as the clothed bodies |
-| [Universal Animation Library](https://quaternius.itch.io/universal-animation-library) | idle, talking, torch, spell, sitting, kneeling, crouching, walking and sword clips |
+| [Universal Animation Library](https://quaternius.itch.io/universal-animation-library) and [Universal Animation Library 2](https://quaternius.itch.io/universal-animation-library-2) | 48 clips merged into `anims.glb` (meshes stripped): idle, talking, torch, spell, sitting, kneeling, sword attacks and block, shield, hits, zombie walk and scratch, death... |
+| [Animal Pack Vol. 2](https://opengameart.org/content/animated-animales-low-poly) | the wolf (`assets/models/animals/Wolf.glb`, converted from FBX) |
 
 `src/world/humans.js` assembles each figure. It grafts the head and hair onto
 the outfit's skeleton and re-dyes the textures. It adds robes and cloaks as

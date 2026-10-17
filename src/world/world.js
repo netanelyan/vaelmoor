@@ -26,6 +26,7 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   const waters = [];
   const containerDefs = []; // [{ id, def }] registered with the game's Containers
   const pickupDefs = [];    // [{ uid, item, count, at, rot }] placed by the game
+  const enemyDefs = [];     // [{ id, kind, at, rot, patrol }] spawned by the game
 
   // --- ground & road tinting blended from area palettes
   const tintSources = region.areas.map((a) => ({
@@ -108,6 +109,10 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
       const res = await builder(ctx, prop, { x, z, area });
       if (!res) continue;
       const propId = `${region.id}:${prop.id ?? `${prop.type}@${Math.round(x)},${Math.round(z)}`}`;
+      if (res.enemy) {
+        enemyDefs.push({ id: propId, kind: res.enemy.kind, at: [x, z], rot: (prop.rot ?? 0) * DEG, patrol: res.enemy.patrol });
+        continue;
+      }
       if (res.pickup) {
         const py = prop.absY ?? groundAt(x, z) + (prop.y ?? 0);
         pickupDefs.push({ uid: propId, ...res.pickup, at: [x, py, z], rot: (prop.rot ?? 0) * DEG });
@@ -237,7 +242,7 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   });
 
   const world = {
-    interactables, terrain, road, groundAt, colliders, waters, waterLevelAt, containerDefs, pickupDefs,
+    interactables, terrain, road, groundAt, colliders, waters, waterLevelAt, containerDefs, pickupDefs, enemyDefs,
     update(dt, t, cam) { for (const u of updaters) u(dt, t, cam); },
   };
   scene.add(buildGrass(world, region));

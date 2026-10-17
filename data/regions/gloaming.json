@@ -1124,6 +1124,42 @@
             10.5,
             13
           ]
+        },
+        {
+          "type": "enemy",
+          "id": "shade_1",
+          "kind": "shade",
+          "at": [
+            38,
+            -52
+          ],
+          "rot": 40,
+          "patrol": 6,
+          "game": true
+        },
+        {
+          "type": "enemy",
+          "id": "shade_2",
+          "kind": "shade",
+          "at": [
+            46,
+            -58
+          ],
+          "rot": 200,
+          "patrol": 6,
+          "game": true
+        },
+        {
+          "type": "enemy",
+          "id": "shade_3",
+          "kind": "shade",
+          "at": [
+            30,
+            -64
+          ],
+          "rot": 120,
+          "patrol": 8,
+          "game": true
         }
       ],
       "scatter": [

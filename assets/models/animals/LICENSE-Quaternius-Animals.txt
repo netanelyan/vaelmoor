@@ -1,0 +1,2 @@
+Wolf.glb: from "Animal Pack Vol.2" by Quaternius (https://quaternius.com), CC0 1.0 Universal (public domain).
+Source: https://opengameart.org/content/animated-animales-low-poly - converted from FBX with FBX2glTF.

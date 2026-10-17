@@ -14,6 +14,8 @@ import { QuestLog } from './game/quests.js';
 import { Game } from './game/game.js';
 import { Viewmodel } from './player/viewmodel.js';
 import { Sfx } from './audio/sfx.js';
+import { Enemies } from './game/enemies.js';
+import { Combat } from './game/combat.js';
 import { GameUI } from './ui/ui.js';
 
 const params = new URLSearchParams(location.search);
@@ -38,9 +40,9 @@ async function main() {
   const assets = new Assets(renderer);
   assets.onProgress = (f) => { $('loading-fill').style.width = `${Math.round(f * 100)}%`; };
 
-  const DATA = ['quests', 'dialogue', 'items', 'skills', 'loot', 'spells'];
+  const DATA = ['quests', 'dialogue', 'items', 'skills', 'loot', 'spells', 'enemies'];
   const loaded = await Promise.all([...DATA.map((d) => `data/${d}.json`), ...REALMS.map((r) => `data/regions/${r}.json`)].map(fetchJSON));
-  const [questData, dialogues, items, skills, loot, spells] = loaded;
+  const [questData, dialogues, items, skills, loot, spells, enemyData] = loaded;
   const regions = loaded.slice(DATA.length);
 
   // --- realms (each region is its own scene)
@@ -51,6 +53,7 @@ async function main() {
   const audio = new Sfx();
   const game = new Game({ items, skills, loot, spells }, { audio });
   game.realmOf = () => realm;
+  game.assets = assets;
   // containers and loot placed in the region data
   for (const r of Object.values(realms)) {
     for (const c of r.world.containerDefs) game.containers.define(c.id, c.def);
@@ -60,6 +63,9 @@ async function main() {
   player.vitals = game.character;
   realm.scene.add(camera); // the first-person hands ride on the camera
   const viewmodel = new Viewmodel(camera, game);
+  const enemies = new Enemies(enemyData, game);
+  game.enemies = enemies;
+  for (const r of Object.values(realms)) await enemies.spawnRealm(r, assets);
   const quests = new QuestLog(questData);
   const post = new PostFX(renderer, realm.scene, camera);
 
@@ -124,6 +130,10 @@ async function main() {
 
   // --- UI + game flow
   ui = new GameUI({ input, canvas, camera, player, realm, realms, quests, game, dialogues, photo });
+  const combat = new Combat({ game, player, camera, input, viewmodel, ui, enemies, audio, realmOf: () => realm });
+  ui.combat = combat;
+  ui.saveExtra = () => ({ killed: enemies.toJSON() });
+  ui.loadExtra = (x) => enemies.loadState(x?.killed, realms);
   if (params.has('nohud')) $('ui').style.display = 'none';
   $('loading').classList.add('ui-off');
 
@@ -175,9 +185,14 @@ async function main() {
     shared.time.value = time;
 
     if (ui.state === 'photo' && player.isMoving()) leavePhoto();
+    if (photo.active) for (const list of enemies.byRealm.values()) for (const e of list) e.object.visible = false; // reference shots stay clean
     if (ui.playerControl) {
       player.update(dt);
       game.character.update(dt, player.events);
+      combat.update(dt);
+      // bow zoom (Eagle Eye)
+      const fov = player.zoomFov ?? settings.get('fov');
+      if (Math.abs(camera.fov - fov) > 0.05 && !photo.active) { camera.fov += (fov - camera.fov) * Math.min(1, dt * 10); camera.updateProjectionMatrix(); }
       checkPortals();
     }
     ui.update(dt, time);
@@ -206,7 +221,7 @@ async function main() {
   window.vaelmoor = {
     ready: false, camera, renderer, assets, realms, get realm() { return realm; }, get world() { return realm.world; },
     get scene() { return realm.scene; }, get atmosphere() { return realm.atmosphere; }, get region() { return realm.region; },
-    photo, player, ui, quests, game, input, viewmodel, audio, settings, post, setRealm: (id, o) => setRealm(realms[id], o),
+    photo, player, ui, quests, game, input, viewmodel, audio, settings, post, get combat() { return ui?.combat; }, enemies, setRealm: (id, o) => setRealm(realms[id], o),
     shot: (id) => enterPhoto(String(id).includes(':') ? id : `gloaming:${id}`),
     info: () => ({ ratio: renderer.getPixelRatio(), calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, programs: renderer.info.programs.length }),
   };
