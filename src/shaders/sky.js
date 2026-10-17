@@ -61,7 +61,7 @@ void main() {
   float halo = 0.0;
   if (facing > 0.0) {
     float a = max(mdist - 1.0, 0.0);
-    halo = moonGlow * litFrac * (1.0 * exp(-a * 1.8) + 0.16 * exp(-a * 0.35));
+    halo = moonGlow * litFrac * (1.0 * exp(-a * 1.8) + 0.16 * exp(-a * 0.35)) * smoothstep(0.97, 1.06, mdist);
   }
   col += moonColor * halo;
 
@@ -89,9 +89,9 @@ void main() {
     vec3 acc = vec3(0.0);
     for (int i = 0; i < 2; i++) {
       float fi = float(i);
-      float e = 0.30 + fi * 0.13 + 0.10 * sin(phi * (2.0 + fi) + time * 0.05 + fi * 2.0)
+      float e = 0.46 + fi * 0.14 + 0.10 * sin(phi * (2.0 + fi) + time * 0.05 + fi * 2.0)
               + 0.09 * (fbm3(vec2(phi * 3.0 + fi * 7.0, time * 0.03)) - 0.5);
-      float v = (e - h) / (0.26 + 0.08 * fi);
+      float v = (e - h) / (0.34 + 0.08 * fi);
       float curtain = v > 0.0 ? exp(-v * 2.6) : exp(v * 22.0);
       float rays = 0.45 + 0.55 * fbm3(vec2(phi * 38.0 + fi * 13.0, time * 0.25 + v * 0.6));
       rays *= 0.6 + 0.4 * sin(phi * 9.0 + time * 0.2 + fi);
@@ -101,19 +101,7 @@ void main() {
     col += acc * aurora * smoothstep(-0.02, 0.08, h);
   }
 
-  // --- moon disc (drawn under clouds)
-  if (mdist < 1.05) {
-    float disc = 1.0 - smoothstep(0.965, 1.0, mdist);
-    vec2 off = vec2(0.62, 0.22) * moonPhase * 1.25;
-    float shadow = moonPhase > 0.01 ? 1.0 - smoothstep(0.93, 1.02, length(muv - off)) : 0.0;
-    float maria = fbm3(muv * 2.2 + 3.0);
-    float surface = 0.78 + 0.35 * smoothstep(0.35, 0.75, maria) - 0.18 * smoothstep(0.55, 0.8, fbm3(muv * 6.0));
-    float limb = 0.85 + 0.15 * sqrt(max(0.0, 1.0 - mdist * mdist));
-    float lit = disc * (1.0 - shadow);
-    vec3 mcol = moonColor * moonBright * surface * limb;
-    col = mix(col, mcol, lit);
-    col += moonColor * 0.04 * disc * shadow; // earthshine
-  }
+  float cloudDens = 0.0;
 
   // --- painterly clouds: big soft masses, low-frequency swirl, self-shadowed
   // toward the moon, with faint brush strokes running along the flow.
@@ -152,8 +140,24 @@ void main() {
     cc *= cloudBright;
     cc = mix(cc, horizon * 1.05, exp(-hp * 8.0) * 0.6);
     // let the moon glow through thinner cloud
-    float veil = mdist < 1.4 ? 0.5 * (1.0 - smoothstep(0.9, 1.4, mdist)) : 0.0;
-    col = mix(col, cc, dens * 0.96 * (1.0 - veil));
+    cloudDens = dens;
+    col = mix(col, cc, dens * 0.96);
+  }
+
+  // --- moon disc, composited over the clouds with a light veil so the
+  // crescent always reads; the dark side occludes the sky behind it.
+  if (mdist < 1.05) {
+    float disc = 1.0 - smoothstep(0.965, 1.0, mdist);
+    vec2 off = vec2(0.62, 0.22) * moonPhase * 1.25;
+    float shadow = moonPhase > 0.01 ? 1.0 - smoothstep(0.93, 1.02, length(muv - off)) : 0.0;
+    float maria = fbm3(muv * 2.2 + 3.0);
+    float surface = 0.78 + 0.35 * smoothstep(0.35, 0.75, maria) - 0.18 * smoothstep(0.55, 0.8, fbm3(muv * 6.0));
+    float limb = 0.85 + 0.15 * sqrt(max(0.0, 1.0 - mdist * mdist));
+    float lit = disc * (1.0 - shadow);
+    vec3 mcol = moonColor * moonBright * surface * limb;
+    vec3 darkSide = col * 0.45 + moonColor * 0.03;
+    vec3 m = mix(darkSide, mcol, 1.0 - shadow);
+    col = mix(col, m, disc * (1.0 - cloudDens * 0.45));
   }
 
   // --- distant mountains

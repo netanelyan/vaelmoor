@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { HeightFog } from './render/heightFog.js';
-import { createRenderer } from './engine/renderer.js';
+import { createRenderer, MAX_PIXEL_RATIO } from './engine/renderer.js';
 import { Assets } from './engine/assets.js';
 import { Input } from './engine/input.js';
 import { SkyDome } from './shaders/sky.js';
@@ -10,6 +10,7 @@ import { shared } from './render/materials.js';
 import { Atmosphere } from './world/atmosphere.js';
 import { buildWorld } from './world/world.js';
 import { roadSheen } from './world/road.js';
+import { waterState } from './world/water.js';
 import { Player } from './player/player.js';
 import { PhotoMode } from './player/photoMode.js';
 
@@ -54,6 +55,9 @@ async function main() {
   moon.shadow.normalBias = 0.05;
   moon.shadow.radius = 3;
   scene.add(moon, moon.target);
+  // soft fill from over the viewer's shoulder so backlit figures keep their form
+  const fill = new THREE.DirectionalLight(0x8090ff, 0.3);
+  scene.add(fill, fill.target);
   const lightPool = new LightPool(scene, 8);
 
   scene.fog = new HeightFog(0x302050, 0.01, 0.05);
@@ -74,6 +78,10 @@ async function main() {
     post.setSize(innerWidth, innerHeight);
   };
   addEventListener('resize', resize);
+  // ?quality=1.5 pins the pixel ratio (screenshots); otherwise it adapts to hold 60 fps
+  const fixedRatio = params.has('quality');
+  const setRatio = (pr) => { renderer.setPixelRatio(pr); resize(); };
+  if (fixedRatio) setRatio(Math.min(parseFloat(params.get('quality')) || 1, MAX_PIXEL_RATIO));
   resize();
 
   await assets.ready();
@@ -90,10 +98,19 @@ async function main() {
     moon.color.copy(a.moonLight.color);
     moon.intensity = a.moonLight.intensity;
     moon.userData.dir = a.moonLight.dir || a.sky.moonDir;
+    fill.color.copy(a.fill.color);
+    fill.intensity = a.fill.intensity;
     shared.rimColor.value.copy(a.rim.color);
     shared.rimStrength.value = a.rim.strength;
     scene.environmentIntensity = a.env?.intensity ?? 1;
     roadSheen.value = a.road?.sheen ?? 0.8;
+    if (a.water) {
+      waterState.color.copy(a.water.color);
+      waterState.glint.copy(a.water.glint);
+      waterState.distortion = a.water.distortion;
+      waterState.tint.copy(a.water.tint);
+    }
+    waterState.dir.copy(a.sky.moonDir);
     post.apply(a.post);
   };
 
@@ -148,6 +165,8 @@ async function main() {
     moon.position.copy(moon.target.position).addScaledVector(moon.userData.dir, 200);
 
     sky.position.copy(camera.position);
+    fill.target.position.copy(camera.position);
+    fill.position.set(-2, 3, 4).applyQuaternion(camera.quaternion).add(camera.position);
     world.update(dt, time, camera.position);
     lightPool.update(camera.position, time);
 
@@ -165,11 +184,11 @@ async function main() {
   };
 
   window.vaelmoor = {
-    ready: false, scene, camera, renderer, world, atmosphere, photo, player, region,
+    ready: false, scene, camera, renderer, assets, world, atmosphere, photo, player, region,
     shot: (k) => jump(k),
     /** Advance the simulation deterministically (used by the screenshot tool). */
     advance: (seconds, fps = 30) => { for (let t = 0; t < seconds; t += 1 / fps) step(1 / fps); post.render(1 / fps, time); },
-    info: () => ({ calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, programs: renderer.info.programs.length }),
+    info: () => ({ ratio: renderer.getPixelRatio(), calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, programs: renderer.info.programs.length }),
   };
 
   if (params.has('shot')) jump(params.get('shot'));
@@ -184,9 +203,17 @@ async function main() {
     frames++;
     fpsTimer += dt;
     if (fpsTimer >= 0.5) {
-      if (showHud) hud.fps.textContent = `${Math.round(frames / fpsTimer)} fps · ${renderer.info.render.calls} calls`;
-      window.vaelmoor.fps = frames / fpsTimer;
+      const fps = frames / fpsTimer;
+      if (showHud) hud.fps.textContent = `${Math.round(fps)} fps · ${renderer.info.render.calls} calls · ${renderer.getPixelRatio().toFixed(2)}x`;
+      window.vaelmoor.fps = fps;
       frames = 0; fpsTimer = 0;
+      // adaptive resolution: trade pixels for a steady 60 (never above MAX_PIXEL_RATIO)
+      if (!fixedRatio) {
+        const pr = renderer.getPixelRatio();
+        const maxPr = Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO);
+        if (fps < 50 && pr > 0.75) setRatio(Math.max(0.75, pr - 0.1));
+        else if (fps > 58.5 && pr < maxPr) setRatio(Math.min(maxPr, pr + 0.05));
+      }
     }
   });
   window.vaelmoor.ready = true;

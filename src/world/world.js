@@ -5,6 +5,7 @@ import { Colliders } from './colliders.js';
 import { makePineScatter, makeRockScatter, makeCragScatter } from './vegetation.js';
 import { fireflies, smoke, mist, groundGlow } from './particles.js';
 import { PROP_BUILDERS } from './props.js';
+import { buildGrass } from './grass.js';
 import { mulberry32, hashString, smoothstep } from '../engine/noise.js';
 
 const DEG = Math.PI / 180;
@@ -60,6 +61,8 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   const waterLevelAt = (x, z) => terrain.waterLevel(x, z);
 
   const ctx = { scene, assets, terrain, road, groundAt, region, colliders, lightPool, updaters, waters };
+  const VIEW_DIST = { castle_dark: 2000, castle_sandstone: 2000, lake: 2000, manor: 600, great_tree: 600, timber_house: 400, cottage: 320, dead_tree: 320, crag: 450, boulder: 260, kenney: 150, lantern: 180 };
+  const culled = [];
 
   // --- per-area content
   const pines = makePineScatter();
@@ -70,21 +73,39 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   ctx.pines = pines;
   ctx.rocks = rocks;
 
+  // pass 1: every clearing (cameras, characters, explicit) before anything is scattered
+  const CHARACTER_CLEAR = { wizard: 6, gnome: 5, knight: 6, skeleton: 6, golden_skull: 4 };
   for (const area of region.areas) {
     const [ax, az] = area.center;
     const local = (p) => [ax + p[0], az + p[1]];
+    // keep photo-mode cameras and characters out of the trees
+    if (area.shot) {
+      const [x, z] = local(area.shot.at);
+      clearings.push({ x, z, r: area.shot.clear ?? 13 });
+    }
     for (const c of area.clearings || []) {
       const [x, z] = local(c);
       clearings.push({ x, z, r: c[2] });
     }
 
     for (const prop of area.props || []) {
-      const [x, z] = local(prop.at);
+      const r = prop.clear ?? CHARACTER_CLEAR[prop.type];
+      if (r && prop.at) { const [x, z] = local(prop.at); clearings.push({ x, z, r }); }
+    }
+  }
+
+  for (const area of region.areas) {
+    const [ax, az] = area.center;
+    const local = (p) => [ax + p[0], az + p[1]];
+    for (const prop of area.props || []) {
+      let [x, z] = local(prop.at ?? [0, 0]);
       const builder = PROP_BUILDERS[prop.type];
       if (!builder) { console.warn('unknown prop type', prop.type); continue; }
       const res = await builder(ctx, prop, { x, z, area });
       if (!res) continue;
-      const y = prop.absY ?? groundAt(x, z) + (prop.y ?? 0);
+      if (res.position) [x, z] = res.position;
+      const y = res.absY ?? prop.absY
+        ?? (prop.aboveWater !== undefined ? terrain.waterLevel(x, z) + prop.aboveWater : groundAt(x, z) + (prop.y ?? 0));
       const rot = (prop.rot ?? 0) * DEG;
       const s = prop.scale ?? 1;
       if (res.object) {
@@ -93,6 +114,7 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
         res.object.scale.setScalar(s);
         res.object.name ||= prop.type;
         scene.add(res.object);
+        culled.push({ obj: res.object, x, z, d: prop.viewDist ?? VIEW_DIST[prop.type] ?? 170 });
       }
       const cos = Math.cos(rot), sin = Math.sin(rot);
       const toWorld = (lx, lz) => [x + (lx * cos + lz * sin) * s, z + (-lx * sin + lz * cos) * s];
@@ -109,7 +131,10 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
         scene.add(groundGlow({ ...g, x: wx, z: wz, groundAt, rotY: rot + (g.rotY ?? 0) }));
       }
       if (res.update) updaters.push(res.update);
-      if (prop.clear) clearings.push({ x, z, r: prop.clear });
+      if (res.chimney && prop.smoke !== false) {
+        const [cx, cz] = toWorld(res.chimney[0], res.chimney[2]);
+        scene.add(smoke({ at: [cx, y + res.chimney[1] * s, cz], ...(prop.smoke || {}), seed: Math.floor(cx * 13 + cz) }));
+      }
     }
 
     for (const l of area.lights || []) {
@@ -173,12 +198,17 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   scene.add(pines.build());
   scene.add(rocks.build());
   scene.add(crags.build());
-  updaters.push((dt, t, cam) => { pines.update(cam); rocks.update(cam); crags.update(cam); });
+  updaters.push((dt, t, cam) => {
+    pines.update(cam); rocks.update(cam); crags.update(cam);
+    for (const c of culled) c.obj.visible = Math.hypot(cam.x - c.x, cam.z - c.z) < c.d;
+  });
 
-  return {
+  const world = {
     terrain, road, groundAt, colliders, waters, waterLevelAt,
     update(dt, t, cam) { for (const u of updaters) u(dt, t, cam); },
   };
+  scene.add(buildGrass(world, region));
+  return world;
 }
 
 function addTree(ctx, kind, x, z, scale, seed) {

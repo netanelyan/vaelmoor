@@ -74,7 +74,7 @@ export function fireflies({ center, radius = 20, height = [0.5, 4], count = 80, 
 }
 
 /** Rising, curling smoke column (chimneys). */
-export function smoke({ at, count = 26, height = 16, spread = 3.5, color = '#8b7fae', opacity = 0.5, size = 5, seed = 2, drift = [1.5, 0.4] }) {
+export function smoke({ at, count = 30, height = 14, spread = 2.2, color = '#6a5f88', opacity = 0.35, size = 3.2, seed = 2, drift = [1.5, 0.4] }) {
   const rand = mulberry32(seed);
   const pos = new Float32Array(count * 3);
   const life = new Float32Array(count);
@@ -118,7 +118,7 @@ export function smoke({ at, count = 26, height = 16, spread = 3.5, color = '#8b7
         vec2 c = gl_PointCoord - 0.5;
         float s = sin(vRot), co = cos(vRot);
         c = mat2(co, -s, s, co) * c + 0.5;
-        float a = texture2D(uMap, c).r * vA * uOpacity * 2.5;
+        float a = texture2D(uMap, c).a * vA * uOpacity * 0.9;
         gl_FragColor = vec4(uColor, a);
       }
     `,
@@ -168,7 +168,7 @@ export function mist({ center, radius = 40, count = 40, color = '#8f7ac8', opaci
       uniform float uOpacity;
       varying float vA;
       void main() {
-        float a = texture2D(uMap, gl_PointCoord).r * vA * uOpacity * 2.0;
+        float a = texture2D(uMap, gl_PointCoord).a * vA * uOpacity * 0.8;
         gl_FragColor = vec4(uColor, a);
       }
     `,

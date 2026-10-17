@@ -148,12 +148,22 @@ export class Builder {
     );
   }
 
-  build(materials, { castShadow = true, receiveShadow = true } = {}) {
+  build(materials, { castShadow = true, receiveShadow = true, deform = null } = {}) {
     const group = new THREE.Group();
+    const v = new THREE.Vector3();
     for (const [key, geos] of this.buckets) {
       const mat = materials[key];
       if (!mat) { console.warn('no material for', key); continue; }
       const merged = mergeGeometries(geos);
+      if (deform) {
+        // whole-building deformation (crooked storybook houses)
+        const p = merged.attributes.position;
+        for (let i = 0; i < p.count; i++) {
+          deform(v.fromBufferAttribute(p, i));
+          p.setXYZ(i, v.x, v.y, v.z);
+        }
+        merged.computeVertexNormals();
+      }
       const mesh = new THREE.Mesh(merged, mat);
       mesh.name = key;
       const emissive = mat.userData?.emissive;

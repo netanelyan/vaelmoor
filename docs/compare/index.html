@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vaelmoor compare sheet</title>
+<style>
+  body { margin: 0; background: #07040f; color: #efe6ff; font-family: Georgia, serif; }
+  main { max-width: 1320px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { font-weight: normal; letter-spacing: .08em; }
+  p.note { color: #b9a8e0; max-width: 70ch; }
+  h2 { font-weight: normal; margin: 36px 0 10px; } h2 b { color: #9b6cff; } h2 small { color: #8a7ab0; font-size: .6em; margin-left: .6em; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .pair img, .brief { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; display: block; }
+  .brief { box-sizing: border-box; padding: 6% 7%; background: linear-gradient(#1c1040, #0a0618); border: 1px dashed #5a3a9a; font-size: clamp(14px, 1.6vw, 20px); line-height: 1.5; }
+  .brief span { color: #b9a8e0; font-size: .8em; }
+  @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
+</style></head>
+<body><main>
+<h1>Vaelmoor · the Gloaming</h1>
+<p class="note">Left: the reference (the written brief where no image exists in <code>refs/</code>). Right: the matching photo-mode camera, captured headless by <code>tools/shoot.mjs</code>. Regenerate with <code>npm run shots &amp;&amp; node tools/compare.mjs</code>.</p>
+<section>
+    <h2><b>1</b> Crimsonreach Manor <small>ref_01</small></h2>
+    <div class="pair"><div class="brief"><span>ref_01 · written brief</span><p>Crimson sky with a huge red moon, a twisted black dead tree framing the left, a dark haunted manor with tall green glowing windows, green light spilling onto the ground.</p></div><img src="shot_1.jpg" alt="photo mode 1"></div>
+  </section>
+<section>
+    <h2><b>2</b> The Road to Vaelmoor Keep <small>ref_02</small></h2>
+    <div class="pair"><div class="brief"><span>ref_02 · written brief</span><p>A cobblestone road leading straight to a dark spired castle. The stones have a glossy iridescent sheen (orange, pink, teal reflections). Green glowing castle windows, violet and magenta clouds, rocky cliffs on both sides.</p></div><img src="shot_2.jpg" alt="photo mode 2"></div>
+  </section>
+<section>
+    <h2><b>3</b> The Hollow Pines <small>ref_03</small></h2>
+    <div class="pair"><div class="brief"><span>ref_03 · written brief</span><p>Teal and green aurora sky above dark pines, a hooded skeleton in a black robe with faintly glowing green bones, a golden skull on the ground in front.</p></div><img src="shot_3.jpg" alt="photo mode 3"></div>
+  </section>
+<section>
+    <h2><b>4</b> The Conclave House <small>ref_04 / ref_05</small></h2>
+    <div class="pair"><div class="brief"><span>ref_04 / ref_05 · written brief</span><p>A gathering of robed wizards (tall, purple and grey robes, pointed hats, long white beards) beside a timber house with warm yellow windows, smoke drifting, a small blue-robed gnome wizard sitting on a bench.</p></div><img src="shot_4.jpg" alt="photo mode 4"></div>
+  </section>
+<section>
+    <h2><b>5</b> Castle Ambermere <small>ref_06</small></h2>
+    <div class="pair"><div class="brief"><span>ref_06 · written brief</span><p>A sandstone castle with round crenellated towers, starry night sky fading to pink at the horizon, a winding purple cobble path through a bright green grassy hill.</p></div><img src="shot_5.jpg" alt="photo mode 5"></div>
+  </section>
+<section>
+    <h2><b>6</b> The Pale Shore <small>ref_07</small></h2>
+    <div class="pair"><div class="brief"><span>ref_07 · written brief</span><p>A white-robed wizard with a crooked staff standing by dark water, crescent moon, deep blue and purple clouds.</p></div><img src="shot_6.jpg" alt="photo mode 6"></div>
+  </section>
+<section>
+    <h2><b>7</b> Glasswater <small>ref_08</small></h2>
+    <div class="pair"><div class="brief"><span>ref_08 · written brief</span><p>A knight in shiny plate armor sitting on a rock in a glassy teal lake, tall pines on both sides, violet sky.</p></div><img src="shot_7.jpg" alt="photo mode 7"></div>
+  </section>
+<section>
+    <h2><b>8</b> Lanternholt <small>ref_09</small></h2>
+    <div class="pair"><div class="brief"><span>ref_09 · written brief</span><p>A fairy-tale village at night: crooked storybook cottages with stained-glass and warm glowing windows, lanterns, a starry purple sky, dense dark trees around it.</p></div><img src="shot_8.jpg" alt="photo mode 8"></div>
+  </section>
+<section>
+    <h2><b>9</b> The Sentinel Oak <small>ref_10</small></h2>
+    <div class="pair"><div class="brief"><span>ref_10 · written brief</span><p>A knight resting under a huge tree, crescent moon in a violet sky.</p></div><img src="shot_9.jpg" alt="photo mode 9"></div>
+  </section>
+</main></body></html>

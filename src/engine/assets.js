@@ -33,14 +33,15 @@ export class Assets {
    * A PBR texture set with its own repeat. Clones share the GPU upload
    * (same Source), so per-use repeats are cheap.
    */
-  pbr(id, repeat = [1, 1], { normal = true, rough = true } = {}) {
+  pbr(id, repeat = [1, 1], { color = true, normal = true, rough = true } = {}) {
     const base = `assets/textures/${id}`;
     const withRepeat = (t) => {
       const c = t.clone();
       c.repeat.set(repeat[0], repeat[1]);
       return c;
     };
-    const set = { map: withRepeat(this.texture(`${base}_diff.jpg`, { srgb: true })) };
+    const set = {};
+    if (color) set.map = withRepeat(this.texture(`${base}_diff.jpg`, { srgb: true }));
     if (normal) set.normalMap = withRepeat(this.texture(`${base}_nor.jpg`));
     if (rough) set.roughnessMap = withRepeat(this.texture(`${base}_rough.jpg`));
     return set;

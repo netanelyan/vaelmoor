@@ -3,10 +3,10 @@
   "name": "The Gloaming",
   "spawn": {
     "at": [
-      0,
-      228
+      23.8,
+      265
     ],
-    "yaw": 160
+    "yaw": 40.5
   },
   "terrain": {
     "center": [
@@ -21,7 +21,7 @@
     "valleyWidth": 14,
     "valleyRise": 90,
     "ridgeAmp": 26,
-    "groundTexture": "forest_ground_04",
+    "groundTexture": "leafy_grass",
     "rockTexture": "rock_face",
     "groundTint": "#2c3a2c",
     "features": [
@@ -45,6 +45,60 @@
         "radius": 48,
         "blend": 26,
         "raise": 5
+      },
+      {
+        "type": "lake",
+        "id": "glasswater",
+        "at": [
+          -30,
+          -142
+        ],
+        "radii": [
+          55,
+          24
+        ],
+        "rotation": -31,
+        "depth": 5,
+        "drop": 2.5
+      },
+      {
+        "type": "flatten",
+        "at": [
+          -15,
+          -182
+        ],
+        "radius": 10,
+        "blend": 14,
+        "height": 0.15
+      },
+      {
+        "type": "hill",
+        "at": [
+          -240,
+          80
+        ],
+        "radius": 75,
+        "height": 16
+      },
+      {
+        "type": "flatten",
+        "at": [
+          -245,
+          80
+        ],
+        "radius": 30,
+        "blend": 24,
+        "raise": 16
+      },
+      {
+        "type": "flatten",
+        "at": [
+          -155,
+          0
+        ],
+        "radius": 12,
+        "blend": 14,
+        "raise": 0.5
       }
     ]
   },
@@ -73,16 +127,32 @@
         150
       ],
       [
-        -172,
-        110
+        -165,
+        122
       ],
       [
-        -182,
-        82
+        -180,
+        100
       ],
       [
-        -168,
+        -200,
+        96
+      ],
+      [
+        -212,
+        84
+      ],
+      [
+        -205,
+        66
+      ],
+      [
+        -185,
         52
+      ],
+      [
+        -160,
+        30
       ],
       [
         -140,
@@ -181,7 +251,7 @@
       "moonSize": 0.06,
       "moonPhase": 0,
       "moonGlow": 0.6,
-      "moonBright": 4,
+      "moonBright": 2.6,
       "aurora": 0,
       "auroraA": "#30ff9a",
       "auroraB": "#40c0ff",
@@ -211,8 +281,8 @@
     },
     "post": {
       "bloom": 0.85,
-      "bloomRadius": 0.7,
-      "bloomThreshold": 0.62,
+      "bloomRadius": 0.32,
+      "bloomThreshold": 0.7,
       "saturation": 1.45,
       "vibrance": 0.3,
       "contrast": 1.2,
@@ -224,6 +294,16 @@
     },
     "road": {
       "sheen": 1.1
+    },
+    "water": {
+      "color": "#0a3a44",
+      "glint": "#d0c0ff",
+      "distortion": 0.8,
+      "tint": "#c0d0ff"
+    },
+    "fill": {
+      "color": "#8a90ff",
+      "intensity": 0.35
     }
   },
   "areas": [
@@ -231,26 +311,35 @@
       "id": "village",
       "name": "Lanternholt",
       "ref": "ref_09",
+      "description": "A fairy-tale village at night: crooked storybook cottages with stained-glass and warm glowing windows, lanterns, a starry purple sky, dense dark trees around it.",
       "center": [
         0,
         235
       ],
-      "reach": 70,
+      "reach": 60,
       "ground": {
-        "tint": "#24341f"
+        "tint": "#24341f",
+        "grass": 0.3,
+        "grassTint": "#2c4a26"
       },
       "atmosphere": {
         "sky": {
-          "zenith": "#120a3c",
-          "mid": "#3a1f80",
-          "horizon": "#8a4ab0",
-          "stars": 1.6,
-          "cloudCover": 0.35,
+          "zenith": "#0a0630",
+          "mid": "#30187a",
+          "horizon": "#9050b8",
+          "stars": 2,
+          "cloudCover": 0.32,
           "moonDir": [
-            200,
-            35
+            322,
+            32
           ],
-          "moonPhase": 0.55
+          "moonPhase": 0.6,
+          "glow": "#ff80c0",
+          "glowStrength": 0.35,
+          "cloudDark": "#22145a",
+          "cloudLight": "#8a60d0",
+          "moonSize": 0.055,
+          "moonGlow": 0.35
         },
         "fog": {
           "color": "#3c2470",
@@ -259,146 +348,832 @@
         "rim": {
           "color": "#ffb070",
           "strength": 0.6
+        },
+        "fill": {
+          "color": "#ffb070",
+          "intensity": 0.25
         }
+      },
+      "props": [
+        {
+          "type": "cottage",
+          "at": [
+            26.4,
+            14.6
+          ],
+          "rot": -54.5,
+          "seed": 100,
+          "clear": 8,
+          "smoke": {
+            "opacity": 0.3
+          }
+        },
+        {
+          "type": "cottage",
+          "at": [
+            9.1,
+            32.1
+          ],
+          "rot": 135.5,
+          "seed": 200,
+          "clear": 8,
+          "smoke": {
+            "opacity": 0.3
+          }
+        },
+        {
+          "type": "cottage",
+          "at": [
+            14.8,
+            -0.5
+          ],
+          "rot": -43.5,
+          "seed": 101,
+          "clear": 8,
+          "smoke": {
+            "opacity": 0.3
+          }
+        },
+        {
+          "type": "cottage",
+          "at": [
+            -2.5,
+            20.9
+          ],
+          "rot": 123.5,
+          "seed": 201,
+          "clear": 8,
+          "smoke": {
+            "opacity": 0.3
+          }
+        },
+        {
+          "type": "cottage",
+          "at": [
+            7.1,
+            -11
+          ],
+          "rot": -54.5,
+          "seed": 102,
+          "clear": 8,
+          "smoke": {
+            "opacity": 0.3
+          }
+        },
+        {
+          "type": "cottage",
+          "at": [
+            -11.7,
+            7.8
+          ],
+          "rot": 135.5,
+          "seed": 202,
+          "clear": 8,
+          "smoke": {
+            "opacity": 0.3
+          }
+        },
+        {
+          "type": "cottage",
+          "at": [
+            -6.7,
+            -24.1
+          ],
+          "rot": -43.5,
+          "seed": 103,
+          "clear": 8,
+          "smoke": {
+            "opacity": 0.3
+          }
+        },
+        {
+          "type": "cottage",
+          "at": [
+            -23.3,
+            -3.4
+          ],
+          "rot": 123.5,
+          "seed": 203,
+          "clear": 8,
+          "smoke": {
+            "opacity": 0.3
+          }
+        },
+        {
+          "type": "lantern",
+          "at": [
+            15.8,
+            29
+          ]
+        },
+        {
+          "type": "lantern",
+          "at": [
+            15.4,
+            13.5
+          ]
+        },
+        {
+          "type": "lantern",
+          "at": [
+            0.2,
+            10.7
+          ]
+        },
+        {
+          "type": "lantern",
+          "at": [
+            -0.2,
+            -4.7
+          ]
+        },
+        {
+          "type": "lantern",
+          "at": [
+            -15.4,
+            -7.5
+          ]
+        },
+        {
+          "type": "lantern",
+          "at": [
+            -15.8,
+            -23
+          ]
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-town/cart",
+          "at": [
+            15.2,
+            8.4
+          ],
+          "rot": 20,
+          "scale": 1.4,
+          "tint": "#a08070"
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "pine",
+          "count": 120,
+          "radius": 70,
+          "minR": 28,
+          "minRoad": 9,
+          "scale": [
+            14,
+            24
+          ],
+          "seed": "vp"
+        }
+      ],
+      "fireflies": [
+        {
+          "at": [
+            0,
+            3
+          ],
+          "radius": 30,
+          "count": 60,
+          "color": "#ffd27a",
+          "intensity": 5,
+          "height": [
+            1,
+            5
+          ]
+        }
+      ],
+      "mist": [
+        {
+          "at": [
+            0,
+            3
+          ],
+          "radius": 45,
+          "count": 30,
+          "color": "#7a5ab0",
+          "opacity": 0.12,
+          "size": 16
+        }
+      ],
+      "shot": {
+        "key": 8,
+        "at": [
+          23.8,
+          30
+        ],
+        "height": 1.7,
+        "target": [
+          -12.5,
+          -10,
+          3.2
+        ],
+        "fov": 58
       }
     },
     {
       "id": "wizards",
       "name": "The Conclave House",
       "ref": "ref_04 / ref_05",
+      "description": "A gathering of robed wizards (tall, purple and grey robes, pointed hats, long white beards) beside a timber house with warm yellow windows, smoke drifting, a small blue-robed gnome wizard sitting on a bench.",
       "center": [
         -100,
         175
       ],
-      "reach": 60,
+      "reach": 55,
       "ground": {
-        "tint": "#2c3a24"
+        "tint": "#2c3a24",
+        "grass": 0.45,
+        "grassTint": "#33502a"
       },
       "atmosphere": {
         "sky": {
-          "zenith": "#0f0a34",
-          "mid": "#33206a",
-          "horizon": "#7a4a90",
-          "cloudCover": 0.6,
+          "zenith": "#0c0830",
+          "mid": "#2c1c62",
+          "horizon": "#7a4c90",
+          "cloudCover": 0.55,
           "moonDir": [
-            250,
+            230,
             30
-          ]
+          ],
+          "moonPhase": 0.5,
+          "moonGlow": 0.5
         },
         "fog": {
           "color": "#3a2a5a",
           "density": 0.014
         },
         "rim": {
-          "color": "#ffc080",
-          "strength": 0.7
+          "color": "#ffc890",
+          "strength": 0.6
+        },
+        "fill": {
+          "color": "#ffc890",
+          "intensity": 0.3
+        },
+        "ambient": {
+          "sky": "#4a3a90",
+          "ground": "#140c1c",
+          "intensity": 0.55
         }
+      },
+      "props": [
+        {
+          "type": "timber_house",
+          "at": [
+            -5.6,
+            26.3
+          ],
+          "rot": 151,
+          "seed": 41,
+          "clear": 10,
+          "smoke": {
+            "color": "#9a8ab8",
+            "opacity": 0.45
+          }
+        },
+        {
+          "type": "wizard",
+          "at": [
+            -1.6,
+            13.6
+          ],
+          "rot": 54,
+          "robe": "#4a1c80",
+          "hat": "#32125a",
+          "seed": 30,
+          "pose": "staff",
+          "height": 2,
+          "staff": true
+        },
+        {
+          "type": "wizard",
+          "at": [
+            2.9,
+            13.2
+          ],
+          "rot": -49,
+          "robe": "#5a5a6c",
+          "hat": "#44444f",
+          "seed": 31,
+          "pose": "gesture",
+          "height": 2.08,
+          "staff": true
+        },
+        {
+          "type": "wizard",
+          "at": [
+            3.4,
+            16.6
+          ],
+          "rot": -116.6,
+          "robe": "#5c2a9a",
+          "hat": "#3e1a70",
+          "seed": 32,
+          "pose": "staff",
+          "height": 2.16,
+          "staff": true
+        },
+        {
+          "type": "wizard",
+          "at": [
+            -1.9,
+            17.2
+          ],
+          "rot": 128.7,
+          "robe": "#6a6a7c",
+          "hat": "#50505e",
+          "seed": 33,
+          "pose": "armsFolded",
+          "height": 2,
+          "staff": false
+        },
+        {
+          "type": "wizard",
+          "at": [
+            0.4,
+            18.6
+          ],
+          "rot": 176.6,
+          "robe": "#3e1c6a",
+          "hat": "#2a1248",
+          "seed": 34,
+          "pose": "staffTall",
+          "height": 2.08,
+          "staff": true
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/bench",
+          "at": [
+            1.9,
+            21.4
+          ],
+          "rot": 151,
+          "scale": 1.7,
+          "tint": "#8a6a5a",
+          "collide": 0.7
+        },
+        {
+          "type": "gnome",
+          "at": [
+            1.9,
+            21.4
+          ],
+          "rot": 151,
+          "y": 0.24,
+          "robe": "#2a5ad0",
+          "hat": "#1e44b0"
+        },
+        {
+          "type": "lantern",
+          "at": [
+            -6.5,
+            14.5
+          ]
+        },
+        {
+          "type": "lantern",
+          "at": [
+            10.5,
+            13
+          ]
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "pine",
+          "count": 60,
+          "radius": 55,
+          "minR": 22,
+          "minRoad": 9,
+          "scale": [
+            14,
+            22
+          ],
+          "seed": "wz"
+        }
+      ],
+      "fireflies": [
+        {
+          "at": [
+            0,
+            16
+          ],
+          "radius": 16,
+          "count": 40,
+          "color": "#ffe08a",
+          "intensity": 4,
+          "height": [
+            0.8,
+            4
+          ]
+        }
+      ],
+      "shot": {
+        "key": 4,
+        "at": [
+          5.2,
+          8.6
+        ],
+        "height": 1.7,
+        "target": [
+          0.2,
+          16,
+          1.9
+        ],
+        "fov": 52
       }
     },
     {
       "id": "sandstone",
       "name": "Castle Ambermere",
       "ref": "ref_06",
+      "description": "A sandstone castle with round crenellated towers, starry night sky fading to pink at the horizon, a winding purple cobble path through a bright green grassy hill.",
       "center": [
-        -185,
-        80
+        -200,
+        85
       ],
-      "reach": 75,
+      "reach": 70,
       "ground": {
-        "tint": "#4c8a2a",
-        "road": "#d0a0ff"
+        "tint": "#6ac838",
+        "road": "#d0a0ff",
+        "grass": 1,
+        "grassTint": "#5cc030"
       },
       "atmosphere": {
         "sky": {
-          "zenith": "#060828",
-          "mid": "#1a1a5a",
-          "horizon": "#e070a0",
-          "glow": "#ff8ab0",
-          "glowStrength": 0.9,
-          "cloudCover": 0.15,
-          "stars": 2,
-          "moonGlow": 0.2
+          "zenith": "#040622",
+          "mid": "#14185a",
+          "horizon": "#f07aa8",
+          "glow": "#ff9ac0",
+          "glowStrength": 1.1,
+          "cloudCover": 0.12,
+          "stars": 2.4,
+          "moonGlow": 0.15,
+          "moonDir": [
+            60,
+            40
+          ],
+          "mountainHeight": 0.02
         },
         "fog": {
-          "color": "#6a3a80",
-          "density": 0.008
+          "color": "#6a4a98",
+          "density": 0.005,
+          "falloff": 0.04
         },
         "rim": {
-          "color": "#ffa0c0",
-          "strength": 0.6
+          "color": "#ffd0a0",
+          "strength": 0.4
+        },
+        "ambient": {
+          "sky": "#5a64c8",
+          "ground": "#203a10",
+          "intensity": 0.85
+        },
+        "moonLight": {
+          "color": "#c0c8ff",
+          "intensity": 1.3,
+          "dir": [
+            100,
+            40
+          ]
+        },
+        "fill": {
+          "color": "#ffe2c0",
+          "intensity": 0.3
+        },
+        "road": {
+          "sheen": 1.2
         }
+      },
+      "props": [
+        {
+          "type": "castle_sandstone",
+          "at": [
+            -45,
+            -5
+          ],
+          "rot": 90,
+          "clear": 42,
+          "y": -0.3,
+          "stoneColor": "#ffc860"
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "pine",
+          "count": 40,
+          "at": [
+            -20,
+            0
+          ],
+          "radius": 95,
+          "minR": 60,
+          "minRoad": 10,
+          "scale": [
+            13,
+            22
+          ],
+          "seed": "sp"
+        }
+      ],
+      "clearings": [
+        [
+          -30,
+          -5,
+          40
+        ],
+        [
+          -10,
+          0,
+          28
+        ],
+        [
+          10,
+          10,
+          20
+        ]
+      ],
+      "fireflies": [
+        {
+          "at": [
+            -15,
+            0
+          ],
+          "radius": 30,
+          "count": 50,
+          "color": "#c0ff80",
+          "intensity": 4,
+          "height": [
+            0.4,
+            2.5
+          ]
+        }
+      ],
+      "shot": {
+        "key": 5,
+        "at": [
+          35,
+          37
+        ],
+        "height": 1.7,
+        "target": [
+          -45,
+          -5,
+          12
+        ],
+        "fov": 46,
+        "clear": 42
       }
     },
     {
       "id": "greattree",
       "name": "The Sentinel Oak",
       "ref": "ref_10",
+      "description": "A knight resting under a huge tree, crescent moon in a violet sky.",
       "center": [
-        -135,
-        5
+        -140,
+        2
       ],
-      "reach": 60,
+      "reach": 55,
       "ground": {
-        "tint": "#2a3c2a"
+        "tint": "#2a3c2a",
+        "grass": 0.8,
+        "grassTint": "#2c5030"
       },
       "atmosphere": {
         "sky": {
-          "zenith": "#140a40",
-          "mid": "#4a2490",
-          "horizon": "#a060c0",
+          "zenith": "#100838",
+          "mid": "#45208e",
+          "horizon": "#b070d0",
           "moonDir": [
-            330,
-            32
+            266,
+            38
           ],
-          "moonPhase": 0.7,
-          "moonSize": 0.07
+          "moonPhase": 0.68,
+          "moonSize": 0.075,
+          "cloudCover": 0.4,
+          "moonGlow": 0.55
         },
         "fog": {
           "color": "#4a2a80",
           "density": 0.012
+        },
+        "fill": {
+          "color": "#a8a0ff",
+          "intensity": 0.45
         }
+      },
+      "props": [
+        {
+          "type": "great_tree",
+          "at": [
+            -15,
+            -2
+          ],
+          "size": 1.15,
+          "seed": 81,
+          "clear": 14,
+          "leaves": "#173d30"
+        },
+        {
+          "type": "knight",
+          "at": [
+            -12.6,
+            -1.2
+          ],
+          "rot": 72,
+          "pose": "rest",
+          "armor": "#b8b2d8"
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "pine",
+          "count": 50,
+          "radius": 60,
+          "minR": 24,
+          "minRoad": 9,
+          "scale": [
+            14,
+            22
+          ],
+          "seed": "gt"
+        }
+      ],
+      "fireflies": [
+        {
+          "at": [
+            -10,
+            -2
+          ],
+          "radius": 12,
+          "count": 40,
+          "color": "#c8ff8a",
+          "intensity": 4,
+          "height": [
+            0.5,
+            3.5
+          ],
+          "size": 0.1
+        }
+      ],
+      "shot": {
+        "key": 9,
+        "at": [
+          -8.5,
+          2.2
+        ],
+        "height": 1.3,
+        "target": [
+          -13.5,
+          -1.8,
+          2.8
+        ],
+        "fov": 70
       }
     },
     {
       "id": "lake",
       "name": "Glasswater",
       "ref": "ref_08",
+      "description": "A knight in shiny plate armor sitting on a rock in a glassy teal lake, tall pines on both sides, violet sky.",
       "center": [
-        -50,
-        -75
+        -62,
+        -116
       ],
-      "reach": 60,
+      "reach": 50,
       "ground": {
-        "tint": "#20322a"
+        "tint": "#20322a",
+        "grass": 0.6,
+        "grassTint": "#24483a"
       },
       "atmosphere": {
         "sky": {
-          "zenith": "#120a40",
-          "mid": "#4020a0",
-          "horizon": "#9a60d0",
-          "cloudCover": 0.45
+          "zenith": "#0c0636",
+          "mid": "#3a1a90",
+          "horizon": "#9a5ad0",
+          "cloudCover": 0.45,
+          "cloudDark": "#2a1660",
+          "cloudLight": "#b080f0",
+          "cloudRim": "#e0c0ff",
+          "moonDir": [
+            52,
+            17
+          ],
+          "moonPhase": 0,
+          "moonSize": 0.055,
+          "moonGlow": 0.6
         },
         "fog": {
-          "color": "#3a3080",
-          "density": 0.01
+          "color": "#2c2470",
+          "density": 0.01,
+          "falloff": 0.05
         },
         "rim": {
           "color": "#c0a0ff",
           "strength": 1
+        },
+        "water": {
+          "color": "#0e6a64",
+          "glint": "#e0d0ff",
+          "distortion": 1,
+          "tint": "#70e8d8"
         }
-      }
+      },
+      "props": [
+        {
+          "type": "lake",
+          "lake": "glasswater"
+        },
+        {
+          "type": "boulder",
+          "at": [
+            -2,
+            -2
+          ],
+          "size": [
+            3.4,
+            2.6,
+            2.8
+          ],
+          "seed": 7,
+          "aboveWater": 0.15
+        },
+        {
+          "type": "knight",
+          "at": [
+            -2,
+            -2
+          ],
+          "aboveWater": 0.42,
+          "pose": "sitSword",
+          "rot": -125
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "pine",
+          "count": 140,
+          "at": [
+            32,
+            -26
+          ],
+          "radius": 80,
+          "minRoad": 8,
+          "scale": [
+            15,
+            27
+          ],
+          "seed": "lp"
+        },
+        {
+          "kind": "rock",
+          "count": 30,
+          "at": [
+            32,
+            -26
+          ],
+          "radius": 60,
+          "minRoad": 5,
+          "scale": [
+            0.6,
+            2.2
+          ],
+          "seed": "lr"
+        }
+      ],
+      "shot": {
+        "key": 7,
+        "at": [
+          -11,
+          4
+        ],
+        "height": 1.7,
+        "target": [
+          -2,
+          -2,
+          2.6
+        ],
+        "fov": 42
+      },
+      "clearings": []
     },
     {
       "id": "whitewizard",
       "name": "The Pale Shore",
       "ref": "ref_07",
+      "description": "A white-robed wizard with a crooked staff standing by dark water, crescent moon, deep blue and purple clouds.",
       "center": [
-        40,
-        -135
+        -15,
+        -181.2
       ],
-      "reach": 55,
+      "reach": 50,
       "ground": {
-        "tint": "#1c2630"
+        "tint": "#1c2630",
+        "grass": 0.15,
+        "grassTint": "#203040"
       },
       "atmosphere": {
         "sky": {
@@ -407,14 +1182,15 @@
           "horizon": "#5a3a9a",
           "cloudDark": "#101a50",
           "cloudLight": "#5a50c0",
-          "cloudCover": 0.65,
+          "cloudCover": 0.55,
           "moonDir": [
-            120,
-            30
+            219,
+            15
           ],
-          "moonPhase": 0.75,
+          "moonPhase": 0.72,
           "moonSize": 0.065,
-          "moonGlow": 0.9
+          "moonGlow": 0.5,
+          "moonBright": 1.9
         },
         "fog": {
           "color": "#1a2050",
@@ -423,82 +1199,262 @@
         "rim": {
           "color": "#a0c0ff",
           "strength": 1
+        },
+        "water": {
+          "color": "#041428",
+          "glint": "#c0d0ff",
+          "distortion": 1.2,
+          "tint": "#a0b0ff"
+        },
+        "fill": {
+          "color": "#9aa8ff",
+          "intensity": 0.6
         }
+      },
+      "props": [
+        {
+          "type": "wizard",
+          "at": [
+            0,
+            0
+          ],
+          "robe": "#d4d6e6",
+          "sheen": "#ffffff",
+          "hat": false,
+          "beard": "#f6f6ff",
+          "beardLen": 0.62,
+          "pose": "staffTall",
+          "staffGlow": "#8ab8ff",
+          "rot": 155,
+          "seed": 21
+        }
+      ],
+      "scatter": [],
+      "clearings": [
+        [
+          0,
+          0,
+          9
+        ],
+        [
+          -3,
+          7,
+          11
+        ],
+        [
+          -6,
+          14,
+          12
+        ],
+        [
+          4,
+          -4.8,
+          8
+        ]
+      ],
+      "shot": {
+        "key": 6,
+        "at": [
+          4,
+          -4.8
+        ],
+        "height": 1.6,
+        "target": [
+          -2.2,
+          1.8,
+          1.5
+        ],
+        "fov": 56
       }
     },
     {
       "id": "aurora",
       "name": "The Hollow Pines",
       "ref": "ref_03",
+      "description": "Teal and green aurora sky above dark pines, a hooded skeleton in a black robe with faintly glowing green bones, a golden skull on the ground in front.",
       "center": [
-        125,
-        -45
+        118,
+        -42
       ],
-      "reach": 60,
+      "reach": 55,
       "ground": {
-        "tint": "#1a3028"
+        "tint": "#1a3028",
+        "grass": 0.4,
+        "grassTint": "#1c4038"
       },
       "atmosphere": {
         "sky": {
-          "zenith": "#02101a",
-          "mid": "#06303a",
-          "horizon": "#108070",
-          "cloudCover": 0.2,
-          "aurora": 1.4,
-          "stars": 1.5,
-          "moonGlow": 0.1
+          "zenith": "#020a16",
+          "mid": "#04283a",
+          "horizon": "#0a6a6a",
+          "cloudCover": 0.18,
+          "aurora": 1.9,
+          "stars": 1.8,
+          "moonGlow": 0,
+          "auroraA": "#30ff9a",
+          "auroraB": "#40d0ff",
+          "cloudDark": "#04161e",
+          "cloudLight": "#1a5a60",
+          "moonDir": [
+            60,
+            50
+          ],
+          "moonBright": 0,
+          "glow": "#20c0a0",
+          "glowStrength": 0.4
         },
         "fog": {
-          "color": "#0a3038",
-          "density": 0.012
+          "color": "#06222a",
+          "density": 0.008,
+          "falloff": 0.05
         },
         "ambient": {
-          "sky": "#2a8a80",
-          "ground": "#04140f"
+          "sky": "#14504c",
+          "ground": "#020806",
+          "intensity": 0.45
         },
         "moonLight": {
-          "color": "#80ffd0",
-          "intensity": 1
+          "color": "#60e0c0",
+          "intensity": 0.7
         },
         "rim": {
-          "color": "#60ffc0",
-          "strength": 0.9
+          "color": "#40e0b0",
+          "strength": 0.45
         },
         "post": {
           "shadowTint": "#04101a"
+        },
+        "fill": {
+          "color": "#80ffd0",
+          "intensity": 0.15
         }
+      },
+      "props": [
+        {
+          "type": "skeleton",
+          "at": [
+            -8,
+            5
+          ],
+          "rot": 124.7,
+          "pose": "reach"
+        },
+        {
+          "type": "golden_skull",
+          "at": [
+            -5.8,
+            3.5
+          ],
+          "rot": 144.7
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "pine",
+          "count": 140,
+          "radius": 65,
+          "minR": 12,
+          "minRoad": 8,
+          "scale": [
+            13,
+            24
+          ],
+          "seed": "au"
+        }
+      ],
+      "clearings": [
+        [
+          -8,
+          5,
+          19
+        ],
+        [
+          1,
+          -4,
+          15
+        ]
+      ],
+      "mist": [
+        {
+          "at": [
+            -6,
+            4
+          ],
+          "radius": 25,
+          "count": 26,
+          "color": "#2a8a7a",
+          "opacity": 0.08,
+          "size": 14,
+          "lift": 0.8
+        }
+      ],
+      "fireflies": [
+        {
+          "at": [
+            -6,
+            4
+          ],
+          "radius": 14,
+          "count": 36,
+          "color": "#6affb0",
+          "intensity": 5,
+          "height": [
+            0.4,
+            3
+          ],
+          "size": 0.12
+        }
+      ],
+      "shot": {
+        "key": 3,
+        "at": [
+          1,
+          -4
+        ],
+        "height": 1.5,
+        "target": [
+          -8,
+          5,
+          4.6
+        ],
+        "fov": 64
       }
     },
     {
       "id": "manor",
       "name": "Crimsonreach Manor",
       "ref": "ref_01",
+      "description": "Crimson sky with a huge red moon, a twisted black dead tree framing the left, a dark haunted manor with tall green glowing windows, green light spilling onto the ground.",
       "center": [
-        175,
-        35
+        165,
+        34
       ],
       "reach": 55,
       "ground": {
-        "tint": "#2a1c1c"
+        "tint": "#2a1c1c",
+        "grass": 0.45,
+        "grassTint": "#302420"
       },
       "atmosphere": {
         "sky": {
-          "zenith": "#1a0208",
-          "mid": "#600818",
-          "horizon": "#d02020",
+          "zenith": "#14020a",
+          "mid": "#580616",
+          "horizon": "#b01822",
           "glow": "#ff4020",
           "cloudDark": "#300410",
           "cloudLight": "#c02030",
           "cloudRim": "#ff8060",
-          "moonColor": "#ff3018",
+          "moonColor": "#ff2a14",
           "moonSize": 0.17,
-          "moonGlow": 1.2,
-          "moonBright": 3,
+          "moonGlow": 0.8,
+          "moonBright": 1.35,
           "moonDir": [
-            300,
-            22
+            247,
+            36
           ],
-          "stars": 0.5
+          "stars": 0.5,
+          "moonPhase": 0,
+          "cloudCover": 0.45
         },
         "fog": {
           "color": "#4a0a14",
@@ -517,21 +1473,268 @@
           "strength": 1
         },
         "post": {
-          "shadowTint": "#1a0410"
+          "bloom": 0.65
+        },
+        "fill": {
+          "color": "#ff8070",
+          "intensity": 0.25
         }
+      },
+      "props": [
+        {
+          "type": "manor",
+          "at": [
+            -19.8,
+            7.6
+          ],
+          "rot": 113,
+          "clear": 22
+        },
+        {
+          "type": "dead_tree",
+          "at": [
+            11.7,
+            -0.1
+          ],
+          "height": 7.5,
+          "radius": 0.6,
+          "seed": 73,
+          "clear": 5
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/gravestone-round",
+          "at": [
+            -2.3,
+            -7.4
+          ],
+          "rot": 81.8,
+          "scale": 1.6,
+          "tint": "#7a7080",
+          "rim": 0.6
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/gravestone-cross",
+          "at": [
+            -4.9,
+            -7.8
+          ],
+          "rot": 93.5,
+          "scale": 1.6,
+          "tint": "#7a7080",
+          "rim": 0.6
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/gravestone-round",
+          "at": [
+            -7.4,
+            -8.3
+          ],
+          "rot": 85.3,
+          "scale": 1.6,
+          "tint": "#7a7080",
+          "rim": 0.6
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/gravestone-cross",
+          "at": [
+            -8.4,
+            -4.8
+          ],
+          "rot": 106.2,
+          "scale": 1.6,
+          "tint": "#7a7080",
+          "rim": 0.6
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/gravestone-round",
+          "at": [
+            -10.9,
+            -5.3
+          ],
+          "rot": 97.5,
+          "scale": 1.6,
+          "tint": "#7a7080",
+          "rim": 0.6
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/gravestone-cross",
+          "at": [
+            -13.5,
+            -5.7
+          ],
+          "rot": 89.3,
+          "scale": 1.6,
+          "tint": "#7a7080",
+          "rim": 0.6
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/gravestone-round",
+          "at": [
+            -14.4,
+            -2.3
+          ],
+          "rot": 108.3,
+          "scale": 1.6,
+          "tint": "#7a7080",
+          "rim": 0.6
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/iron-fence",
+          "at": [
+            -11.6,
+            -8.9
+          ],
+          "rot": 88.2,
+          "scale": 2,
+          "tint": "#403848",
+          "metalness": 0.7,
+          "roughness": 0.4
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/iron-fence",
+          "at": [
+            -10.9,
+            -7.2
+          ],
+          "rot": 91.6,
+          "scale": 2,
+          "tint": "#403848",
+          "metalness": 0.7,
+          "roughness": 0.4
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/iron-fence",
+          "at": [
+            -10.1,
+            -5.4
+          ],
+          "rot": 95.5,
+          "scale": 2,
+          "tint": "#403848",
+          "metalness": 0.7,
+          "roughness": 0.4
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/iron-fence",
+          "at": [
+            -3.9,
+            9.2
+          ],
+          "rot": 129.5,
+          "scale": 2,
+          "tint": "#403848",
+          "metalness": 0.7,
+          "roughness": 0.4
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/iron-fence",
+          "at": [
+            -3.2,
+            11
+          ],
+          "rot": 133.2,
+          "scale": 2,
+          "tint": "#403848",
+          "metalness": 0.7,
+          "roughness": 0.4
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-graveyard/iron-fence",
+          "at": [
+            -2.4,
+            12.7
+          ],
+          "rot": 136.9,
+          "scale": 2,
+          "tint": "#403848",
+          "metalness": 0.7,
+          "roughness": 0.4
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "pine",
+          "count": 70,
+          "at": [
+            -20,
+            0
+          ],
+          "radius": 60,
+          "minR": 28,
+          "minRoad": 9,
+          "scale": [
+            13,
+            22
+          ],
+          "seed": "mn"
+        }
+      ],
+      "mist": [
+        {
+          "at": [
+            -10.6,
+            3.7
+          ],
+          "radius": 25,
+          "count": 24,
+          "color": "#7a2a3a",
+          "opacity": 0.13,
+          "size": 14
+        }
+      ],
+      "glows": [
+        {
+          "at": [
+            -10.6,
+            3.7
+          ],
+          "radius": 8,
+          "color": "#4dff7a",
+          "intensity": 0.35
+        }
+      ],
+      "shot": {
+        "key": 1,
+        "at": [
+          17,
+          -8
+        ],
+        "height": 1.7,
+        "target": [
+          -19.8,
+          7.6,
+          9
+        ],
+        "fov": 60
       }
     },
     {
       "id": "castle_road",
       "name": "The Road to Vaelmoor Keep",
       "ref": "ref_02",
+      "description": "A cobblestone road leading straight to a dark spired castle. The stones have a glossy iridescent sheen (orange, pink, teal reflections). Green glowing castle windows, violet and magenta clouds, rocky cliffs on both sides.",
       "center": [
         180,
         170
       ],
       "reach": 65,
       "ground": {
-        "tint": "#26302a"
+        "tint": "#26302a",
+        "grass": 0.4,
+        "grassTint": "#2a3a34"
       },
       "atmosphere": {
         "sky": {
@@ -553,7 +1756,8 @@
           "moonSize": 0.07,
           "cloudScale": 0.9,
           "cloudSharp": 0.07,
-          "moonGlow": 0.7
+          "moonGlow": 0.45,
+          "moonBright": 2.4
         },
         "fog": {
           "color": "#4a2070",
@@ -718,5 +1922,8 @@
         "fov": 52
       }
     }
-  ]
+  ],
+  "grass": {
+    "density": 0.55
+  }
 }

@@ -31,6 +31,7 @@ export class Terrain {
       if ((f.type === 'flatten' || f.type === 'mound') && f.height === undefined) {
         f.height = this.baseHeight(f.at[0], f.at[1]) + (f.raise ?? 0);
       }
+      if (f.type === 'lake' && f.level === undefined) f.level = this.baseHeight(f.at[0], f.at[1]) - (f.drop ?? 2.5);
     }
     // Road heights come from the terrain without the road flattening.
     road.setHeights((x, z) => this.naturalHeight(x, z, true));
@@ -184,12 +185,12 @@ export class Terrain {
     const nrm = geo.attributes.normal;
     for (let k = 0; k < pos.count; k++) {
       const slope = 1 - nrm.getY(k);
-      rockAttr[k] = Math.min(1, Math.max(rockAttr[k], smoothstep(0.12, 0.32, slope)));
+      rockAttr[k] = Math.min(1, Math.max(rockAttr[k], smoothstep(0.2, 0.42, slope)));
     }
     geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     geo.setAttribute('aRock', new THREE.BufferAttribute(rockAttr, 1));
 
-    const grass = assets.pbr(this.def.groundTexture || 'forest_ground_04', [1, 1]);
+    const grass = assets.pbr(this.def.groundTexture || 'leafy_grass', [1, 1]);
     const rock = assets.pbr(this.def.rockTexture || 'rock_face', [1, 1]);
     const mat = new THREE.MeshStandardMaterial({
       ...grass,

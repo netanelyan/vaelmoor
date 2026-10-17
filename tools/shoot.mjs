@@ -1,6 +1,6 @@
 // Screenshot harness: serves the repo, opens the game headless in Chromium
 // (real GPU via ANGLE/D3D11, or SwiftShader with --swiftshader), jumps to
-// each photo-mode shot and saves docs/compare/shot_<key>.png.
+// each photo-mode shot and saves docs/compare/shot_<key>.jpg.
 // Prints console errors and a perf readout per shot.
 //
 //   node tools/shoot.mjs            all shots
@@ -46,7 +46,7 @@ page.on('pageerror', (e) => errors.push(`[pageerror] ${e.message}`));
 
 fs.mkdirSync(outDir, { recursive: true });
 const base = `http://localhost:${port}/`;
-await page.goto(`${base}?nohud&capture&shot=${keys[0] ?? 1}`);
+await page.goto(`${base}?nohud&capture&quality=1&shot=${keys[0] ?? 1}`);
 try {
   await page.waitForFunction(() => window.vaelmoor?.ready, null, { timeout: 30000 });
 } catch (e) {
@@ -59,8 +59,8 @@ for (const k of shots) {
   await page.evaluate((key) => window.vaelmoor.shot(key), k);
   await page.waitForTimeout(settle);
   const info = await page.evaluate(() => ({ fps: Math.round(window.vaelmoor.fps || 0), ...window.vaelmoor.info() }));
-  const file = path.join(outDir, `shot_${k}.png`);
-  await page.screenshot({ path: file });
+  const file = path.join(outDir, `shot_${k}.jpg`);
+  await page.screenshot({ path: file, type: "jpeg", quality: 92 });
   console.log(`shot ${k} -> ${file}  fps=${info.fps} calls=${info.calls} tris=${info.triangles} programs=${info.programs}`);
 }
 
