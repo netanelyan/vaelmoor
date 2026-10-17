@@ -1,0 +1,42 @@
+{
+  "quests": [
+    {
+      "id": "conclave",
+      "title": "The Conclave Gathers",
+      "summary": "The wizards of the Gloaming have gathered at the old house beyond Lanternholt.",
+      "description": [
+        "Lanterns burn in the windows of Lanternholt, but nobody there remembers lighting them. An old man by the road said the wizards have gathered again at the Conclave House, as they do only when something below begins to wake.",
+        "If anyone knows why the sky over the Gloaming never brightens, it is them."
+      ],
+      "objectives": [
+        { "id": "archmage", "text": "Speak with Archmage Velloran at the Conclave House", "type": "talk", "target": "archmage" },
+        { "id": "pale", "text": "Seek the Pale Wanderer by the dark water", "type": "talk", "target": "pale_wizard" },
+        { "id": "keep", "text": "Walk the road to Vaelmoor Keep", "type": "discover", "target": "castle_road" }
+      ]
+    },
+    {
+      "id": "keeper",
+      "title": "The Keeper's Price",
+      "summary": "Something in the Hollow Pines wants back what it lost.",
+      "description": [
+        "Among the pines where the sky runs green, a hooded thing stands guard over nothing. It does not speak, but it watches the ground in front of it as if something should be lying there.",
+        "A skull of gold was taken from that clearing long ago. Perhaps it has found its way back."
+      ],
+      "objectives": [
+        { "id": "find", "text": "Find the golden skull in the Hollow Pines", "type": "take", "target": "golden_skull" },
+        { "id": "return", "text": "Offer the skull to the Hollow Keeper", "type": "talk", "target": "keeper", "requires": "golden_skull" }
+      ]
+    },
+    {
+      "id": "lanterns",
+      "title": "A Light in Lanternholt",
+      "summary": "You woke on the road into Lanternholt.",
+      "description": [
+        "You woke on the cobbles with the taste of cold iron in your mouth and no memory of the road behind you. The village ahead was lit, every window, as if it had been waiting."
+      ],
+      "objectives": [
+        { "id": "arrive", "text": "Find your way into Lanternholt", "type": "discover", "target": "village" }
+      ]
+    }
+  ]
+}

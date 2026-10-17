@@ -104,6 +104,7 @@ export function manor(ctx, o = {}) {
     object: b.build(mats),
     colliders: [{ x: 0, z: 0, r: 10.5 }, { x: -9, z: 0, r: 5 }, { x: -16, z: 1, r: 5 }, { x: 11, z: 5, r: 3.6 }, { x: 0, z: 8, r: 4 }],
     lights: [L(0, 0.5, 13.5, 9, 11), L(-7, 0.5, 9.5, 4, 8), L(7, 0.5, 9.5, 4, 8)],
+    door: { x: 0, y: 1.8, z: 9.3, name: 'Manor Door' },
     glows: [
       { x: 0, z: 16, radius: 9, color: green, intensity: 0.8, stretch: 1.6 },
       { x: -9, z: 11, radius: 6, color: green, intensity: 0.45 },
@@ -163,6 +164,7 @@ export function timberHouse(ctx, o = {}) {
       { x: W / 2 + 2.5, z: 0, radius: 4, color: warm, intensity: 0.35, rotY: Math.PI / 2, stretch: 1.6 },
     ],
     chimney: [-W / 2 + 1.6, 14.2, -1.2],
+    door: { x: W / 2 - 2.4, y: 1.2, z: D / 2 + 0.3, name: 'Conclave House' },
   };
 }
 
@@ -219,6 +221,7 @@ export function cottage(ctx, o = {}) {
     lights: [{ x: 0, y: 1.6, z: D / 2 + 1.5, color: warm, intensity: 6, distance: 10, flicker: 0.1 }],
     glows: [{ x: W * 0.1, z: D / 2 + 2, radius: 3.5, color: warm, intensity: 0.5, stretch: 1.4 }],
     chimney: [W * 0.28 + lean * (H + rh) * 0.6, H + rh + 1.0, -D * 0.15],
+    door: { x: -W * 0.22, y: 1.1, z: D / 2 + 0.2, name: 'Cottage' },
   };
 }
 

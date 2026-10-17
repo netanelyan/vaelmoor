@@ -1,0 +1,129 @@
+/* Vaelmoor UI kit.
+   Quiet, shipped-RPG UI: bone text on fading black, thin rules with a diamond,
+   condensed caps for labels, serif only for titles and book text.
+   No glow, no coloured or blurred shadows, no boxes, no rounded cards. */
+
+@font-face { font-family: 'Barlow Condensed'; font-weight: 300; font-style: normal; font-display: block; src: url('../../assets/fonts/BarlowCondensed-300.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-weight: 400; font-style: normal; font-display: block; src: url('../../assets/fonts/BarlowCondensed-400.woff2') format('woff2'); }
+@font-face { font-family: 'Barlow Condensed'; font-weight: 500; font-style: normal; font-display: block; src: url('../../assets/fonts/BarlowCondensed-500.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 300 700; font-style: normal; font-display: block; src: url('../../assets/fonts/CormorantGaramond.woff2') format('woff2'); }
+@font-face { font-family: 'Cormorant Garamond'; font-weight: 400; font-style: italic; font-display: block; src: url('../../assets/fonts/CormorantGaramond-Italic.woff2') format('woff2'); }
+
+:root {
+  --bone: #e8e4da;
+  --bone-70: rgba(232, 228, 218, 0.7);
+  --bone-60: rgba(232, 228, 218, 0.6);
+  --bone-40: rgba(232, 228, 218, 0.4);
+  --bone-20: rgba(232, 228, 218, 0.2);
+  --accent: #b9a982;            /* the one muted accent: selection only */
+  --ink: #2b2219;               /* journal text */
+  --ink-muted: #7d6e5c;
+  --health: #8c3a33;
+  --magicka: #3e5878;
+  --stamina: #5b7348;
+
+  --sans: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+
+  --t-xs: 11px;
+  --t-s: 13px;
+  --t-m: 16px;
+  --t-l: 20px;
+  --t-xl: 30px;
+  --t-xxl: 44px;
+
+  --track-caps: 0.16em;
+  --track-wide: 0.32em;
+  --shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  --fast: 180ms;
+  --slow: 600ms;
+}
+
+.ui {
+  font-family: var(--sans);
+  font-weight: 300;
+  color: var(--bone);
+  text-shadow: var(--shadow);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+/* ---- visibility: quick, subtle fades only */
+.ui-fade { transition: opacity var(--fast) ease; }
+.ui-fade-slow { transition: opacity var(--slow) ease; }
+.ui-off { opacity: 0 !important; pointer-events: none !important; }
+
+/* ---- type */
+.ui-caps { text-transform: uppercase; letter-spacing: var(--track-caps); }
+.ui-wide { text-transform: uppercase; letter-spacing: var(--track-wide); }
+.ui-serif { font-family: var(--serif); font-weight: 500; letter-spacing: 0.02em; }
+.ui-dim { color: var(--bone-70); }
+
+/* ---- rule: 1px bone line fading at both ends, small diamond in the centre */
+.ui-rule {
+  position: relative;
+  height: 9px;
+  width: 100%;
+}
+.ui-rule::before {
+  content: '';
+  position: absolute;
+  left: 0; right: 0; top: 4px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--bone-40) 20%, var(--bone-40) 80%, transparent);
+}
+.ui-rule.diamond::after {
+  content: '';
+  position: absolute;
+  left: 50%; top: 1px;
+  width: 6px; height: 6px;
+  margin-left: -4px;
+  border: 1px solid var(--bone-70);
+  background: #0b0a09;
+  transform: rotate(45deg);
+}
+.ui-rule.ink::before { background: linear-gradient(90deg, transparent, rgba(43, 34, 25, 0.45) 20%, rgba(43, 34, 25, 0.45) 80%, transparent); }
+.ui-rule.ink.diamond::after { border-color: rgba(43, 34, 25, 0.7); background: transparent; }
+
+/* ---- key badge: plain outlined key cap */
+.ui-key {
+  display: inline-block;
+  min-width: 18px;
+  padding: 1px 5px 0;
+  border: 1px solid var(--bone-60);
+  font-family: var(--sans);
+  font-weight: 400;
+  font-size: var(--t-s);
+  line-height: 18px;
+  text-align: center;
+  letter-spacing: 0.06em;
+  color: var(--bone);
+  text-shadow: none;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* ---- list item: dim until selected, a small diamond marks the selection */
+.ui-item {
+  position: relative;
+  padding: 4px 0;
+  opacity: 0.6;
+  cursor: default;
+  transition: opacity var(--fast) ease;
+}
+.ui-item.selected { opacity: 1; }
+.ui-item.disabled { opacity: 0.3; }
+.ui-item.marker.selected::before {
+  content: '';
+  position: absolute;
+  left: -18px; top: 50%;
+  width: 5px; height: 5px;
+  margin-top: -3px;
+  background: var(--accent);
+  transform: rotate(45deg);
+}
+
+/* ---- shades: black that fades to transparent (never a hard box) */
+.ui-shade-bottom { background: linear-gradient(to top, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.35) 45%, transparent); }
+.ui-shade-top { background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), transparent); }
+.ui-shade-right { background: linear-gradient(to left, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.25) 60%, transparent); }
+.ui-vignette { background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.82) 75%, rgba(0, 0, 0, 0.92) 100%); }

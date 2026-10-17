@@ -20,7 +20,7 @@ const browser = await chromium.launch({ headless: true, args: ['--use-angle=d3d1
 const page = await browser.newPage({ viewport: { width: 800, height: 450 } });
 const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
-await page.goto(`http://localhost:${server.address().port}/?nohud&quality=0.75`);
+await page.goto(`http://localhost:${server.address().port}/?nohud&play&quality=0.75`);
 await page.waitForFunction(() => window.vaelmoor?.ready, null, { timeout: 60000 });
 await page.waitForTimeout(1500);
 

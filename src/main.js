@@ -13,21 +13,34 @@ import { roadSheen } from './world/road.js';
 import { waterState } from './world/water.js';
 import { Player } from './player/player.js';
 import { PhotoMode } from './player/photoMode.js';
+import { settings } from './game/settings.js';
+import { Vitals } from './game/vitals.js';
+import { QuestLog } from './game/quests.js';
+import { GameUI } from './ui/ui.js';
 
 const params = new URLSearchParams(location.search);
 const REGION = params.get('region') || 'gloaming';
 const $ = (id) => document.getElementById(id);
 
+// Quality presets: max pixel ratio, shadow map size (0 = off), grass on/off.
+const QUALITY = {
+  low: { maxRatio: 0.75, shadow: 0, grass: false },
+  medium: { maxRatio: 1.0, shadow: 1024, grass: true },
+  high: { maxRatio: MAX_PIXEL_RATIO, shadow: 2048, grass: true },
+};
+
 async function main() {
   const canvas = $('view');
   const renderer = createRenderer(canvas);
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(62, innerWidth / innerHeight, 0.1, 2000);
+  const camera = new THREE.PerspectiveCamera(settings.get('fov'), innerWidth / innerHeight, 0.1, 2000);
   const input = new Input(canvas);
   const assets = new Assets(renderer);
   assets.onProgress = (f) => { $('loading-fill').style.width = `${Math.round(f * 100)}%`; };
 
-  const region = await (await fetch(`data/regions/${REGION}.json`)).json();
+  const [region, questData, dialogues] = await Promise.all(
+    [`data/regions/${REGION}.json`, 'data/quests.json', 'data/dialogue.json'].map(async (u) => (await fetch(u)).json()),
+  );
 
   // --- sky + environment
   const sky = new SkyDome();
@@ -62,10 +75,13 @@ async function main() {
 
   scene.fog = new HeightFog(0x302050, 0.01, 0.05);
 
-  // --- world
+  // --- world + game state
   const world = await buildWorld({ scene, assets, region, lightPool });
   const atmosphere = new Atmosphere(region);
   const player = new Player(camera, input, world);
+  const vitals = new Vitals();
+  player.vitals = vitals;
+  const quests = new QuestLog(questData);
   const spawn = region.spawn;
   player.teleport(spawn.at[0], spawn.at[1], (spawn.yaw ?? 0) * Math.PI / 180);
   const photo = new PhotoMode({ camera, player, world, region });
@@ -78,9 +94,27 @@ async function main() {
     post.setSize(innerWidth, innerHeight);
   };
   addEventListener('resize', resize);
-  // ?quality=1.5 pins the pixel ratio (screenshots); otherwise it adapts to hold 60 fps
+  // ?quality=1.25 pins the pixel ratio (screenshots); otherwise it adapts to hold 60 fps
   const fixedRatio = params.has('quality');
   const setRatio = (pr) => { renderer.setPixelRatio(pr); resize(); };
+  let preset = QUALITY[settings.get('quality')] || QUALITY.high;
+  const grass = scene.getObjectByName('grass');
+  const applyQuality = () => {
+    preset = QUALITY[settings.get('quality')] || QUALITY.high;
+    if (!fixedRatio) setRatio(Math.min(window.devicePixelRatio, preset.maxRatio));
+    moon.castShadow = preset.shadow > 0;
+    if (preset.shadow && moon.shadow.mapSize.x !== preset.shadow) {
+      moon.shadow.mapSize.set(preset.shadow, preset.shadow);
+      moon.shadow.map?.dispose();
+      moon.shadow.map = null;
+    }
+    if (grass) grass.visible = preset.grass;
+  };
+  applyQuality();
+  settings.onChange((k) => {
+    if (k === 'quality') applyQuality();
+    if (k === 'fov' && !photo.active) { camera.fov = settings.get('fov'); camera.updateProjectionMatrix(); }
+  });
   if (fixedRatio) setRatio(Math.min(parseFloat(params.get('quality')) || 1, MAX_PIXEL_RATIO));
   resize();
 
@@ -114,44 +148,46 @@ async function main() {
     post.apply(a.post);
   };
 
-  // --- UI
-  const hud = { area: $('area-name'), photo: $('photo-label'), fps: $('fps') };
-  let lastArea = null, areaTimer = 0;
-  const showHud = !params.has('nohud');
-  const startScreen = $('start');
-  $('loading').classList.add('hidden');
-  if (!params.has('shot')) startScreen.classList.remove('hidden');
-  if (showHud) $('hud').classList.remove('hidden');
-  startScreen.addEventListener('click', () => input.requestLock());
-  input.on('lock', (locked) => {
-    startScreen.classList.toggle('hidden', locked || !!photo.active);
-  });
-  canvas.addEventListener('click', () => { if (!input.locked) input.requestLock(); });
+  // --- UI + game flow
+  const ui = new GameUI({ input, canvas, camera, player, world, region, quests, vitals, dialogues, photo });
+  const hideUI = params.has('nohud');
+  if (hideUI) document.getElementById('ui').style.display = 'none';
+  $('loading').classList.add('ui-off');
 
-  const jump = (key) => {
-    if (photo.enter(key)) {
-      hud.photo.textContent = `photo mode ${key}: ${photo.active.name} (${photo.active.ref}) - move to walk from here, 0 to exit`;
-      envDirty = true;
-      startScreen.classList.add('hidden');
-    }
+  let envDirty = true;
+  const enterPhoto = (key) => {
+    if (!photo.enter(key)) return;
+    ui.setState('photo');
+    ui.hud.photo.textContent = `Photo mode ${key} · ${photo.active.name} · ${photo.active.ref}`;
+    envDirty = true;
+  };
+  const leavePhoto = () => {
+    photo.exit();
+    ui.hud.photo.textContent = '';
+    ui.setState('play');
   };
   input.on('keydown', (e) => {
-    if (/^Digit[1-9]$/.test(e.code)) jump(e.code.slice(5));
-    else if (e.code === 'Digit0') { photo.exit(); hud.photo.textContent = ''; }
+    if (!['play', 'photo'].includes(ui.state)) return;
+    if (/^Digit[1-9]$/.test(e.code)) enterPhoto(e.code.slice(5));
+    else if (e.code === 'Digit0' && photo.active) leavePhoto();
   });
 
   // --- loop
   const timer = new THREE.Timer();
   timer.connect(document);
-  let time = 0, envTimer = 0, envDirty = true, frames = 0, fpsTimer = 0;
+  let time = 0, envTimer = 0, frames = 0, fpsTimer = 0;
   const camXZ = new THREE.Vector3();
   const step = (dt) => {
     time += dt;
     shared.time.value = time;
     sky.uniforms.time.value = time;
 
-    if (photo.active && player.isMoving()) { photo.exit(); hud.photo.textContent = ''; }
-    if (!photo.active) player.update(dt);
+    if (ui.state === 'photo' && player.isMoving()) leavePhoto();
+    if (ui.playerControl) {
+      player.update(dt);
+      vitals.update(dt, player.events);
+    }
+    ui.update(dt, time);
 
     camXZ.copy(camera.position);
     const a = atmosphere.update(camXZ.x, camXZ.z, photo.active?.area);
@@ -160,8 +196,7 @@ async function main() {
     // moon light + shadow camera follow the viewer (snapped to shadow texels)
     const texel = (2 * S) / moon.shadow.mapSize.x;
     const fx = Math.round(camXZ.x / texel) * texel, fz = Math.round(camXZ.z / texel) * texel;
-    const fy = world.groundAt(fx, fz);
-    moon.target.position.set(fx, fy, fz);
+    moon.target.position.set(fx, world.groundAt(fx, fz), fz);
     moon.position.copy(moon.target.position).addScaledVector(moon.userData.dir, 200);
 
     sky.position.copy(camera.position);
@@ -172,46 +207,39 @@ async function main() {
 
     envTimer -= dt;
     if (envDirty || envTimer <= 0) { refreshEnv(); envDirty = false; envTimer = 2.0; }
-
-    if (atmosphere.dominant !== lastArea) {
-      lastArea = atmosphere.dominant;
-      const area = region.areas.find((x) => x.id === lastArea);
-      hud.area.textContent = area?.name ?? '';
-      hud.area.classList.add('show');
-      areaTimer = 3.5;
-    }
-    if ((areaTimer -= dt) <= 0) hud.area.classList.remove('show');
   };
 
   window.vaelmoor = {
-    ready: false, scene, camera, renderer, assets, world, atmosphere, photo, player, region,
-    shot: (k) => jump(k),
+    ready: false, scene, camera, renderer, assets, world, atmosphere, photo, player, region, ui, quests, vitals, settings,
+    shot: (k) => enterPhoto(k),
     /** Advance the simulation deterministically (used by the screenshot tool). */
     advance: (seconds, fps = 30) => { for (let t = 0; t < seconds; t += 1 / fps) step(1 / fps); post.render(1 / fps, time); },
     info: () => ({ ratio: renderer.getPixelRatio(), calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, programs: renderer.info.programs.length }),
   };
 
-  if (params.has('shot')) jump(params.get('shot'));
+  if (params.has('shot')) enterPhoto(params.get('shot'));
+  else if (params.has('play')) ui.startGame();
+  else ui.showTitle();
   if (params.has('time')) time = parseFloat(params.get('time'));
 
   renderer.setAnimationLoop(() => {
     timer.update();
     const dt = Math.min(timer.getDelta(), 0.05);
     renderer.info.reset();
-    step(dt);
+    if (ui.simulating) step(dt);
     post.render(dt, time);
     frames++;
     fpsTimer += dt;
     if (fpsTimer >= 0.5) {
       const fps = frames / fpsTimer;
-      if (showHud) hud.fps.textContent = `${Math.round(fps)} fps · ${renderer.info.render.calls} calls · ${renderer.getPixelRatio().toFixed(2)}x`;
       window.vaelmoor.fps = fps;
+      ui.hud.setFps(settings.get('showFps'), `${Math.round(fps)} FPS · ${renderer.getPixelRatio().toFixed(2)}x · ${settings.get('quality').toUpperCase()}`);
       frames = 0; fpsTimer = 0;
-      // adaptive resolution: trade pixels for a steady 60 (never above MAX_PIXEL_RATIO)
-      if (!fixedRatio) {
+      // adaptive resolution: trade pixels for a steady 60 within the preset's cap
+      if (!fixedRatio && ui.simulating) {
         const pr = renderer.getPixelRatio();
-        const maxPr = Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO);
-        if (fps < 50 && pr > 0.75) setRatio(Math.max(0.75, pr - 0.1));
+        const maxPr = Math.min(window.devicePixelRatio, preset.maxRatio);
+        if (fps < 50 && pr > 0.6) setRatio(Math.max(0.6, pr - 0.1));
         else if (fps > 58.5 && pr < maxPr) setRatio(Math.min(maxPr, pr + 0.05));
       }
     }
@@ -221,5 +249,6 @@ async function main() {
 
 main().catch((e) => {
   console.error(e);
-  $('loading').querySelector('.sub').textContent = `failed to load: ${e.message}`;
+  const l = $('loading');
+  if (l) l.querySelector('.logo').textContent = `Failed to load: ${e.message}`;
 });

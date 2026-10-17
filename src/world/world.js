@@ -6,6 +6,7 @@ import { makePineScatter, makeRockScatter, makeCragScatter } from './vegetation.
 import { fireflies, smoke, mist, groundGlow } from './particles.js';
 import { PROP_BUILDERS } from './props.js';
 import { buildGrass } from './grass.js';
+import { Interactables } from '../game/interact.js';
 import { mulberry32, hashString, smoothstep } from '../engine/noise.js';
 
 const DEG = Math.PI / 180;
@@ -20,6 +21,7 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   const road = new Road(region.road, bounds);
   const terrain = new Terrain(T, road, region.areas);
   const colliders = new Colliders();
+  const interactables = new Interactables();
   const updaters = [];
   const waters = [];
 
@@ -130,6 +132,20 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
         const [wx, wz] = toWorld(g.x, g.z);
         scene.add(groundGlow({ ...g, x: wx, z: wz, groundAt, rotY: rot + (g.rotY ?? 0) }));
       }
+      // things the player can use
+      if (prop.npc) {
+        interactables.add({ id: prop.npc, name: prop.name ?? prop.npc, action: 'Talk', kind: 'npc', radius: 0.6,
+          pos: new THREE.Vector3(x, y + (prop.talkY ?? 1.5) * s, z) });
+      }
+      if (prop.item) {
+        interactables.add({ id: prop.item, name: prop.name ?? prop.item, action: 'Take', kind: 'item', radius: 0.45,
+          pos: new THREE.Vector3(x, y + 0.35 * s, z), object: res.object });
+      }
+      if (res.door && prop.door !== false) {
+        const [dx, dz] = toWorld(res.door.x, res.door.z);
+        interactables.add({ id: `${prop.type}@${Math.round(x)},${Math.round(z)}`, name: prop.doorName ?? res.door.name ?? 'Door', action: 'Open', kind: 'door', radius: 0.8,
+          pos: new THREE.Vector3(dx, y + res.door.y * s, dz) });
+      }
       if (res.update) updaters.push(res.update);
       if (res.chimney && prop.smoke !== false) {
         const [cx, cz] = toWorld(res.chimney[0], res.chimney[2]);
@@ -204,7 +220,7 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   });
 
   const world = {
-    terrain, road, groundAt, colliders, waters, waterLevelAt,
+    interactables, terrain, road, groundAt, colliders, waters, waterLevelAt,
     update(dt, t, cam) { for (const u of updaters) u(dt, t, cam); },
   };
   scene.add(buildGrass(world, region));

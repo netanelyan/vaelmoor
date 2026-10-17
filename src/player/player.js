@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { settings } from '../game/settings.js';
 
 // First-person walker: WASD + mouse look (pointer lock), Shift sprint,
 // Space jump, gravity, ground following, circle collisions and head bob.
@@ -23,7 +24,8 @@ export class Player {
     this.bobPhase = 0;
     this.bobAmt = 0;
     this.sensitivity = 0.0022;
-    this.enabled = true;
+    this.vitals = null; // set by the game: gates sprint/jump on stamina
+    this.events = { sprinting: false, jumped: false, landingSpeed: 0 };
   }
 
   /** Place at (x, z) on the ground, looking along yaw/pitch (radians). */
@@ -42,12 +44,16 @@ export class Player {
   update(dt) {
     const inp = this.input;
     const [mx, my] = inp.consumeMouse();
-    this.yaw -= mx * this.sensitivity;
-    this.pitch = THREE.MathUtils.clamp(this.pitch - my * this.sensitivity, -1.45, 1.45);
+    const sens = this.sensitivity * settings.get('sensitivity');
+    this.yaw -= mx * sens;
+    this.pitch = THREE.MathUtils.clamp(this.pitch - my * sens * (settings.get('invertY') ? -1 : 1), -1.45, 1.45);
+    const ev = this.events;
+    ev.sprinting = false; ev.jumped = false; ev.landingSpeed = 0;
 
     const f = (inp.down('KeyW', 'ArrowUp') ? 1 : 0) - (inp.down('KeyS', 'ArrowDown') ? 1 : 0);
     const s = (inp.down('KeyD', 'ArrowRight') ? 1 : 0) - (inp.down('KeyA', 'ArrowLeft') ? 1 : 0);
-    const sprint = inp.down('ShiftLeft', 'ShiftRight');
+    const sprint = inp.down('ShiftLeft', 'ShiftRight') && (f !== 0 || s !== 0) && (!this.vitals || this.vitals.canSprint());
+    ev.sprinting = sprint && this.onGround;
     const speed = sprint ? SPRINT : WALK;
     const fx = -Math.sin(this.yaw), fz = -Math.cos(this.yaw);
     const rx = Math.cos(this.yaw), rz = -Math.sin(this.yaw);
@@ -61,9 +67,10 @@ export class Player {
     this.vel.x += (wx * speed - this.vel.x) * k;
     this.vel.z += (wz * speed - this.vel.z) * k;
 
-    if (this.onGround && inp.down('Space')) {
+    if (this.onGround && inp.down('Space') && (!this.vitals || this.vitals.canJump())) {
       this.vel.y = JUMP;
       this.onGround = false;
+      ev.jumped = true;
     }
     this.vel.y -= GRAVITY * dt;
 
@@ -85,6 +92,7 @@ export class Player {
     this.pos.y += this.vel.y * dt;
     const ground = W.groundAt(this.pos.x, this.pos.z);
     if (this.pos.y <= ground) {
+      if (!this.onGround) ev.landingSpeed = -this.vel.y;
       this.pos.y = ground;
       this.vel.y = 0;
       this.onGround = true;
@@ -96,7 +104,7 @@ export class Player {
     }
 
     const hspeed = Math.hypot(this.vel.x, this.vel.z);
-    const moving = this.onGround && hspeed > 0.5;
+    const moving = this.onGround && hspeed > 0.5 && settings.get('headBob');
     this.bobAmt += ((moving ? Math.min(1, hspeed / WALK) : 0) - this.bobAmt) * Math.min(1, dt * 8);
     this.bobPhase += dt * hspeed * 1.9;
     this.applyCamera(dt);

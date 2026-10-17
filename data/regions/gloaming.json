@@ -644,7 +644,9 @@
           "seed": 30,
           "pose": "staff",
           "height": 2,
-          "staff": true
+          "staff": true,
+          "npc": "archmage",
+          "name": "Archmage Velloran"
         },
         {
           "type": "wizard",
@@ -658,7 +660,9 @@
           "seed": 31,
           "pose": "gesture",
           "height": 2.08,
-          "staff": true
+          "staff": true,
+          "npc": "elder",
+          "name": "Conclave Elder"
         },
         {
           "type": "wizard",
@@ -672,7 +676,9 @@
           "seed": 32,
           "pose": "staff",
           "height": 2.16,
-          "staff": true
+          "staff": true,
+          "npc": "elder",
+          "name": "Conclave Elder"
         },
         {
           "type": "wizard",
@@ -686,7 +692,9 @@
           "seed": 33,
           "pose": "armsFolded",
           "height": 2,
-          "staff": false
+          "staff": false,
+          "npc": "elder",
+          "name": "Conclave Elder"
         },
         {
           "type": "wizard",
@@ -700,7 +708,9 @@
           "seed": 34,
           "pose": "staffTall",
           "height": 2.08,
-          "staff": true
+          "staff": true,
+          "npc": "elder",
+          "name": "Conclave Elder"
         },
         {
           "type": "kenney",
@@ -723,7 +733,10 @@
           "rot": 151,
           "y": 0.24,
           "robe": "#2a5ad0",
-          "hat": "#1e44b0"
+          "hat": "#1e44b0",
+          "npc": "gnome",
+          "name": "Pipwick the Lesser",
+          "talkY": 0.7
         },
         {
           "type": "lantern",
@@ -985,7 +998,10 @@
           ],
           "rot": 72,
           "pose": "rest",
-          "armor": "#b8b2d8"
+          "armor": "#b8b2d8",
+          "npc": "oak_knight",
+          "name": "Ser Hollis",
+          "talkY": 0.6
         }
       ],
       "scatter": [
@@ -1109,7 +1125,10 @@
           ],
           "aboveWater": 0.42,
           "pose": "sitSword",
-          "rot": -125
+          "rot": -125,
+          "npc": "lake_knight",
+          "name": "Ser Aldric of the Glass",
+          "talkY": 1.1
         }
       ],
       "scatter": [
@@ -1226,7 +1245,9 @@
           "pose": "staffTall",
           "staffGlow": "#8ab8ff",
           "rot": 155,
-          "seed": 21
+          "seed": 21,
+          "npc": "pale_wizard",
+          "name": "The Pale Wanderer"
         }
       ],
       "scatter": [],
@@ -1337,7 +1358,9 @@
             5
           ],
           "rot": 124.7,
-          "pose": "reach"
+          "pose": "reach",
+          "npc": "keeper",
+          "name": "The Hollow Keeper"
         },
         {
           "type": "golden_skull",
@@ -1345,7 +1368,9 @@
             -5.8,
             3.5
           ],
-          "rot": 144.7
+          "rot": 144.7,
+          "item": "golden_skull",
+          "name": "Golden Skull"
         }
       ],
       "scatter": [
@@ -1925,5 +1950,46 @@
   ],
   "grass": {
     "density": 0.55
+  },
+  "title": {
+    "secondsPerKey": 16,
+    "keys": [
+      {
+        "pos": [
+          150,
+          4,
+          128
+        ],
+        "target": [
+          178,
+          30,
+          262
+        ]
+      },
+      {
+        "pos": [
+          176,
+          3,
+          150
+        ],
+        "target": [
+          180,
+          26,
+          262
+        ]
+      },
+      {
+        "pos": [
+          190,
+          5,
+          172
+        ],
+        "target": [
+          176,
+          22,
+          262
+        ]
+      }
+    ]
   }
 }

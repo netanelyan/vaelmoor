@@ -18,7 +18,7 @@ const flag = (name, def) => {
   return a.includes('=') ? a.split('=')[1] : true;
 };
 const keys = args.filter((a) => /^\d$/.test(a));
-const [W, H] = String(flag('size', '1280x720')).split('x').map(Number);
+const [W, H] = String(flag('size', '720x960')).split('x').map(Number);
 const outDir = flag('out', 'docs/compare');
 const settle = Number(flag('settle', 2500));
 
