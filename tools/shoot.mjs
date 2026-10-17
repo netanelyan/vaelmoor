@@ -1,10 +1,11 @@
 // Screenshot harness: serves the repo, opens the game headless in Chromium
 // (real GPU via ANGLE/D3D11, or SwiftShader with --swiftshader), jumps to
-// each photo-mode shot and saves docs/compare/shot_<key>.jpg.
+// each photo-mode shot and saves docs/compare/shot_<realm>_<key>.jpg.
 // Prints console errors and a perf readout per shot.
 //
-//   node tools/shoot.mjs            all shots
-//   node tools/shoot.mjs 2 5        only shots 2 and 5
+//   node tools/shoot.mjs                        all shots in all realms
+//   node tools/shoot.mjs surface:1 gloaming:2   specific shots (bare numbers = gloaming)
+//   node tools/shoot.mjs surface:1 --params=nopaint --suffix=_before
 //   node tools/shoot.mjs --swiftshader --size=1920x1080 --out=some/dir
 import http from 'http';
 import fs from 'fs';
@@ -17,7 +18,9 @@ const flag = (name, def) => {
   if (!a) return def;
   return a.includes('=') ? a.split('=')[1] : true;
 };
-const keys = args.filter((a) => /^\d$/.test(a));
+const keys = args.filter((a) => /^(\w+:)?\d+$/.test(a)).map((a) => (a.includes(':') ? a : `gloaming:${a}`));
+const extra = String(flag('params', '')).split(',').filter(Boolean).map((p) => `&${p}`).join('');
+const suffix = String(flag('suffix', ''));
 const [W, H] = String(flag('size', '720x960')).split('x').map(Number);
 const outDir = flag('out', 'docs/compare');
 const settle = Number(flag('settle', 2500));
@@ -46,20 +49,20 @@ page.on('pageerror', (e) => errors.push(`[pageerror] ${e.message}`));
 
 fs.mkdirSync(outDir, { recursive: true });
 const base = `http://localhost:${port}/`;
-await page.goto(`${base}?nohud&capture&quality=1&shot=${keys[0] ?? 1}`);
+await page.goto(`${base}?nohud&capture&quality=1&shot=${keys[0] ?? "gloaming:1"}${extra}`);
 try {
   await page.waitForFunction(() => window.vaelmoor?.ready, null, { timeout: 30000 });
 } catch (e) {
   console.log(`game never became ready:\n  ${errors.join('\n  ')}`);
   await browser.close(); server.close(); process.exit(1);
 }
-const shots = keys.length ? keys : await page.evaluate(() => [...window.vaelmoor.photo.shots.keys()].sort());
+const shots = keys.length ? keys : await page.evaluate(() => window.vaelmoor.photo.list().map((s) => s.id));
 
 for (const k of shots) {
   await page.evaluate((key) => window.vaelmoor.shot(key), k);
   await page.waitForTimeout(settle);
   const info = await page.evaluate(() => ({ fps: Math.round(window.vaelmoor.fps || 0), ...window.vaelmoor.info() }));
-  const file = path.join(outDir, `shot_${k}.jpg`);
+  const file = path.join(outDir, `shot_${k.replace(":", "_")}${suffix}.jpg`);
   await page.screenshot({ path: file, type: "jpeg", quality: 92 });
   console.log(`shot ${k} -> ${file}  fps=${info.fps} calls=${info.calls} tris=${info.triangles} programs=${info.programs}`);
 }

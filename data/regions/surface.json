@@ -1,0 +1,707 @@
+{
+  "id": "surface",
+  "name": "Vaelmoor",
+  "renderProfile": {
+    "kind": "painted"
+  },
+  "spawn": {
+    "at": [
+      14,
+      28
+    ],
+    "yaw": 200
+  },
+  "terrain": {
+    "center": [
+      50,
+      -40
+    ],
+    "size": 760,
+    "cell": 2.5,
+    "seed": 31,
+    "baseAmp": 10,
+    "detailAmp": 1.6,
+    "valleyWidth": 16,
+    "valleyRise": 80,
+    "ridgeAmp": 22,
+    "groundTexture": "leafy_grass",
+    "rockTexture": "rock_face",
+    "groundTint": "#3a4a3a",
+    "snowTint": "#9aa8e0",
+    "features": [
+      {
+        "type": "hill",
+        "at": [
+          -4,
+          -10
+        ],
+        "radius": 30,
+        "height": 6
+      }
+    ]
+  },
+  "road": {
+    "width": 2.5,
+    "tint": "#e8c4a0",
+    "material": {
+      "texture": "stony_dirt_path",
+      "matte": true,
+      "color": 11047034,
+      "uvScale": 2.6
+    },
+    "points": [
+      [
+        -6,
+        -12
+      ],
+      [
+        8,
+        22
+      ],
+      [
+        -30,
+        40
+      ],
+      [
+        -80,
+        20
+      ],
+      [
+        -120,
+        -40
+      ],
+      [
+        -170,
+        -110
+      ],
+      [
+        -200,
+        -170
+      ],
+      [
+        -150,
+        -215
+      ],
+      [
+        -90,
+        -230
+      ],
+      [
+        -30,
+        -190
+      ],
+      [
+        20,
+        -150
+      ],
+      [
+        70,
+        -200
+      ],
+      [
+        130,
+        -250
+      ],
+      [
+        190,
+        -230
+      ],
+      [
+        240,
+        -170
+      ],
+      [
+        290,
+        -100
+      ],
+      [
+        300,
+        -40
+      ],
+      [
+        270,
+        30
+      ],
+      [
+        220,
+        80
+      ],
+      [
+        170,
+        140
+      ],
+      [
+        120,
+        180
+      ],
+      [
+        40,
+        200
+      ],
+      [
+        -60,
+        170
+      ],
+      [
+        -130,
+        150
+      ],
+      [
+        -180,
+        110
+      ],
+      [
+        -150,
+        60
+      ],
+      [
+        -70,
+        40
+      ]
+    ]
+  },
+  "forest": {
+    "spacing": 7.5,
+    "density": 0.8,
+    "clearRoad": 6,
+    "scale": [
+      12,
+      22
+    ],
+    "seed": 7
+  },
+  "atmosphereDefaults": {
+    "sky": {
+      "zenith": "#04061a",
+      "mid": "#0c1650",
+      "horizon": "#26307a",
+      "glow": "#3a4aa0",
+      "glowStrength": 0.25,
+      "cloudDark": "#060a28",
+      "cloudLight": "#3a4c9a",
+      "cloudRim": "#8a9ad8",
+      "cloudCover": 0.55,
+      "cloudScale": 0.9,
+      "cloudSharp": 0.14,
+      "cloudBright": 1,
+      "cloudHeight": 0.18,
+      "swirl": 1.6,
+      "stars": 1.2,
+      "moonDir": [
+        40,
+        40
+      ],
+      "moonColor": "#d8e4ff",
+      "moonSize": 0.09,
+      "moonPhase": 0,
+      "moonGlow": 1.1,
+      "moonBright": 2.4,
+      "aurora": 0,
+      "auroraA": "#30ff9a",
+      "auroraB": "#40c0ff",
+      "mountain": "#0a0c20",
+      "mountainHeight": 0.03
+    },
+    "fog": {
+      "color": "#141c48",
+      "density": 0.012,
+      "falloff": 0.06
+    },
+    "ambient": {
+      "sky": "#4a5ab8",
+      "ground": "#141a24",
+      "intensity": 1.4
+    },
+    "moonLight": {
+      "color": "#b8c8ff",
+      "intensity": 3.2
+    },
+    "fill": {
+      "color": "#6a7ad0",
+      "intensity": 0.25
+    },
+    "rim": {
+      "color": "#8a9ae0",
+      "strength": 0.25
+    },
+    "env": {
+      "intensity": 0.4
+    },
+    "road": {
+      "sheen": 0
+    },
+    "water": {
+      "color": "#06102a",
+      "glint": "#a0b0ff",
+      "distortion": 1.4,
+      "tint": "#6070c0"
+    },
+    "post": {
+      "bloom": 0.12,
+      "bloomRadius": 0.2,
+      "bloomThreshold": 0.95,
+      "saturation": 1.3,
+      "vibrance": 0.15,
+      "contrast": 1.12,
+      "blackCrush": 0.5,
+      "vignette": 0.2,
+      "shadowTint": "#05061a",
+      "highlightTint": "#e0e8ff",
+      "exposure": 1.35
+    }
+  },
+  "areas": [
+    {
+      "id": "cottage",
+      "name": "Hollin Cottage",
+      "ref": "dark_01",
+      "center": [
+        0,
+        0
+      ],
+      "reach": 55,
+      "description": "Stone cottage on a grassy path, pale blue moon.",
+      "ground": {
+        "tint": "#4a7a3a",
+        "grass": 0.38,
+        "grassTint": "#4e8a3a"
+      },
+      "atmosphere": {
+        "moonLight": {
+          "color": "#c8d6ff",
+          "intensity": 4.2,
+          "dir": [
+            160,
+            34
+          ]
+        },
+        "post": {
+          "exposure": 1.5
+        },
+        "sky": {
+          "moonDir": [
+            0,
+            22
+          ],
+          "moonSize": 0.085,
+          "moonGlow": 0.32,
+          "moonBright": 1.35,
+          "cloudCover": 0.6,
+          "zenith": "#03081e",
+          "mid": "#0e1c5a",
+          "horizon": "#2a3a88"
+        }
+      },
+      "props": [
+        {
+          "type": "stone_cottage",
+          "at": [
+            -2,
+            -6
+          ],
+          "rot": 40.6,
+          "clear": 9
+        },
+        {
+          "type": "hooded",
+          "at": [
+            5,
+            6
+          ],
+          "rot": -164.1,
+          "pose": "walk",
+          "robe": "#0c0a10",
+          "height": 1.9,
+          "npc": "wanderer",
+          "name": "Hooded Wanderer"
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            -9,
+            18
+          ],
+          "size": 0.6,
+          "seed": 85,
+          "leaves": "#2c5040",
+          "clear": 5
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            16,
+            6
+          ],
+          "size": 0.65,
+          "seed": 86,
+          "leaves": "#2a4c3c",
+          "clear": 5
+        },
+        {
+          "type": "crag",
+          "at": [
+            6.5,
+            15.5
+          ],
+          "size": [
+            1.6,
+            0.55,
+            1.3
+          ],
+          "seed": 3,
+          "color": "#a0a8bc",
+          "matte": true,
+          "clear": 2
+        },
+        {
+          "type": "crag",
+          "at": [
+            12.5,
+            15
+          ],
+          "size": [
+            1.4,
+            0.5,
+            1.1
+          ],
+          "seed": 4,
+          "color": "#a0a8bc",
+          "matte": true,
+          "clear": 2
+        },
+        {
+          "type": "crag",
+          "at": [
+            4,
+            9
+          ],
+          "size": [
+            1.2,
+            0.45,
+            1
+          ],
+          "seed": 5,
+          "color": "#a0a8bc",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            11,
+            8
+          ],
+          "size": [
+            1,
+            0.4,
+            0.9
+          ],
+          "seed": 6,
+          "color": "#a0a8bc",
+          "matte": true
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            -18,
+            -14
+          ],
+          "size": 0.7,
+          "seed": 87,
+          "leaves": "#18301e",
+          "clear": 6
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            14,
+            -16
+          ],
+          "size": 0.6,
+          "seed": 88,
+          "leaves": "#18301e",
+          "clear": 6
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "rock",
+          "count": 18,
+          "at": [
+            8,
+            12
+          ],
+          "radius": 9,
+          "minRoad": 2,
+          "maxRoad": 9,
+          "scale": [
+            0.5,
+            1.2
+          ],
+          "seed": "cf"
+        },
+        {
+          "kind": "rock",
+          "count": 40,
+          "radius": 30,
+          "minRoad": 2.4,
+          "maxRoad": 14,
+          "scale": [
+            0.4,
+            1.4
+          ],
+          "seed": "cr"
+        },
+        {
+          "kind": "pine",
+          "count": 30,
+          "radius": 70,
+          "minR": 32,
+          "minRoad": 8,
+          "scale": [
+            12,
+            20
+          ],
+          "seed": "cp"
+        }
+      ],
+      "clearings": [
+        [
+          0,
+          0,
+          26
+        ]
+      ],
+      "shot": {
+        "key": 1,
+        "at": [
+          10,
+          19
+        ],
+        "height": 1.25,
+        "target": [
+          -1,
+          -6,
+          4.6
+        ],
+        "fov": 64
+      }
+    },
+    {
+      "id": "campfire",
+      "name": "The Ember Watch",
+      "ref": "dark_03",
+      "center": [
+        -120,
+        -40
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "ruins",
+      "name": "Shrine of the Red Hoods",
+      "ref": "dark_09",
+      "center": [
+        -200,
+        -170
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "oak",
+      "name": "The Old Warden",
+      "ref": "dark_11",
+      "center": [
+        -90,
+        -230
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "barrow",
+      "name": "The Barrow Door",
+      "ref": "",
+      "center": [
+        20,
+        -150
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "alley",
+      "name": "Ashgate Alley",
+      "ref": "dark_02 / dark_12",
+      "center": [
+        130,
+        -250
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "canyon",
+      "name": "The Rose Moon Gorge",
+      "ref": "dark_06",
+      "center": [
+        240,
+        -170
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "mistsea",
+      "name": "The Crimson Shallows",
+      "ref": "dark_05",
+      "center": [
+        300,
+        -40
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "spires",
+      "name": "The Green Needles",
+      "ref": "dark_07",
+      "center": [
+        220,
+        80
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "cathedral",
+      "name": "Cathedral of the Far Stars",
+      "ref": "dark_10",
+      "center": [
+        120,
+        180
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "monolith",
+      "name": "The Black Tooth",
+      "ref": "dark_04",
+      "center": [
+        -60,
+        170
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    },
+    {
+      "id": "arch",
+      "name": "The Broken Gate",
+      "ref": "dark_08",
+      "center": [
+        -180,
+        110
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#3a4a3a",
+        "grass": 0.5,
+        "grassTint": "#304a30"
+      },
+      "atmosphere": {}
+    }
+  ],
+  "title": {
+    "secondsPerKey": 16,
+    "keys": [
+      {
+        "pos": [
+          20,
+          4,
+          46
+        ],
+        "target": [
+          -2,
+          6,
+          -6
+        ]
+      },
+      {
+        "pos": [
+          -10,
+          5,
+          38
+        ],
+        "target": [
+          -4,
+          4,
+          -6
+        ]
+      },
+      {
+        "pos": [
+          26,
+          6,
+          18
+        ],
+        "target": [
+          -2,
+          5,
+          -6
+        ]
+      }
+    ]
+  }
+}

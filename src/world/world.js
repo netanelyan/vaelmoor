@@ -106,7 +106,9 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
       const res = await builder(ctx, prop, { x, z, area });
       if (!res) continue;
       if (res.position) [x, z] = res.position;
+      const yAtPos = prop.yAt ? local(prop.yAt) : null;
       const y = res.absY ?? prop.absY
+        ?? (yAtPos ? groundAt(yAtPos[0], yAtPos[1]) + (prop.y ?? 0) : null)
         ?? (prop.aboveWater !== undefined ? terrain.waterLevel(x, z) + prop.aboveWater : groundAt(x, z) + (prop.y ?? 0));
       const rot = (prop.rot ?? 0) * DEG;
       const s = prop.scale ?? 1;

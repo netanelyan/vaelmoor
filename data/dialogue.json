@@ -6,28 +6,63 @@
       "greet": {
         "line": "Another one walks in from the road. You have the look of someone who woke somewhere they did not lie down.",
         "options": [
-          { "text": "What is this place?", "next": "place" },
-          { "text": "Why are the wizards gathered?", "next": "why", "effects": ["objective:conclave.archmage"] },
-          { "text": "Farewell.", "end": true }
+          {
+            "text": "What is this place?",
+            "next": "place"
+          },
+          {
+            "text": "Why are the wizards gathered?",
+            "next": "why",
+            "effects": [
+              "objective:conclave.archmage"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
         ]
       },
       "place": {
         "line": "The Gloaming. The country under the country. Up there they call it a dream, when they call it anything at all.",
         "options": [
-          { "text": "Why are the wizards gathered?", "next": "why", "effects": ["objective:conclave.archmage"] },
-          { "text": "Farewell.", "end": true }
+          {
+            "text": "Why are the wizards gathered?",
+            "next": "why",
+            "effects": [
+              "objective:conclave.archmage"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
         ]
       },
       "why": {
         "line": "The moon has not moved in nine nights. Something under the Keep is turning in its sleep. Go to the dark water and find the Pale Wanderer. He listens to the lake.",
         "options": [
-          { "text": "I will find him.", "end": true, "effects": ["track:conclave"] },
-          { "text": "What is under the Keep?", "next": "keep" }
+          {
+            "text": "I will find him.",
+            "end": true,
+            "effects": [
+              "track:conclave"
+            ]
+          },
+          {
+            "text": "What is under the Keep?",
+            "next": "keep"
+          }
         ]
       },
       "keep": {
         "line": "If I knew that, I would not need you.",
-        "options": [{ "text": "Farewell.", "end": true }]
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
       }
     }
   },
@@ -37,7 +72,12 @@
     "nodes": {
       "greet": {
         "line": "Speak to Velloran. We are only here to listen.",
-        "options": [{ "text": "Farewell.", "end": true }]
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
       }
     }
   },
@@ -48,13 +88,24 @@
       "greet": {
         "line": "Don't mind me. Tall folk talk, I smoke. Between us we get very little done.",
         "options": [
-          { "text": "What are they talking about?", "next": "talk" },
-          { "text": "Farewell.", "end": true }
+          {
+            "text": "What are they talking about?",
+            "next": "talk"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
         ]
       },
       "talk": {
         "line": "The moon, the Keep, the end of everything. Same as last time. Same as the time before.",
-        "options": [{ "text": "Farewell.", "end": true }]
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
       }
     }
   },
@@ -65,13 +116,27 @@
       "greet": {
         "line": "The water is very still tonight. That is how you know it is listening back.",
         "options": [
-          { "text": "Velloran sent me.", "next": "sent", "effects": ["objective:conclave.pale"] },
-          { "text": "Farewell.", "end": true }
+          {
+            "text": "Velloran sent me.",
+            "next": "sent",
+            "effects": [
+              "objective:conclave.pale"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
         ]
       },
       "sent": {
         "line": "Then walk the cobbled road to the end, to Vaelmoor Keep. Whatever wakes below it is dreaming of the surface. Do not let it finish the dream.",
-        "options": [{ "text": "I'll go.", "end": true }]
+        "options": [
+          {
+            "text": "I'll go.",
+            "end": true
+          }
+        ]
       }
     }
   },
@@ -81,7 +146,12 @@
     "nodes": {
       "greet": {
         "line": "I came here to wash the blood from my armour. That was a long time ago. The water never gets any cleaner.",
-        "options": [{ "text": "Farewell.", "end": true }]
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
       }
     }
   },
@@ -91,7 +161,12 @@
     "nodes": {
       "greet": {
         "line": "Mm. Not yet. Wake me when the moon moves.",
-        "options": [{ "text": "Leave him be.", "end": true }]
+        "options": [
+          {
+            "text": "Leave him be.",
+            "end": true
+          }
+        ]
       }
     }
   },
@@ -102,13 +177,62 @@
       "greet": {
         "line": "...",
         "options": [
-          { "text": "Offer the golden skull.", "next": "offer", "requires": "golden_skull", "effects": ["objective:keeper.return"] },
-          { "text": "Step back.", "end": true }
+          {
+            "text": "Offer the golden skull.",
+            "next": "offer",
+            "requires": "golden_skull",
+            "effects": [
+              "objective:keeper.return"
+            ]
+          },
+          {
+            "text": "Step back.",
+            "end": true
+          }
         ]
       },
       "offer": {
         "line": "It takes the skull without a sound. For a moment the green light in its ribs burns like a lantern.",
-        "options": [{ "text": "Step back.", "end": true }]
+        "options": [
+          {
+            "text": "Step back.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "wanderer": {
+    "name": "The Hooded Wanderer",
+    "start": "greet",
+    "nodes": {
+      "greet": {
+        "line": "The moon has been full for nine nights. It should not be. Something under the hills is holding it there.",
+        "options": [
+          {
+            "text": "What is under the hills?",
+            "next": "under",
+            "effects": [
+              "objective:barrow.wanderer"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "under": {
+        "line": "Old barrows. Doors that go down further than they should. East of here, past the cold standing stones. Go down, and you will dream with your eyes open.",
+        "options": [
+          {
+            "text": "I will find the door.",
+            "end": true,
+            "effects": [
+              "track:barrow"
+            ]
+          }
+        ]
       }
     }
   }

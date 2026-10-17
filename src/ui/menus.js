@@ -124,3 +124,38 @@ export class SettingsScreen {
     return this.list.key(e);
   }
 }
+
+/** Photo-mode menu: every reference shot in every realm (F2). */
+export class PhotoMenu {
+  constructor(root, { onChoose, onBack }) {
+    this.root = el('div', 'ui ui-vignette ui-fade ui-off', null, root);
+    this.root.id = 'photomenu';
+    const panel = el('div', 'panel interactive', null, this.root);
+    el('div', 'head', 'PHOTO MODE', panel);
+    rule({ diamond: true }, panel);
+    this.list = new List(panel, { onChoose: (it) => onChoose(it.shot.id) });
+    const hint = el('div', 'hint', null, this.root);
+    keyBadge('E', hint); el('span', '', 'Go', hint);
+    keyBadge('ESC', hint); el('span', '', 'Back', hint);
+    this.onBack = onBack;
+  }
+
+  show(shots) {
+    const keyName = (s) => (s.realm.id === 'surface' ? `SHIFT ${s.key % 10}` : s.key <= 9 ? String(s.key) : '');
+    this.list.set(shots.map((s) => ({
+      shot: s,
+      render: (row) => {
+        el('span', 'realm', s.realm.id === 'surface' ? 'VAELMOOR' : 'GLOAMING', row);
+        el('span', 'name', s.name, row);
+        el('span', 'ref', `${s.ref}${keyName(s) ? ' · ' + keyName(s) : ''}`, row);
+      },
+    })));
+    show(this.root, true);
+  }
+
+  hide() { show(this.root, false); }
+  key(e) {
+    if (e.code === 'Escape' || e.code === 'F2') { this.onBack(); return true; }
+    return this.list.key(e);
+  }
+}

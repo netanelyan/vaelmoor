@@ -4,6 +4,8 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { SharpenPass } from './sharpen.js';
+import { PainterlyPass } from './painterly.js';
 
 // Display-referred grade, applied after ACES + sRGB output:
 // hard saturation/vibrance, S-curve contrast, blacks crushed into a tinted
@@ -82,10 +84,15 @@ export class PostFX {
     this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x, size.y), 0.9, 0.7, 0.6);
     this.output = new OutputPass();
     this.grade = new ShaderPass(GradeShader);
+    this.sharpen = new SharpenPass();
+    this.painterly = new PainterlyPass();
+    // HDR: render -> dream sharpen -> bloom ; display: ACES -> grade -> painterly
     this.composer.addPass(this.renderPass);
+    this.composer.addPass(this.sharpen);
     this.composer.addPass(this.bloom);
     this.composer.addPass(this.output);
     this.composer.addPass(this.grade);
+    this.composer.addPass(this.painterly);
   }
 
   setSize(w, h) {
@@ -111,8 +118,29 @@ export class PostFX {
     this.renderer.toneMappingExposure = p.exposure;
   }
 
+  /** Apply a blended render profile (see world/profiles.js). */
+  applyProfile(pr) {
+    this.sharpen.amountLarge = pr.sharpen.large;
+    this.sharpen.amountSmall = pr.sharpen.small;
+    this.sharpen.enabled = pr.sharpen.large + pr.sharpen.small > 0.01;
+    const P = pr.painterly;
+    this.painterly.mix = P.amount;
+    this.painterly.enabled = P.amount > 0.001;
+    this.painterly.kuwaharaMat.uniforms.radius.value = Math.min(P.radius, this.maxPaintRadius ?? 8);
+    const u = this.painterly.uniforms;
+    for (const k of ['contrast', 'saturation', 'canvas', 'posterize', 'posterizeAmount', 'grain', 'vignette', 'crush', 'redKeep', 'desat', 'edge']) u[k].value = P[k];
+    u.shadowTint.value.copy(P.shadowTint);
+    u.highlightTint.value.copy(P.highlightTint);
+    // the dream grain/vignette in the grade pass fade out as paint takes over
+    this.grade.uniforms.grain.value = 0.045 * (1 - P.amount);
+  }
+
+  /** Set the active scene (realms) without rebuilding the chain. */
+  setScene(scene) { this.renderPass.scene = scene; }
+
   render(dt, time) {
     this.grade.uniforms.time.value = time;
+    this.painterly.uniforms.time.value = time;
     this.composer.render(dt);
   }
 }

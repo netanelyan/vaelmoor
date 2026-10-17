@@ -13,6 +13,7 @@ export const roadSheen = { value: 1.2 };
 
 export class Road {
   constructor(def, bounds) {
+    this.def = def;
     this.width = def.width ?? 6;
     this.half = this.width / 2;
     const pts = def.points.map(([x, z]) => new THREE.Vector3(x, 0, z));
@@ -135,8 +136,9 @@ export class Road {
         pos[k * 3] = this.x[r] + nx * off;
         pos[k * 3 + 1] = this.y[r] + (edge ? -0.12 : crown + 0.02);
         pos[k * 3 + 2] = this.z[r] + nz * off;
-        uv[k * 2] = (off + this.half) / 3.2;
-        uv[k * 2 + 1] = (r * STEP) / 3.2;
+        const us = this.def.material?.uvScale ?? 3.2;
+        uv[k * 2] = (off + this.half) / us;
+        uv[k * 2 + 1] = (r * STEP) / us;
         const e = smoothstep(0.75, 1.05, Math.abs(a)); // darker, mossier edges
         col[k * 3] = tmp.r * (1 - 0.45 * e);
         col[k * 3 + 1] = tmp.g * (1 - 0.3 * e);
@@ -156,7 +158,22 @@ export class Road {
     geo.setIndex(idx);
     geo.computeVertexNormals();
 
-    const tex = assets.pbr('cobblestone_floor_01', [1, 1]);
+    const M = this.def.material || {};
+    const tex = assets.pbr(M.texture || 'cobblestone_floor_01', [1, 1]);
+    if (M.matte) {
+      // painted surface: plain matte dirt, no sheen at all
+      const mat = new THREE.MeshStandardMaterial({ ...tex, vertexColors: true, color: M.color ?? 0x9a8a80, roughness: 1, envMapIntensity: 0.25 });
+      // same albedo lift as the terrain's ground layer so path and grass sit in one value range
+      const boost = (M.boost ?? 2.4).toFixed(2);
+      mat.onBeforeCompile = (sh) => {
+        sh.fragmentShader = sh.fragmentShader.replace('#include <color_fragment>', `#include <color_fragment>\n diffuseColor.rgb *= ${boost};`);
+      };
+      stylize(mat, { rim: 0.05 });
+      const mesh = new THREE.Mesh(geo, mat);
+      mesh.receiveShadow = true;
+      mesh.name = 'road';
+      return (this.mesh = mesh);
+    }
     const mat = new THREE.MeshPhysicalMaterial({
       ...tex,
       vertexColors: true,

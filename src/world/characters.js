@@ -214,6 +214,11 @@ const POSES = {
     spine: [-12, 0, 0], chest: [4, 0, 0], head: [24, 10, 0],
     shoulderL: [-18, 0, 16], elbowL: [-50, 0, 0], shoulderR: [-10, 0, -22], elbowR: [-24, 0, 0],
   },
+  walk: { hipL: [-14, 0, 0], kneeL: [8, 0, 0], hipR: [12, 0, 0], kneeR: [18, 0, 0], shoulderL: [10, 0, 6], shoulderR: [-12, 0, -6], head: [8, 0, 0], spine: [4, 0, 0] },
+  bowed: { spine: [14, 0, 0], chest: [8, 0, 0], head: [26, 0, 0], shoulderL: [-30, 0, 18], elbowL: [-60, 0, -20], shoulderR: [-30, 0, -18], elbowR: [-60, 0, 20] },
+  torch: { shoulderR: [-70, 0, -8], elbowR: [-60, 0, 10], shoulderL: [-12, 0, 10], elbowL: [-40, 0, 0], head: [6, -10, 0] },
+  kneel: { hipL: [-95, 0, 6], kneeL: [100, 0, 0], hipR: [-10, 0, -6], kneeR: [95, 0, 0], spine: [16, 0, 0], head: [20, 0, 0],
+    shoulderL: [-30, 0, 12], elbowL: [-60, 0, 0], shoulderR: [-30, 0, -12], elbowR: [-60, 0, 0] },
   reach: { shoulderR: [-70, 0, -10], elbowR: [-10, 0, 0], shoulderL: [-10, 0, 10], elbowL: [-30, 0, 0], head: [-10, 0, 0], spine: [6, 0, 0] },
 };
 
@@ -226,6 +231,7 @@ function applyPose(rig, name) {
   // sitting poses drop the pelvis to seat height
   if (name === 'sit' || name === 'sitSword') rig.pelvis.position.y = 0.5;
   if (name === 'rest') rig.pelvis.position.y = 0.12;
+  if (name === 'kneel') rig.pelvis.position.y = 0.55;
 }
 
 // ------------------------------------------------------------ parts
@@ -693,4 +699,54 @@ export function goldenSkull(ctx, o = {}) {
   s.rotation.set(-0.15, 0, 0.12);
   g.add(s);
   return { object: bake(g), colliders: [{ x: 0, z: 0, r: 0.3 }], lights: [{ x: 0, y: 0.8, z: 0.6, color: '#ffb040', intensity: 3, distance: 6 }] };
+}
+
+/**
+ * Hooded figure (surface): long robe, deep peaked hood with a black void for a
+ * face. Matte cloth for the painted world; colour sets the mood (black, red, magenta).
+ */
+export function hooded(ctx, o = {}) {
+  const rig = makeRig();
+  const color = o.robe ?? '#14121a';
+  const mat = cached(`hoodcloth:${color}`, () => stylize(new THREE.MeshStandardMaterial({
+    normalMap: ctx.assets.pbr('velour_velvet', [3, 3], { color: false, rough: false }).normalMap,
+    normalScale: new THREE.Vector2(0.5, 0.5), color, roughness: 1, side: THREE.DoubleSide,
+  }), { rim: o.rim ?? 0.35, rimPower: 3 }));
+  const pose = o.pose ?? 'walk';
+  robe(rig, mat, { hemR: o.hemR ?? 0.5, length: 1.02, tattered: o.tattered ?? true, seed: o.seed ?? 17, sitting: false });
+  // hood: shell open at the front, pointed peak, black void inside
+  const hood = new THREE.SphereGeometry(0.17, 22, 16, Math.PI * 0.5 + 0.8, Math.PI * 2 - 1.6, 0, Math.PI * 0.9);
+  hood.scale(1.08, 1.32, 1.22);
+  const hm = mesh(hood, mat);
+  hm.position.set(0, 0.1, -0.02);
+  rig.head.add(hm);
+  const peak = new THREE.ConeGeometry(0.11, 0.2, 12, 1, true);
+  peak.rotateX(-0.75);
+  const pk = mesh(peak, mat);
+  pk.position.set(0, 0.32, -0.1);
+  rig.head.add(pk);
+  const voidm = mesh(new THREE.SphereGeometry(0.13, 12, 10), darkMat(), false);
+  voidm.scale.set(0.9, 1.1, 0.7);
+  voidm.position.set(0, 0.08, 0.04);
+  rig.head.add(voidm);
+  // cape over the shoulders
+  const cape = lathe([[0.12, 0.06], [0.24, -0.06], [0.3, -0.2], [0.31, -0.24]], 20, (a, t) => 0.05 * Math.sin(a * 5) * t);
+  attach(rig.neck, mesh(cape, mat), 0, 0, 0);
+  hands(rig, cached('hoodhand', () => new THREE.MeshStandardMaterial({ color: 0x2a2228, roughness: 1 })));
+  applyPose(rig, pose);
+  const lights = [];
+  if (o.staff) staff(rig, { length: 1.9, seed: o.seed ?? 5 });
+  if (o.torch) {
+    const t = new THREE.Group();
+    t.add(mesh(new THREE.CylinderGeometry(0.02, 0.025, 0.7, 6), woodMat()).translateY(0.15));
+    const flame = mesh(new THREE.ConeGeometry(0.06, 0.22, 8), glowMat(o.torch, 9), false);
+    flame.position.y = 0.6;
+    t.add(flame);
+    t.position.set(0, -0.06, 0.03);
+    rig.handR.add(t);
+    rig.root.updateMatrixWorld(true);
+    t.quaternion.copy(rig.handR.getWorldQuaternion(new THREE.Quaternion()).invert());
+    lights.push({ x: 0.25, y: 2.3, z: 0.3, color: o.torch, intensity: o.torchLight ?? 14, distance: 14, flicker: 0.25 });
+  }
+  return finish(rig, { scale: o.height ? o.height / 1.85 : 1.0, lights });
 }

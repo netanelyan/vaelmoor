@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import { darkCastle } from './buildings.js';
 import { manor, timberHouse, cottage, sandstoneCastle } from './houses.js';
 import { deadTree, greatTree } from './trees.js';
-import { wizard, gnome, knight, skeleton, goldenSkull } from './characters.js';
+import { wizard, gnome, knight, skeleton, goldenSkull, hooded } from './characters.js';
+import { stoneCottage, ruinedTower, monolithTower, ruinedArch, darkKeep, cathedral, alleyRow, campfire, hornedSkull, barrow } from './surface.js';
 import { cragGeometry, rockMaterial, rockGeometry } from './vegetation.js';
 import { stylize } from '../render/materials.js';
 import { mulberry32 } from '../engine/noise.js';
@@ -13,6 +14,17 @@ import { lakeWater } from './water.js';
 
 let crag;
 const cragMaterial = (assets) => (crag ||= rockMaterial(assets, 0x9a88aa, 0.09));
+const cragColors = new Map();
+/** Crag material in a given colour; 'matte' for the painted surface. */
+function coloredCrag(assets, color, matteish) {
+  const key = color + (matteish ? ':m' : '');
+  if (!cragColors.has(key)) {
+    const m = rockMaterial(assets, new THREE.Color(color).getHex(), 0.09);
+    if (matteish) { m.roughness = 1; m.envMapIntensity = 0.15; }
+    cragColors.set(key, m);
+  }
+  return cragColors.get(key);
+}
 
 const kenneyMats = new Map();
 /** Load a Kenney CC0 model and restyle it: keep its palette texture, swap in our PBR + rim. */
@@ -40,6 +52,17 @@ const glowOrb = (hex, intensity, r) => {
 
 export const PROP_BUILDERS = {
   manor: (ctx, p) => manor(ctx, p),
+  hooded: (ctx, p) => hooded(ctx, p),
+  stone_cottage: (ctx, p) => stoneCottage(ctx, p),
+  ruined_tower: (ctx, p) => ruinedTower(ctx, p),
+  monolith_tower: (ctx, p) => monolithTower(ctx, p),
+  ruined_arch: (ctx, p) => ruinedArch(ctx, p),
+  dark_keep: (ctx, p) => darkKeep(ctx, p),
+  cathedral: (ctx, p) => cathedral(ctx, p),
+  alley_row: (ctx, p) => alleyRow(ctx, p),
+  campfire: (ctx, p) => campfire(ctx, p),
+  horned_skull: (ctx, p) => hornedSkull(ctx, p),
+  barrow: (ctx, p) => barrow(ctx, p),
   timber_house: (ctx, p) => timberHouse(ctx, p),
   cottage: (ctx, p) => cottage(ctx, p),
   castle_sandstone: (ctx, p) => sandstoneCastle(ctx, p),
@@ -102,7 +125,8 @@ export const PROP_BUILDERS = {
   crag: (ctx, p) => {
     const rand = mulberry32(p.seed ?? 1);
     const geo = cragGeometry(p.seed ?? 1, 3);
-    const m = new THREE.Mesh(geo, cragMaterial(ctx.assets));
+    const mat = p.color ? coloredCrag(ctx.assets, p.color, p.matte) : cragMaterial(ctx.assets);
+    const m = new THREE.Mesh(geo, mat);
     const [sx, sy, sz] = p.size ?? [10, 12, 10];
     m.scale.set(sx, sy, sz);
     m.rotation.set((rand() - 0.5) * 0.3, rand() * 6.28, (rand() - 0.5) * 0.3);

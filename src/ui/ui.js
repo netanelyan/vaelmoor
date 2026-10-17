@@ -1,7 +1,7 @@
 import { show } from './kit.js';
 import { HUD } from './hud.js';
 import { DialogueScreen } from './dialogue.js';
-import { PauseMenu, SettingsScreen } from './menus.js';
+import { PauseMenu, SettingsScreen, PhotoMenu } from './menus.js';
 import { JournalScreen } from './journal.js';
 import { TitleScreen, driftCamera } from './title.js';
 import { settings } from '../game/settings.js';
@@ -13,7 +13,7 @@ import { load, save } from '../game/store.js';
 
 export class GameUI {
   constructor(ctx) {
-    Object.assign(this, ctx); // input, canvas, camera, player, world, region, quests, vitals, dialogues, photo
+    Object.assign(this, ctx); // input, canvas, camera, player, realm, quests, vitals, dialogues, photo
     const root = document.getElementById('ui');
     this.hud = new HUD(root);
     this.title = new TitleScreen(root);
@@ -28,6 +28,7 @@ export class GameUI {
       onClose: () => this.setState(this.journalFrom || 'play'),
       onTrack: (id) => { this.quests.tracked = id; },
     });
+    this.photoMenu = new PhotoMenu(root, { onChoose: (id) => this.onPhoto?.(id), onBack: () => this.setState('play') });
     this.state = 'loading';
     this.titleTime = 0;
     this.target = null;
@@ -47,6 +48,10 @@ export class GameUI {
     settings.onChange((k, v) => { if (k === 'showFps') this.hud.setFps(v); });
   }
 
+  get world() { return this.realm.world; }
+  get region() { return this.realm.region; }
+  setRealm(r) { this.realm = r; }
+
   // ------------------------------------------------------------ states
   get simulating() { return this.state === 'play' || this.state === 'dialogue' || this.state === 'title' || this.state === 'photo'; }
   get playerControl() { return this.state === 'play'; }
@@ -58,6 +63,8 @@ export class GameUI {
     if (s !== 'pause') this.pause.hide();
     if (s !== 'settings') this.settingsScreen.hide();
     if (s !== 'journal') this.journal.hide();
+    if (s !== 'photomenu') this.photoMenu.hide();
+    if (s === 'photomenu') this.photoMenu.show(this.photo.list());
     this.hud.setVisible(s === 'play' || s === 'dialogue');
     show(this.hud.crosshair, s === 'play');
     show(this.hud.compass, s === 'play');
@@ -89,6 +96,7 @@ export class GameUI {
   // ------------------------------------------------------------ input
   onKey(e) {
     if (e.code === 'F3') { settings.set('showFps', !settings.get('showFps')); e.preventDefault?.(); return; }
+    if (e.code === 'F2' && ['play', 'photo'].includes(this.state)) { e.preventDefault?.(); this.setState('photomenu'); return; }
     switch (this.state) {
       case 'title':
         if (!/^Digit|^F\d/.test(e.code)) this.startGame();
@@ -103,6 +111,7 @@ export class GameUI {
         else this.pause.key(e);
         return;
       case 'settings': this.settingsScreen.key(e); return;
+      case 'photomenu': this.photoMenu.key(e); return;
       case 'journal': e.preventDefault?.(); this.journal.key(e); return;
       case 'dialogue': e.preventDefault?.(); this.dialogue.key(e); return;
       default:
@@ -205,12 +214,13 @@ export class GameUI {
   // ------------------------------------------------------------ save / load
   saveGame() {
     const pl = this.player;
-    save('save1', { pos: [pl.pos.x, pl.pos.z], yaw: pl.yaw, pitch: pl.pitch, quests: this.quests.toJSON(), vitals: this.vitals.toJSON(), taken: this.world.interactables.list.filter((x) => x.kind === 'item' && !x.enabled).map((x) => x.id) });
+    save('save1', { realm: this.realm.id, pos: [pl.pos.x, pl.pos.z], yaw: pl.yaw, pitch: pl.pitch, quests: this.quests.toJSON(), vitals: this.vitals.toJSON(), taken: this.world.interactables.list.filter((x) => x.kind === 'item' && !x.enabled).map((x) => x.id) });
   }
 
   loadGame() {
     const s = load('save1');
     if (!s) return false;
+    if (s.realm && s.realm !== this.realm.id) this.switchRealm?.(s.realm);
     this.player.teleport(s.pos[0], s.pos[1], s.yaw, s.pitch);
     this.quests.restore(s.quests);
     this.vitals.restore(s.vitals);

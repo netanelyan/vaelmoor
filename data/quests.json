@@ -1,6 +1,35 @@
 {
   "quests": [
     {
+      "id": "barrow",
+      "title": "Beneath Vaelmoor",
+      "summary": "A hooded wanderer spoke of doors under the hills.",
+      "description": [
+        "The moon over Vaelmoor has hung full and white for nine nights. The wanderer on the cottage path says something below the hills is holding it there.",
+        "The old barrows have doors. Some of them, the wanderer says, go down further than they should."
+      ],
+      "objectives": [
+        {
+          "id": "wanderer",
+          "text": "Speak with the hooded wanderer on the cottage path",
+          "type": "talk",
+          "target": "wanderer"
+        },
+        {
+          "id": "door",
+          "text": "Find the barrow door",
+          "type": "discover",
+          "target": "barrow"
+        },
+        {
+          "id": "descend",
+          "text": "Go down through the barrow",
+          "type": "discover",
+          "target": "village"
+        }
+      ]
+    },
+    {
       "id": "conclave",
       "title": "The Conclave Gathers",
       "summary": "The wizards of the Gloaming have gathered at the old house beyond Lanternholt.",
@@ -9,9 +38,24 @@
         "If anyone knows why the sky over the Gloaming never brightens, it is them."
       ],
       "objectives": [
-        { "id": "archmage", "text": "Speak with Archmage Velloran at the Conclave House", "type": "talk", "target": "archmage" },
-        { "id": "pale", "text": "Seek the Pale Wanderer by the dark water", "type": "talk", "target": "pale_wizard" },
-        { "id": "keep", "text": "Walk the road to Vaelmoor Keep", "type": "discover", "target": "castle_road" }
+        {
+          "id": "archmage",
+          "text": "Speak with Archmage Velloran at the Conclave House",
+          "type": "talk",
+          "target": "archmage"
+        },
+        {
+          "id": "pale",
+          "text": "Seek the Pale Wanderer by the dark water",
+          "type": "talk",
+          "target": "pale_wizard"
+        },
+        {
+          "id": "keep",
+          "text": "Walk the road to Vaelmoor Keep",
+          "type": "discover",
+          "target": "castle_road"
+        }
       ]
     },
     {
@@ -23,8 +67,19 @@
         "A skull of gold was taken from that clearing long ago. Perhaps it has found its way back."
       ],
       "objectives": [
-        { "id": "find", "text": "Find the golden skull in the Hollow Pines", "type": "take", "target": "golden_skull" },
-        { "id": "return", "text": "Offer the skull to the Hollow Keeper", "type": "talk", "target": "keeper", "requires": "golden_skull" }
+        {
+          "id": "find",
+          "text": "Find the golden skull in the Hollow Pines",
+          "type": "take",
+          "target": "golden_skull"
+        },
+        {
+          "id": "return",
+          "text": "Offer the skull to the Hollow Keeper",
+          "type": "talk",
+          "target": "keeper",
+          "requires": "golden_skull"
+        }
       ]
     },
     {
@@ -35,7 +90,12 @@
         "You woke on the cobbles with the taste of cold iron in your mouth and no memory of the road behind you. The village ahead was lit, every window, as if it had been waiting."
       ],
       "objectives": [
-        { "id": "arrive", "text": "Find your way into Lanternholt", "type": "discover", "target": "village" }
+        {
+          "id": "arrive",
+          "text": "Find your way into Lanternholt",
+          "type": "discover",
+          "target": "village"
+        }
       ]
     }
   ]

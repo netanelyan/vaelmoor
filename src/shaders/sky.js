@@ -57,12 +57,13 @@ void main() {
   float mdist = facing > 0.0 ? length(muv) : 1e3;
 
   // moon halo on the sky (wide atmospheric glow + tight corona)
+  // angular distance from the moon's edge (radians), so big and small moons
+  // get halos of the same angular size instead of flooding the sky
   float litFrac = 1.0 - 0.6 * moonPhase;
-  float halo = 0.0;
-  if (facing > 0.0) {
-    float a = max(mdist - 1.0, 0.0);
-    halo = moonGlow * litFrac * (1.0 * exp(-a * 1.8) + 0.16 * exp(-a * 0.35)) * smoothstep(0.97, 1.06, mdist);
-  }
+  float moonAng = acos(clamp(facing, -1.0, 1.0));
+  float edgeAng = max(moonAng - atan(moonSize), 0.0);
+  float nearMoon = exp(-edgeAng * 9.0);
+  float halo = moonGlow * litFrac * (0.8 * exp(-edgeAng * 30.0) + 0.1 * exp(-edgeAng * 7.0)) * smoothstep(0.97, 1.06, mdist);
   col += moonColor * halo;
 
   // --- stars
@@ -134,9 +135,8 @@ void main() {
     cc *= 0.93 + 0.12 * strokes;
     // silver lining on thin edges, strongest near the moon
     float edge = clamp(1.0 - abs(dens - 0.4) * 2.2, 0.0, 1.0) * lit;
-    float nearMoon = facing > 0.0 ? exp(-max(mdist - 1.0, 0.0) * 0.1) : 0.0;
     cc += cloudRim * edge * (0.3 + 1.6 * nearMoon);
-    cc += moonColor * nearMoon * 0.3 * moonGlow * lit;
+    cc += moonColor * nearMoon * 0.18 * moonGlow * lit;
     cc *= cloudBright;
     cc = mix(cc, horizon * 1.05, exp(-hp * 8.0) * 0.6);
     // let the moon glow through thinner cloud
@@ -151,7 +151,7 @@ void main() {
     vec2 off = vec2(0.62, 0.22) * moonPhase * 1.25;
     float shadow = moonPhase > 0.01 ? 1.0 - smoothstep(0.93, 1.02, length(muv - off)) : 0.0;
     float maria = fbm3(muv * 2.2 + 3.0);
-    float surface = 0.78 + 0.35 * smoothstep(0.35, 0.75, maria) - 0.18 * smoothstep(0.55, 0.8, fbm3(muv * 6.0));
+    float surface = 0.82 - 0.32 * smoothstep(0.42, 0.7, maria) - 0.14 * smoothstep(0.5, 0.8, fbm3(muv * 5.0 + 9.0)) + 0.08 * fbm3(muv * 14.0);
     float limb = 0.85 + 0.15 * sqrt(max(0.0, 1.0 - mdist * mdist));
     float lit = disc * (1.0 - shadow);
     vec3 mcol = moonColor * moonBright * surface * limb;

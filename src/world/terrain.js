@@ -92,6 +92,18 @@ export class Terrain {
           rockBoost = Math.max(rockBoost, wall * inside);
           break;
         }
+        case 'trench': {
+          // ramp cut into the ground from 'from' (surface) down to 'to' (depth)
+          const [ax, az] = f.from, [bx, bz] = f.to;
+          const sx = bx - ax, sz = bz - az, L2 = sx * sx + sz * sz;
+          const t = Math.max(0, Math.min(1, ((x - ax) * sx + (z - az) * sz) / L2));
+          const d = Math.hypot(x - (ax + sx * t), z - (az + sz * t));
+          const inside = 1 - smoothstep(f.width / 2, f.width / 2 + 0.6, d);
+          const extend = ((x - ax) * sx + (z - az) * sz) / L2;
+          if (extend < -0.05 || extend > 1.15) break;
+          h -= f.depth * Math.min(1, Math.max(0, extend)) * inside;
+          break;
+        }
         case 'mound': {
           const r = Math.hypot(dx, dz);
           const w = 1 - smoothstep(f.radius * 0.6, f.radius, r);
@@ -189,9 +201,24 @@ export class Terrain {
     }
     geo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     geo.setAttribute('aRock', new THREE.BufferAttribute(rockAttr, 1));
+    // snow cover from 'snow' features (rock faces stay mostly bare)
+    const snowAttr = new Float32Array(pos.count);
+    const snows = this.features.filter((f) => f.type === 'snow');
+    if (snows.length) {
+      for (let k = 0; k < pos.count; k++) {
+        const x = pos.getX(k), z = pos.getZ(k);
+        let w = 0;
+        for (const f of snows) w = Math.max(w, 1 - smoothstep(f.radius, f.radius + (f.blend ?? 25), Math.hypot(x - f.at[0], z - f.at[1])));
+        w *= 0.85 + 0.15 * this.noise.fbm(x * 0.08, z * 0.08, 2);
+        snowAttr[k] = w * (1 - 0.55 * rockAttr[k]);
+      }
+    }
+    geo.setAttribute('aSnow', new THREE.BufferAttribute(snowAttr, 1));
 
     const grass = assets.pbr(this.def.groundTexture || 'leafy_grass', [1, 1]);
     const rock = assets.pbr(this.def.rockTexture || 'rock_face', [1, 1]);
+    const snow = snows.length ? assets.pbr('snow_02', [1, 1], { rough: false }) : null;
+    const snowTint = new THREE.Color(this.def.snowTint ?? '#c8d0ff');
     const mat = new THREE.MeshStandardMaterial({
       ...grass,
       vertexColors: true,
@@ -201,15 +228,21 @@ export class Terrain {
     mat.onBeforeCompile = (shader) => {
       shader.uniforms.rockMap = { value: rock.map };
       shader.uniforms.rockNormal = { value: rock.normalMap };
+      shader.uniforms.snowMap = { value: snow?.map ?? rock.map };
+      shader.uniforms.snowNormal = { value: snow?.normalMap ?? rock.normalMap };
+      shader.uniforms.snowTint = { value: snowTint };
       shader.vertexShader = shader.vertexShader
         .replace('#include <common>', `#include <common>
           attribute float aRock;
+          attribute float aSnow;
+          varying float vSnow;
           varying float vRock;
           varying vec2 vWUv;
           varying vec3 vTP;
           varying vec3 vTN;`)
         .replace('#include <begin_vertex>', `#include <begin_vertex>
           vRock = aRock;
+          vSnow = aSnow;
           vWUv = uv;
           vTP = position;
           vTN = normal;`);
@@ -217,7 +250,11 @@ export class Terrain {
         .replace('#include <common>', `#include <common>
           uniform sampler2D rockMap;
           uniform sampler2D rockNormal;
+          uniform sampler2D snowMap;
+          uniform sampler2D snowNormal;
+          uniform vec3 snowTint;
           varying float vRock;
+          varying float vSnow;
           varying vec2 vWUv;
           varying vec3 vTP;
           varying vec3 vTN;
@@ -233,6 +270,8 @@ export class Terrain {
           vec3 groundCol = gTex.rgb * vColor.rgb * 2.2;
           vec3 rockCol = rTex * mix(vColor.rgb * 1.6, vec3(0.42, 0.36, 0.5), 0.55);
           diffuseColor.rgb = mix(groundCol, rockCol, rockW);
+          float snowW = vSnow > 0.001 ? smoothstep(0.15, 0.65, vSnow + (gTex2.g - 0.35) * 0.5) : 0.0;
+          diffuseColor.rgb = mix(diffuseColor.rgb, texture2D(snowMap, vWUv * 0.6).rgb * snowTint, snowW);
         `)
         .replace('#include <color_fragment>', '')
         .replace('#include <normal_fragment_maps>', /* glsl */`
@@ -251,6 +290,11 @@ export class Terrain {
             tz = vec3(tz.xy + n.xy, abs(tz.z) * n.z);
             vec3 rockN = normalize((viewMatrix * vec4(normalize(tx.zyx * w.x + ty.xzy * w.y + tz.xyz * w.z), 0.0)).xyz);
             normal = normalize(mix(groundN, rockN, smoothstep(0.25, 0.75, vRock)));
+            if (vSnow > 0.01) {
+              vec3 nS = texture2D(snowNormal, vWUv * 0.6).xyz * 2.0 - 1.0;
+              nS.xy *= normalScale * 1.4;
+              normal = normalize(mix(normal, normalize(tbn * nS), smoothstep(0.15, 0.65, vSnow)));
+            }
           }
         `);
     };

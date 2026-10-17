@@ -149,13 +149,15 @@ export function buildGrass(world, region) {
       .replace('#include <beginnormal_vertex>', 'vec3 objectNormal = vec3(normal.x * cos(aOff.w) - normal.z * sin(aOff.w), normal.y, normal.x * sin(aOff.w) + normal.z * cos(aOff.w));');
     shader.fragmentShader = shader.fragmentShader
       .replace('#include <common>', '#include <common>\nvarying vec3 vGrassTint;\nvarying float vBladeT;\nuniform vec3 rimColor;\nuniform float rimStrength;')
+      // blades are two-sided but must not flip their (upward) normals on the back face
+      .replace('#include <normal_fragment_begin>', THREE.ShaderChunk.normal_fragment_begin.replaceAll('normal *= faceDirection;', ''))
       .replace('#include <color_fragment>', 'diffuseColor.rgb *= vGrassTint * mix(0.35, 1.6, vBladeT);')
       .replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\ntotalEmissiveRadiance += rimColor * rimStrength * 0.07 * vBladeT * vBladeT;');
   };
   mat.customProgramCacheKey = () => 'grass-field';
   const mesh = new THREE.Mesh(geo, mat);
   mesh.frustumCulled = false;
-  mesh.receiveShadow = true;
+  mesh.receiveShadow = false; // thin blades only shadow-acne; ground shadows read fine
   mesh.name = 'grass';
   return mesh;
 }

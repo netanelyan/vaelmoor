@@ -1,34 +1,44 @@
 import * as THREE from 'three';
 
-// Dev "photo mode": number keys jump the camera to the framing that matches
-// each reference shot (defined per area in the region JSON as `shot`).
-// Moving (WASD/Space) drops back into normal play from that spot; 0 exits.
+// Dev "photo mode": jumps the camera to the framing that matches a reference
+// shot (each area's `shot` in the region JSON). Shots are addressed as
+// "<realm>:<key>", e.g. "gloaming:2" or "surface:1". Moving drops back into
+// normal play from that spot.
 
 const DEG = Math.PI / 180;
 
 export class PhotoMode {
-  constructor({ camera, player, world, region }) {
-    Object.assign(this, { camera, player, world });
+  constructor({ camera, player, realms, onRealm }) {
+    Object.assign(this, { camera, player, onRealm });
     this.shots = new Map();
-    for (const a of region.areas) {
-      if (!a.shot) continue;
-      const s = a.shot;
-      const [x, z] = [a.center[0] + s.at[0], a.center[1] + s.at[1]];
-      const y = world.groundAt(x, z) + (s.height ?? 1.7);
-      const [tx, tz] = [a.center[0] + s.target[0], a.center[1] + s.target[1]];
-      const ty = (s.targetAbsY ?? world.groundAt(tx, tz)) + (s.target[2] ?? 0);
-      this.shots.set(String(s.key), {
-        key: s.key, area: a.id, name: a.name, ref: a.ref,
-        pos: new THREE.Vector3(x, y, z), target: new THREE.Vector3(tx, ty, tz), fov: s.fov ?? 60, roll: (s.roll ?? 0) * DEG,
-      });
+    for (const realm of realms) {
+      const { world, region } = realm;
+      for (const a of region.areas) {
+        if (!a.shot) continue;
+        const s = a.shot;
+        const [x, z] = [a.center[0] + s.at[0], a.center[1] + s.at[1]];
+        const y = (s.absY ?? world.groundAt(x, z)) + (s.height ?? 1.7);
+        const [tx, tz] = [a.center[0] + s.target[0], a.center[1] + s.target[1]];
+        const ty = (s.targetAbsY ?? world.groundAt(tx, tz)) + (s.target[2] ?? 0);
+        const id = `${realm.id}:${s.key}`;
+        this.shots.set(id, {
+          id, key: s.key, realm, area: a.id, name: a.name, ref: a.ref,
+          pos: new THREE.Vector3(x, y, z), target: new THREE.Vector3(tx, ty, tz), fov: s.fov ?? 60, roll: (s.roll ?? 0) * DEG,
+        });
+      }
     }
     this.active = null;
-    this.defaultFov = camera.fov;
   }
 
-  enter(key) {
-    const s = this.shots.get(String(key));
+  /** All shots, grouped by realm then key (for menus and tools). */
+  list() {
+    return [...this.shots.values()].sort((a, b) => (a.realm.id === b.realm.id ? a.key - b.key : a.realm.id < b.realm.id ? -1 : 1));
+  }
+
+  enter(id) {
+    const s = this.shots.get(id);
     if (!s) return false;
+    this.onRealm(s.realm);
     this.active = s;
     const c = this.camera;
     c.position.copy(s.pos);
@@ -44,11 +54,11 @@ export class PhotoMode {
     return true;
   }
 
-  exit() {
+  exit(fov) {
     if (!this.active) return;
     const c = this.camera;
     this.player.teleport(c.position.x, c.position.z, this.player.yaw, this.player.pitch);
-    c.fov = this.defaultFov;
+    c.fov = fov;
     c.updateProjectionMatrix();
     this.active = null;
   }
