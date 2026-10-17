@@ -82,6 +82,69 @@ export function pineGeometry({ tiers = 7, segs = 11, seed = 3, lod = 0 } = {}) {
   return merged;
 }
 
+/**
+ * Card pine (near LOD): a dark core cone per tier for density, plus rings of
+ * drooping crossed fir-bough cards (alpha-tested CC0 needle texture) so the
+ * silhouette is ragged and needly instead of faceted. Height ~1 unit.
+ * Vertex colour: shade (rgb). The 'aCard' attribute is 1 on cards, 0 on core/trunk.
+ */
+export function cardPineGeometry({ tiers = 7, seed = 3 } = {}) {
+  const rand = mulberry32(seed);
+  const parts = [];
+  const tag = (g, card, shade) => {
+    const n = g.attributes.position.count;
+    g.setAttribute('aCard', new THREE.Float32BufferAttribute(new Float32Array(n).fill(card), 1));
+    const col = new Float32Array(n * 3);
+    for (let i = 0; i < n; i++) { col[i * 3] = shade[0]; col[i * 3 + 1] = shade[1]; col[i * 3 + 2] = shade[2]; }
+    g.setAttribute('color', new THREE.BufferAttribute(col, 3));
+    if (!g.attributes.uv) g.setAttribute('uv', new THREE.Float32BufferAttribute(new Float32Array(n * 2), 2));
+    return g.index ? g.toNonIndexed() : g;
+  };
+  const trunk = new THREE.CylinderGeometry(0.012, 0.03, 0.4, 6, 1);
+  trunk.translate(0, 0.2, 0);
+  parts.push(tag(trunk, 0, [0.12, 0.08, 0.07]));
+  for (let t = 0; t < tiers; t++) {
+    const f = t / (tiers - 1);
+    const top = 0.26 + f * 0.74;
+    const radius = (1 - f * 0.86) * 0.27 + 0.03;
+    const len = 0.28 - f * 0.12;
+    // dark core: fills the gaps between boughs
+    const core = new THREE.ConeGeometry(radius * 0.62, len * 1.05, 8, 1, true);
+    core.translate(0, top - len * 0.52, 0);
+    parts.push(tag(core, 0, [0.05, 0.1, 0.08]));
+    const n = Math.max(4, Math.round(10 - f * 6));
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + rand() * 0.5;
+      const L = radius * (1.0 + rand() * 0.25), Wd = L * 0.36;
+      const droop = 0.35 + rand() * 0.2;
+      for (const cross of [0, 1]) {
+        const q = new THREE.PlaneGeometry(L, Wd, 2, 1);
+        q.translate(L / 2, 0, 0); // base at the trunk
+        if (cross) q.rotateX(Math.PI / 2);
+        // droop: bend along its length
+        const p = q.attributes.position;
+        for (let k = 0; k < p.count; k++) {
+          const x = p.getX(k);
+          p.setY(k, p.getY(k) - droop * x * x / L);
+        }
+        q.rotateY(-a);
+        q.translate(0, top - len * 0.25 - rand() * len * 0.15, 0);
+        const sh = 0.75 + rand() * 0.4;
+        parts.push(tag(q, 1, [sh, sh, sh]));
+      }
+    }
+  }
+  const g = mergeGeometries(parts);
+  g.computeVertexNormals();
+  // normals point out from the tree axis: soft, rounded shading for cards
+  const p = g.attributes.position, nrm = g.attributes.normal, v = new THREE.Vector3();
+  for (let i = 0; i < p.count; i++) {
+    v.set(p.getX(i), 0.35, p.getZ(i)).normalize();
+    nrm.setXYZ(i, v.x, v.y, v.z);
+  }
+  return g;
+}
+
 /** Lumpy rock: displaced icosahedron, ~1 unit wide. */
 export function rockGeometry(seed = 1, detail = 2) {
   const rand = mulberry32(seed);
@@ -206,6 +269,7 @@ export class InstancedScatter {
         im.instanceMatrix.needsUpdate = true;
         im.computeBoundingSphere();
         im.castShadow = shadow;
+        if (mat.userData.depthMaterial) im.customDepthMaterial = mat.userData.depthMaterial;
         im.receiveShadow = true;
         this.group.add(im);
         return im;
@@ -228,18 +292,34 @@ export class InstancedScatter {
   }
 }
 
-export function makePineScatter() {
-  const tex = needleTexture();
-  const mat = new THREE.MeshStandardMaterial({ vertexColors: true, map: tex, roughness: 0.92, envMapIntensity: 0.2 });
+export function makePineScatter(assets) {
+  const bough = assets.texture('assets/textures/fir_branch.png', { srgb: true });
+  bough.wrapS = bough.wrapT = THREE.ClampToEdgeWrapping;
+  const mat = new THREE.MeshStandardMaterial({ vertexColors: true, map: bough, alphaTest: 0.42, side: THREE.DoubleSide, roughness: 0.9, envMapIntensity: 0.2 });
+  // core/trunk parts ignore the bough texture (aCard = 0)
+  mat.onBeforeCompile = (sh) => {
+    sh.vertexShader = sh.vertexShader
+      .replace('#include <common>', '#include <common>\nattribute float aCard;\nvarying float vCard;')
+      .replace('#include <begin_vertex>', '#include <begin_vertex>\nvCard = aCard;');
+    sh.fragmentShader = sh.fragmentShader
+      .replace('#include <common>', '#include <common>\nvarying float vCard;')
+      .replace('#include <map_fragment>', `#ifdef USE_MAP
+        vec4 mc = texture2D(map, vMapUv);
+        if (vCard > 0.5) diffuseColor *= mc; else diffuseColor.rgb *= vec3(0.32, 0.45, 0.34);
+      #endif`);
+  };
   stylize(mat, { rim: 0.12, rimPower: 4.0, sway: 0.012, swayHeight: 1 });
+  // alpha-tested shadows: the depth pass must respect the bough cut-outs
+  mat.userData.depthMaterial = new THREE.MeshDepthMaterial({ depthPacking: THREE.RGBADepthPacking, map: bough, alphaTest: 0.42, side: THREE.DoubleSide });
   const farMat = new THREE.MeshStandardMaterial({ vertexColors: true, color: 0x9a9a9a, roughness: 0.95, envMapIntensity: 0.2 });
   stylize(farMat, { rim: 0.12, rimPower: 4.0 });
   return new InstancedScatter({
     name: 'pines',
-    near: pineGeometry({ seed: 11 }),
+    near: cardPineGeometry({ seed: 11 }),
     far: pineGeometry({ seed: 11, lod: 1 }),
     material: mat,
     farMaterial: farMat,
+    nearDist: 80,
   });
 }
 

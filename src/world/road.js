@@ -134,15 +134,15 @@ export class Road {
         const edge = Math.abs(a) > 1.01;
         const crown = 0.1 * (1 - Math.min(1, a * a));
         pos[k * 3] = this.x[r] + nx * off;
-        pos[k * 3 + 1] = this.y[r] + (edge ? -0.12 : crown + 0.02);
+        pos[k * 3 + 1] = this.y[r] + (edge ? -0.04 : crown + 0.02);
         pos[k * 3 + 2] = this.z[r] + nz * off;
         const us = this.def.material?.uvScale ?? 3.2;
         uv[k * 2] = (off + this.half) / us;
         uv[k * 2 + 1] = (r * STEP) / us;
         const e = smoothstep(0.75, 1.05, Math.abs(a)); // darker, mossier edges
-        col[k * 3] = tmp.r * (1 - 0.45 * e);
-        col[k * 3 + 1] = tmp.g * (1 - 0.3 * e);
-        col[k * 3 + 2] = tmp.b * (1 - 0.4 * e);
+        col[k * 3] = tmp.r * (1 - 0.18 * e);
+        col[k * 3 + 1] = tmp.g * (1 - 0.12 * e);
+        col[k * 3 + 2] = tmp.b * (1 - 0.16 * e);
       }
     }
     for (let r = 0; r < rows - 1; r++) {
@@ -177,7 +177,7 @@ export class Road {
     const mat = new THREE.MeshPhysicalMaterial({
       ...tex,
       vertexColors: true,
-      color: 0x403848,
+      color: 0x6a6280,
       roughness: 0.36,
       metalness: 0.1,
       normalScale: new THREE.Vector2(1.6, 1.6),

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries, mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 import { mulberry32 } from '../engine/noise.js';
-import { stylize, canvasTexture } from '../render/materials.js';
+import { stylize } from '../render/materials.js';
 
 // Hero trees built from a recursive branching generator: the twisted black
 // dead tree (ref_01) and the huge sentinel oak with leaf-card canopy (ref_10).
@@ -96,28 +96,11 @@ export function deadTree(ctx, o = {}) {
   return { object: g, colliders: [{ x: 0, z: 0, r: (o.radius ?? 0.55) * 1.6 }] };
 }
 
-let _leafTex;
-function leafTexture() {
-  return (_leafTex ||= canvasTexture(256, 256, (g, w, h) => {
-    const r = mulberry32(8);
-    g.clearRect(0, 0, w, h);
-    for (let i = 0; i < 420; i++) {
-      const rr = Math.sqrt(r()) * (w * 0.44), ang = r() * Math.PI * 2;
-      const x = w / 2 + Math.cos(ang) * rr, y = h / 2 + Math.sin(ang) * rr, s = 7 + r() * 11, a = r() * Math.PI * 2;
-      const l = 140 + r() * 115;
-      g.save();
-      g.translate(x, y);
-      g.rotate(a);
-      g.fillStyle = `rgb(${l * 0.9},${l},${l * 0.85})`;
-      g.beginPath();
-      g.ellipse(0, 0, s * 0.45, s, 0, 0, Math.PI * 2);
-      g.fill();
-      g.strokeStyle = 'rgba(40,40,40,0.5)';
-      g.lineWidth = 1;
-      g.beginPath(); g.moveTo(0, -s); g.lineTo(0, s); g.stroke();
-      g.restore();
-    }
-  }));
+/** Real oak-leaf clump card (CC0 ambientCG LeafSet016, composed by tools/make-leaf-clump.mjs). */
+function clumpTexture(assets) {
+  const t = assets.texture('assets/textures/oak_leaf_clump.png', { srgb: true });
+  t.wrapS = t.wrapT = THREE.ClampToEdgeWrapping;
+  return t;
 }
 
 /** ref_10: huge broad oak — thick trunk, spreading limbs, leaf-card canopy. */
@@ -145,7 +128,7 @@ export function greatTree(ctx, o = {}) {
     const cr = (2.2 + rand() * 1.6) * S * (o.canopy ?? 1);
     const c = t.pos.clone().addScaledVector(t.dir, cr * 0.4);
     c.y += cr * 0.15;
-    let blob = new THREE.IcosahedronGeometry(cr * 0.85, 2);
+    let blob = new THREE.IcosahedronGeometry(cr * 0.62, 2);
     blob.deleteAttribute('uv');
     blob.deleteAttribute('normal');
     blob = mergeVertices(blob);
@@ -159,14 +142,14 @@ export function greatTree(ctx, o = {}) {
     blob.computeVertexNormals();
     blob.setAttribute('uv', new THREE.BufferAttribute(new Float32Array(bp.count * 2), 2));
     blobs.push(blob);
-    const n = Math.round(260 * (cr / (3 * S)) ** 2);
+    const n = Math.round(200 * (cr / (3 * S)) ** 2);
     for (let i = 0; i < n; i++) {
       const u = rand() * 2 - 1, a = rand() * Math.PI * 2;
       const r = Math.sqrt(1 - u * u);
       p.set(r * Math.cos(a), u * 0.7, r * Math.sin(a)).multiplyScalar(cr * (0.75 + rand() * 0.35)).add(c);
       e.set(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI);
       q.setFromEuler(e);
-      const s = (0.55 + rand() * 0.5) * S * Math.sqrt(o.canopy ?? 1);
+      const s = (1.3 + rand() * 1.0) * S * Math.sqrt(o.canopy ?? 1);
       m.compose(p, q, sc.set(s, s, s));
       const g = card.clone().applyMatrix4(m);
       // normals point away from the cluster centre for soft, rounded shading
@@ -184,9 +167,9 @@ export function greatTree(ctx, o = {}) {
     }
   }
   const leafCol = new THREE.Color(o.leaves ?? '#2a5a3a');
-  const blobMat = stylize(new THREE.MeshStandardMaterial({ color: leafCol.clone().multiplyScalar(0.8), roughness: 0.95 }), { rim: 0.25, sway: 0.03, swayHeight: 20 });
+  const blobMat = stylize(new THREE.MeshStandardMaterial({ color: leafCol.clone().multiplyScalar(1.1), roughness: 0.95 }), { rim: 0.25, sway: 0.03, swayHeight: 20 });
   const cardMat = stylize(new THREE.MeshStandardMaterial({
-    color: leafCol, map: leafTexture(), vertexColors: true, alphaTest: 0.45, side: THREE.DoubleSide, roughness: 0.85, envMapIntensity: 0.3,
+    color: leafCol.clone().multiplyScalar(1.6), map: clumpTexture(ctx.assets), vertexColors: true, alphaTest: 0.5, side: THREE.DoubleSide, roughness: 0.85, envMapIntensity: 0.3,
   }), { rim: 0.18, rimPower: 3.2, sway: 0.05, swayHeight: 20 });
   const blobMesh = new THREE.Mesh(mergeGeometries(blobs.map((g) => g.toNonIndexed())), blobMat);
   const cardMesh = new THREE.Mesh(mergeGeometries(cards), cardMat);

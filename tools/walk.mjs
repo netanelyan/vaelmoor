@@ -35,6 +35,7 @@ for (let i = 5; i < n - 15; i += 20) {
     v.vitals.stamina = 1; // the check is about the road, not the player's lungs
     return [v.player.pos.x, v.player.pos.z];
   }, i);
+  await page.waitForTimeout(600); // let the post-teleport frame (new chunks, shadow map) settle
   await page.keyboard.down('ShiftLeft');
   await page.keyboard.down('KeyW');
   await page.waitForTimeout(1500);

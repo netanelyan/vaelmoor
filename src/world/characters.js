@@ -39,8 +39,8 @@ export function armorMaterial(assets, color = 0xb4aed0, dull = false) {
   return cached(`armor:${color}`, () => {
     const t = assets.pbr('metal_plate', [2, 2], { color: false });
     const m = new THREE.MeshPhysicalMaterial({
-      color, metalness: 0.55, roughness: 0.42, roughnessMap: t.roughnessMap, normalMap: t.normalMap,
-      normalScale: new THREE.Vector2(0.25, 0.25), clearcoat: 0.3, clearcoatRoughness: 0.2, envMapIntensity: 0.55,
+      color, metalness: 0.55, roughness: 0.55, roughnessMap: t.roughnessMap, normalMap: t.normalMap,
+      normalScale: new THREE.Vector2(0.25, 0.25), clearcoat: 0.0, envMapIntensity: 0.55,
     });
     return stylize(m, { rim: 0.55, rimPower: 3.0 });
   });
@@ -698,7 +698,7 @@ export function skeleton(ctx, o = {}) {
     const hq = rig.handR.getWorldQuaternion(new THREE.Quaternion()).invert();
     g.quaternion.copy(hq).multiply(new THREE.Quaternion().setFromEuler(new THREE.Euler(0.1, 0.6, 0.15)));
   }
-  const lights = [{ x: 0, y: 1.7, z: 0.5, color: glow, intensity: 2.5, distance: 6 }];
+  const lights = [{ x: 0, y: 1.2, z: 0.8, color: glow, intensity: o.light ?? 2.5, distance: 5 }];
   return finish(rig, { scale: o.height ? o.height / 1.85 : 1.1, lights });
 }
 

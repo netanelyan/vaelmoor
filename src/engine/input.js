@@ -28,7 +28,10 @@ export class Input {
 
   on(type, fn) { this.listeners[type].push(fn); }
 
-  requestLock() { this.element.requestPointerLock?.(); }
+  requestLock() {
+    // browsers reject (with a console error) when there was no user gesture: that is fine, the next click locks
+    try { this.element.requestPointerLock?.()?.catch?.(() => {}); } catch { /* older browsers throw */ }
+  }
 
   down(...codes) { return codes.some((c) => this.keys.has(c)); }
 

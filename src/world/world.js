@@ -67,7 +67,7 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   const culled = [];
 
   // --- per-area content
-  const pines = makePineScatter();
+  const pines = makePineScatter(assets);
   const rocks = makeRockScatter(assets);
   const crags = makeCragScatter(assets);
   ctx.crags = crags;
