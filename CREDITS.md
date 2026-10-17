@@ -26,15 +26,13 @@ Downloaded at 1k through the Poly Haven API, then recompressed by `tools/optimiz
 | [plastered_wall_02](https://polyhaven.com/a/plastered_wall_02) | cottage and timber-house plaster |
 | [dark_wooden_planks](https://polyhaven.com/a/dark_wooden_planks) | manor siding, timber beams |
 | [bark_brown_02](https://polyhaven.com/a/bark_brown_02) | dead tree, great oak |
-| [velour_velvet](https://polyhaven.com/a/velour_velvet) (normal map only) | robe fabric weave |
-| [metal_plate](https://polyhaven.com/a/metal_plate) (normal + roughness) | knight armour |
 | [grey_stone_path](https://polyhaven.com/a/grey_stone_path) | flagstone paving, walkways |
 | [rock_tile_floor](https://polyhaven.com/a/rock_tile_floor) | the Green King's courtyard |
 | [cobblestone_floor_08](https://polyhaven.com/a/cobblestone_floor_08) | alley cobbles |
 | [rustic_stone_wall](https://polyhaven.com/a/rustic_stone_wall) | surface ruins, alley houses |
 | [stony_dirt_path](https://polyhaven.com/a/stony_dirt_path) | the surface road |
 | [snow_02](https://polyhaven.com/a/snow_02) | snow on the surface |
-| [mossy_rock](https://polyhaven.com/a/mossy_rock) | the stone cottage, barrow, pillar, troll skin |
+| [mossy_rock](https://polyhaven.com/a/mossy_rock) | the stone cottage, barrow, pillar |
 
 `assets/textures/waternormals.jpg` comes from the three.js examples (MIT).
 
@@ -47,11 +45,31 @@ Self-hosted from Google Fonts; licences beside the files in `assets/fonts/`.
 | [Barlow Condensed](https://github.com/jpt/barlow) 300/400/500 | all UI text |
 | [Cormorant Garamond](https://github.com/CatharsisFonts/Cormorant) | titles, place names, journal text |
 
-## UI texture: [ambientCG](https://ambientcg.com) (CC0)
+## Textures: [ambientCG](https://ambientcg.com) (CC0)
 
 | Texture | Used for |
 | --- | --- |
 | [Paper001](https://ambientcg.com/view?id=Paper001) | journal parchment (`assets/ui/paper.jpg`, resized) |
+| [LeafSet016](https://ambientcg.com/view?id=LeafSet016) | oak leaves, composed into a clump card (`assets/textures/oak_leaf_clump.png`, `tools/make-leaf-clump.mjs`) |
+| [LeafSet019](https://ambientcg.com/view?id=LeafSet019) | fir needles, composed into a drooping bough card (`assets/textures/fir_branch.png`, `tools/make-fir-branch.mjs`) |
+
+## Characters: [Quaternius](https://quaternius.com) (CC0)
+
+Every person in the game is a rigged, animated model from three free CC0
+packs that share one 65-bone skeleton. They were downloaded from itch.io with
+`tools/fetch-itch.mjs`, then converted to GLB. Licences are beside the files in
+`assets/models/humans/`.
+
+| Pack | What is used |
+| --- | --- |
+| [Universal Base Characters](https://quaternius.itch.io/universal-base-characters) | heads, eyes and brows (cut from the Superhero bodies by skin weight), Hair_Long, Hair_Beard, light skin textures |
+| [Modular Character Outfits - Fantasy](https://quaternius.itch.io/modular-character-outfits-fantasy) | Ranger and Peasant outfits (male and female) as the clothed bodies |
+| [Universal Animation Library](https://quaternius.itch.io/universal-animation-library) | idle, talking, torch, spell, sitting, kneeling, crouching, walking and sword clips |
+
+`src/world/humans.js` assembles each figure. It grafts the head and hair onto
+the outfit's skeleton and re-dyes the textures. It adds robes and cloaks as
+procedural skinned meshes and attaches hats, helms, plate, staffs, swords,
+torches and crowns to bones.
 
 ## Models: [Kenney](https://kenney.nl) (CC0)
 
@@ -70,11 +88,6 @@ Everything else is generated in code: the sky (moons, planets, nebula), terrain 
 the dark spired castle, the sandstone castle, the manor, the timber house,
 the storybook cottages, the dead tree and great oak, every surface ruin, tower,
 cathedral, barrow and cottage, the tree houses, tents, pillar cabin and throne,
-and all characters (wizards, gnomes, knights, skeleton, hooded figures, the lady
-in red, the troll ferryman, the Green King, golden skull), grass, water placement, mist, smoke and
+the characters' robes, cloaks, hats, helms, plate and props, the skulls (golden
+skull, the keeper's skull, the horned skull), grass, water placement, mist, smoke and
 fireflies.
-
-The CC0 character packs that were checked (Quaternius RPG / Knight, Kenney
-graveyard characters) use chibi proportions, which fight the tall, robed,
-PS2-era silhouettes the brief asks for. So the characters are built on a small
-procedural rig instead (`src/world/characters.js`).

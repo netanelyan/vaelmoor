@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { mulberry32, Noise2D } from '../engine/noise.js';
 import { stylize } from '../render/materials.js';
-import { gnome, wizard } from './characters.js';
+import { kingH, trollH, hoodedH } from './humans.js';
 import { Builder, boxUV, cylUV, gableRoofGeometry, glowMaterial, stoneMaterial, baseMaterials, archGeometry, roundTower, roundCrenels, towerWindows } from './architecture.js';
 
 // Builders for the second set of Gloaming references (ref_11..ref_17):
@@ -24,55 +24,7 @@ function lathe(profile, segs = 20, fold = null) {
   return g;
 }
 
-// ------------------------------------------------------------ ref_11 lady in red
-
-/** Woman in a long red embroidered gown, long blond hair, a blue butterfly on her raised hand. */
-export function lady(ctx, o = {}) {
-  const g = new THREE.Group();
-  const N = new Noise2D(3);
-  const tex = ctx.assets.pbr('velour_velvet', [4, 6], { color: false, rough: false });
-  const gown = stylize(new THREE.MeshPhysicalMaterial({ normalMap: tex.normalMap, color: o.gown ?? '#c0141a', roughness: 0.55, sheen: 1, sheenColor: new THREE.Color('#ff7a5a'), sheenRoughness: 0.3, side: THREE.DoubleSide }), { rim: 0.8 });
-  const skin = mat('#f0c8a8', { roughness: 0.5, rim: 0.6 });
-  const hair = mat(o.hair ?? '#f0d070', { roughness: 0.4, rim: 1.0 });
-  // gown: fitted bodice flaring to a floor-length skirt with folds
-  g.add(mesh(lathe([[0.0, 0.0], [0.42, 0.02], [0.38, 0.3], [0.26, 0.85], [0.17, 1.05], [0.15, 1.15], [0.17, 1.3], [0.16, 1.42], [0.09, 1.5]], 26,
-    (a, y) => (y < 0.9 ? 0.07 * Math.sin(a * 10 + N.noise(a, 0) * 2) * (1 - y) : 0)), gown));
-  // sleeves (one hanging, one raised toward the butterfly)
-  const sleeve = lathe([[0.05, 0.0], [0.06, -0.25], [0.11, -0.5], [0.12, -0.52]], 12);
-  const sl = mesh(sleeve, gown); sl.position.set(-0.19, 1.42, 0); sl.rotation.z = -0.15; g.add(sl);
-  const sr = mesh(sleeve, gown); sr.position.set(0.19, 1.42, 0); sr.rotation.set(-1.1, 0, 0.6); g.add(sr);
-  const hand = mesh(new THREE.SphereGeometry(0.045, 10, 8), skin); hand.position.set(0.42, 1.52, 0.42); g.add(hand);
-  // head + long hair falling down the back
-  const head = mesh(new THREE.SphereGeometry(0.1, 16, 12), skin); head.scale.set(0.9, 1.1, 1); head.position.y = 1.64; g.add(head);
-  const hairCap = mesh(new THREE.SphereGeometry(0.108, 16, 12, 0, Math.PI * 2, 0, Math.PI * 0.62), hair); hairCap.position.y = 1.66; g.add(hairCap);
-  const fall = lathe([[0.11, 0.0], [0.13, -0.3], [0.14, -0.6], [0.12, -0.75], [0.0, -0.78]], 16, (a) => (Math.sin(a) > 0.2 ? -0.6 : 0));
-  const hf = mesh(fall, hair); hf.position.set(0, 1.64, -0.03); hf.scale.set(1.1, 1, 0.7); g.add(hf);
-  // butterfly: two pairs of glowing blue wings
-  const wing = new THREE.CircleGeometry(0.07, 10);
-  const wingMat = glow(o.butterfly ?? '#3a7aff', 1.3);
-  for (const sx of [-1, 1]) {
-    const w = mesh(wing, wingMat, false); w.scale.set(1, 1.3, 1); w.position.set(0.42 + sx * 0.06, 1.62, 0.42); w.rotation.set(0, sx * 0.6, sx * 0.3); g.add(w);
-  }
-  return { object: g, colliders: [{ x: 0, z: 0, r: 0.45 }], lights: [{ x: 0.42, y: 1.65, z: 0.42, color: '#4a8aff', intensity: 0.8, distance: 3 }] };
-}
-
 // ------------------------------------------------------------ ref_12 gnome camp
-
-/** Camp gnome walking away: tall green pointed hat, blue round backpack, red boots. */
-export function campGnome(ctx, o = {}) {
-  const res = gnome(ctx, { robe: o.robe ?? '#c83a28', hat: o.hat ?? '#2aa02a', hatHeight: 0.8, pose: 'walk', pipe: false, scale: o.scale ?? 0.5 });
-  const pack = mesh(new THREE.SphereGeometry(0.17, 14, 10), mat('#1a3ad0', { roughness: 0.35, rim: 0.8 }));
-  pack.scale.set(1, 1.1, 0.75);
-  pack.position.set(0, 0.68, -0.22);
-  res.object.add(pack);
-  for (const sx of [-1, 1]) {
-    const boot = mesh(new THREE.SphereGeometry(0.07, 10, 8), mat('#d01a1a', { roughness: 0.4 }));
-    boot.scale.set(0.8, 0.6, 1.3);
-    boot.position.set(sx * 0.07, 0.04, 0.03);
-    res.object.add(boot);
-  }
-  return res;
-}
 
 /** Cone tent: orange canvas over a green skirt band, open flap. */
 export function tent(ctx, o = {}) {
@@ -97,40 +49,30 @@ export function tent(ctx, o = {}) {
 // ------------------------------------------------------------ ref_17 troll ferryman
 
 /** Green mossy troll with pointed ears and one glowing yellow eye, sitting in a wooden boat. */
-export function trollBoat(ctx, o = {}) {
+export async function trollBoat(ctx, o = {}) {
   const g = new THREE.Group();
-  const moss = ctx.assets.pbr('mossy_rock', [2, 2], { rough: false });
-  const skin = stylize(new THREE.MeshStandardMaterial({ map: moss.map, normalMap: moss.normalMap, normalScale: new THREE.Vector2(2.2, 2.2), color: '#58c060', roughness: 0.7 }), { rim: 0.7, rimPower: 2.2 });
   const wood = stoneMaterial(ctx.assets, 'dark_wooden_planks', 0x4a6a3a, { rim: 0.12, roughness: 0.7 });
   // boat: half a stretched lathe hull, open on top
   const hull = new THREE.SphereGeometry(1, 20, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2);
   hull.scale(0.8, 0.45, 2.4);
   const boat = mesh(hull, wood); boat.position.y = 0.35; g.add(boat);
   const rim = mesh(new THREE.TorusGeometry(1, 0.06, 6, 30), wood); rim.rotation.x = Math.PI / 2; rim.scale.set(0.8, 2.4, 1); rim.position.y = 0.35; g.add(rim);
-  // troll: hunched body, heavy shoulders, big head
-  const body = mesh(new THREE.SphereGeometry(0.55, 18, 14), skin); body.scale.set(1.15, 0.95, 0.9); body.position.set(0, 0.9, 0.2); g.add(body);
-  for (const sx of [-1, 1]) {
-    const arm = mesh(new THREE.CylinderGeometry(0.16, 0.12, 0.8, 10), skin); arm.position.set(sx * 0.6, 0.85, 0.5); arm.rotation.set(-0.9, 0, sx * 0.25); g.add(arm);
-    const fist = mesh(new THREE.SphereGeometry(0.16, 10, 8), skin); fist.position.set(sx * 0.62, 0.62, 0.85); g.add(fist);
-    const ear = mesh(new THREE.ConeGeometry(0.1, 0.4, 6), skin); ear.position.set(sx * 0.42, 1.68, 0.3); ear.rotation.z = -sx * 1.2; g.add(ear);
-  }
-  const head = mesh(new THREE.SphereGeometry(0.38, 18, 14), skin); head.scale.set(1.1, 0.9, 1); head.position.set(0, 1.55, 0.42); g.add(head);
-  const jaw = mesh(new THREE.SphereGeometry(0.3, 14, 10, 0, Math.PI * 2, Math.PI / 2, Math.PI / 2), skin); jaw.scale.set(1.2, 0.6, 1); jaw.position.set(0, 1.42, 0.52); g.add(jaw);
-  const grin = mesh(new THREE.TorusGeometry(0.16, 0.02, 4, 16, Math.PI), glow('#0a0804', 1), false); grin.rotation.z = Math.PI; grin.position.set(0, 1.4, 0.8); g.add(grin);
-  const eye = mesh(new THREE.SphereGeometry(0.06, 10, 8), glow('#ffd21a', 2.2), false); eye.position.set(-0.13, 1.6, 0.76); g.add(eye);
-  const shut = mesh(new THREE.BoxGeometry(0.1, 0.015, 0.02), glow('#0a0804', 1), false); shut.position.set(0.14, 1.6, 0.77); shut.rotation.z = 0.2; g.add(shut);
   const pole = mesh(new THREE.CylinderGeometry(0.035, 0.035, 3.6, 6), wood); pole.position.set(0.7, 1.4, 0.7); pole.rotation.set(0.3, 0, -0.25); g.add(pole);
+  const troll = await trollH(ctx);
+  troll.object.position.z = 0.15;
+  g.add(troll.object);
   return {
     object: g,
+    update: troll.update,
     colliders: [{ x: 0, z: 0, r: 1.2 }],
-    lights: [{ x: 0, y: 1.7, z: 1.4, color: '#7aff6a', intensity: 1.4, distance: 5 }, { x: -0.13, y: 1.6, z: 1.0, color: '#ffd21a', intensity: 1.5, distance: 3 }],
+    lights: [{ x: 0, y: 2.4, z: 1.8, color: '#7aff6a', intensity: 0.8, distance: 6 }],
   };
 }
 
 // ------------------------------------------------------------ ref_13 cabin on a pillar
 
 /** Log cabin on a round stone platform; `pillar` puts it atop a tall moss-streaked rock column. */
-export function pillarCabin(ctx, o = {}) {
+export async function pillarCabin(ctx, o = {}) {
   const b = new Builder();
   const H = o.pillar ?? 34, R = o.radius ?? 5.5;
   // the pillar: a tapering, lumpy column
@@ -170,7 +112,7 @@ export function pillarCabin(ctx, o = {}) {
   const g = b.build(mats);
   // two dark figures standing on the roof
   for (const [x, z, s] of [[-0.6, -0.4, 1.0], [0.9, 0.3, 0.9]]) {
-    const w = wizard(ctx, { robe: '#08080c', hat: false, beard: '#08080c', staff: false, pose: 'stand', height: 1.8 * s });
+    const w = await hoodedH(ctx, { robe: '#08080c', pose: 'stand', height: 1.8 * s, seed: Math.round(x * 10) });
     w.object.position.set(x, H + 0.8 + CH + 1.6 - Math.abs(x) * 0.5, z);
     g.add(w.object);
   }
@@ -232,35 +174,17 @@ export function treeHouse(ctx, o = {}) {
 // ------------------------------------------------------------ ref_16 king on the throne
 
 /** Robed king on a stone throne: spiked crown, green-lit face, one hand raised. */
-export function throneKing(ctx, o = {}) {
+export async function throneKing(ctx, o = {}) {
   const b = new Builder();
   b.add('stone', boxUV(new THREE.BoxGeometry(2.4, 0.6, 2.0).applyMatrix4(b.m(0, 0.3, 0))));
   b.add('stone', boxUV(new THREE.BoxGeometry(1.8, 0.7, 1.4).applyMatrix4(b.m(0, 0.95, -0.1))));
   b.add('stone', boxUV(new THREE.BoxGeometry(1.9, 3.4, 0.45).applyMatrix4(b.m(0, 2.0, -0.75))));
   for (const sx of [-1, 1]) b.add('stone', boxUV(new THREE.BoxGeometry(0.35, 0.8, 1.3).applyMatrix4(b.m(sx * 0.85, 1.6, -0.1))));
   const g = b.build({ ...baseMaterials(ctx.assets), stone: stoneMaterial(ctx.assets, 'castle_wall_slates', 0x6a6a70, { rim: 0.4, normalScale: 2 }) });
-  const k = wizard(ctx, { robe: '#141a14', hat: false, beard: '#1a2a1a', beardLen: 0.2, staff: false, pose: 'gesture', height: 2.3, rim: 0.8 });
-  k.object.position.set(0, 0.55, 0.05);
+  const k = await kingH(ctx);
+  k.object.position.set(0, 0, 0.05);
   g.add(k.object);
-  // crown of spikes + green glow where the face is
-  const crown = new THREE.Group();
-  const cm = stylize(new THREE.MeshStandardMaterial({ color: '#2a3a2a', metalness: 0.6, roughness: 0.4 }), { rim: 1 });
-  crown.add(mesh(new THREE.CylinderGeometry(0.14, 0.13, 0.08, 10, 1, true), cm));
-  for (let i = 0; i < 7; i++) {
-    const a = (i / 7) * Math.PI * 2;
-    const s = mesh(new THREE.ConeGeometry(0.03, 0.22 + (i % 2) * 0.1, 4), cm);
-    s.position.set(Math.sin(a) * 0.13, 0.15, Math.cos(a) * 0.13);
-    s.rotation.set(Math.cos(a) * 0.25, 0, -Math.sin(a) * 0.25);
-    crown.add(s);
-  }
-  crown.position.set(0, 2.95, 0.12);
-  crown.scale.setScalar(1.24);
-  g.add(crown);
-  const face = mesh(new THREE.SphereGeometry(0.11, 12, 10), glow('#6aff4a', 1.6), false);
-  face.scale.set(0.9, 1.1, 0.5);
-  face.position.set(0, 2.72, 0.24);
-  g.add(face);
-  return { object: g, colliders: [{ x: 0, z: 0, r: 1.3 }], lights: [{ x: 0, y: 2.7, z: 0.8, color: '#6aff4a', intensity: 5, distance: 6 }] };
+  return { object: g, update: k.update, colliders: [{ x: 0, z: 0, r: 1.3 }], lights: [{ x: 0, y: 2.7, z: 0.8, color: '#6aff4a', intensity: 5, distance: 6 }] };
 }
 
 /** Glowing green vines climbing a wall (strands of tubes with leaf cards). */

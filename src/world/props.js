@@ -2,7 +2,8 @@ import * as THREE from 'three';
 import { darkCastle } from './buildings.js';
 import { manor, timberHouse, cottage, sandstoneCastle } from './houses.js';
 import { deadTree, greatTree } from './trees.js';
-import { wizard, gnome, knight, skeleton, goldenSkull, hooded } from './characters.js';
+import { goldenSkull } from './characters.js';
+import { wizardH, gnomeH, knightH, skeletonH, hoodedH, ladyH, campGnomeH } from './humans.js';
 import { stoneCottage, ruinedTower, monolithTower, ruinedArch, darkKeep, cathedral, alleyRow, campfire, hornedSkull, barrow } from './surface.js';
 import { cragGeometry, rockMaterial, rockGeometry } from './vegetation.js';
 import { stylize } from '../render/materials.js';
@@ -10,7 +11,7 @@ import { mulberry32 } from '../engine/noise.js';
 import { lakeWater } from './water.js';
 import { cloudSea } from './particles.js';
 import { causeway } from './causeway.js';
-import { lady, campGnome, tent, trollBoat, pillarCabin, treeHouse, throneKing, glowVines, stoneTower, walkway } from './gloaming2.js';
+import { tent, trollBoat, pillarCabin, treeHouse, throneKing, glowVines, stoneTower, walkway } from './gloaming2.js';
 
 // type -> async (ctx, propJson, {x, z, area}) => { object, colliders, lights, glows, update }
 // Builders work in local space; world.js places, rotates and scales them.
@@ -55,8 +56,8 @@ const glowOrb = (hex, intensity, r) => {
 
 export const PROP_BUILDERS = {
   causeway: (ctx, p, at) => causeway(ctx, p, at),
-  lady: (ctx, p) => lady(ctx, p),
-  camp_gnome: (ctx, p) => campGnome(ctx, p),
+  lady: (ctx, p) => ladyH(ctx, p),
+  camp_gnome: (ctx, p) => campGnomeH(ctx, p),
   tent: (ctx, p) => tent(ctx, p),
   troll_boat: (ctx, p) => trollBoat(ctx, p),
   pillar_cabin: (ctx, p) => pillarCabin(ctx, p),
@@ -82,7 +83,7 @@ export const PROP_BUILDERS = {
   },
 
   manor: (ctx, p) => manor(ctx, p),
-  hooded: (ctx, p) => hooded(ctx, p),
+  hooded: (ctx, p) => hoodedH(ctx, p),
   stone_cottage: (ctx, p) => stoneCottage(ctx, p),
   ruined_tower: (ctx, p) => ruinedTower(ctx, p),
   monolith_tower: (ctx, p) => monolithTower(ctx, p),
@@ -145,10 +146,10 @@ export const PROP_BUILDERS = {
   },
 
   castle_dark: (ctx, p) => darkCastle(ctx, p),
-  wizard: (ctx, p) => wizard(ctx, p),
-  gnome: (ctx, p) => gnome(ctx, p),
-  knight: (ctx, p) => knight(ctx, p),
-  skeleton: (ctx, p) => skeleton(ctx, p),
+  wizard: (ctx, p) => wizardH(ctx, p),
+  gnome: (ctx, p) => gnomeH(ctx, p),
+  knight: (ctx, p) => knightH(ctx, p),
+  skeleton: (ctx, p) => skeletonH(ctx, p),
   golden_skull: (ctx, p) => goldenSkull(ctx, p),
 
   /** Big craggy rock: a stretched displaced blob. */
