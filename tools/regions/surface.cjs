@@ -202,30 +202,30 @@ const clear = (p, r) => [p[0], p[1], r];
 {
   const c = [-90, -230];
   const F = frame(c, { offset: 9 });
-  const tree = F.P(4.8, 3.4);
-  const kn = F.P(3.0, 0.9);
+  const tree = F.P(5.4, 2.4);
+  const kn = F.P(4.4, 1.0);
   area({
     id: 'oak', name: 'The Old Warden', ref: 'dark_11', center: c, reach: 45,
-    ground: { tint: '#2a3a24', grass: 0.35, grassTint: '#3a4a2c' },
+    ground: { tint: '#4a5030', grass: 0.25, grassTint: '#4a5530' },
     atmosphere: {
       sky: {
         zenith: '#020818', mid: '#0a2050', horizon: '#1a3a70', glow: '#3a5aa0', glowStrength: 0.2,
         cloudDark: '#061030', cloudLight: '#2a4a8a', cloudRim: '#8aa0d0', cloudCover: 0.35, stars: 2.2, sparkle: 0.6,
-        moonDir: F.dir(-22, 30), moonColor: '#f4e8c8', moonSize: 0.07, moonGlow: 0.5, moonBright: 1.5, moonPhase: 0,
+        moonDir: F.dir(-16, 27), moonColor: '#f4e8c8', moonSize: 0.07, moonGlow: 0.5, moonBright: 1.5, moonPhase: 0,
       },
       fog: { color: '#0a1a3a', density: 0.012, falloff: 0.05 },
       ambient: { sky: '#3a5490', ground: '#141a14', intensity: 1.1 },
-      moonLight: { color: '#d8e0ff', intensity: 2.6, dir: F.dir(-40, 32) },
-      fill: { color: '#8a9ad0', intensity: 0.7 },
+      moonLight: { color: '#d8e0ff', intensity: 2.6, dir: F.dir(-140, 34) },
+      fill: { color: '#a0aad8', intensity: 1.3 },
       rim: { color: '#a0b4ff', strength: 0.3 },
-      post: { exposure: 1.4 },
+      post: { exposure: 1.6 },
     },
     props: [
-      { type: 'great_tree', at: tree, size: 1.0, seed: 81, leaves: '#1a301c', clear: 3 },
-      { type: 'knight', at: kn, rot: F.faceCam(kn) - 35, pose: 'rest', dull: true, armor: '#8a90a0', y: 0.05, npc: 'oak_knight', name: 'Ser Hollis', talkY: 0.6 },
+      { type: 'great_tree', at: tree, size: 0.75, canopy: 0.45, seed: 81, leaves: '#24402a', bark: 0x9a6a44, clear: 3 },
+      { type: 'knight', at: kn, rot: F.faceCam(kn) - 40, pose: 'rest', dull: true, armor: '#6a6c74', y: 0.05, npc: 'oak_knight', name: 'Ser Hollis', talkY: 0.6 },
     ],
-    clearings: [clear(F.P(2, 0), 9), clear(F.P(16, -12), 22)],
-    shot: { key: 10, at: F.P(-0.6, -1.6), height: 1.5, target: [...F.P(4, 0.2), 2.6], fov: 70 },
+    clearings: [clear(F.P(2, 0), 9), clear(F.P(16, -12), 22), clear(F.P(30, -14), 26), clear(F.P(14, -2), 12), clear(F.P(22, -4), 16), clear(F.P(40, -2), 22)],
+    shot: { key: 10, at: F.P(1.3, 0.9), height: 1.2, target: [...F.P(4.6, 0.7), 1.8], fov: 72 },
   });
 }
 

@@ -33,7 +33,7 @@ export function armorMaterial(assets, color = 0xb4aed0, dull = false) {
   if (dull) {
     return cached(`armorDull:${color}`, () => {
       const t = assets.pbr('metal_plate', [2, 2], { color: false });
-      return stylize(new THREE.MeshStandardMaterial({ color, metalness: 0.3, roughness: 0.6, roughnessMap: t.roughnessMap, normalMap: t.normalMap, normalScale: new THREE.Vector2(0.5, 0.5), envMapIntensity: 0.45 }), { rim: 0.35, rimPower: 3 });
+      return stylize(new THREE.MeshStandardMaterial({ color, metalness: 0.7, roughness: 0.45, roughnessMap: t.roughnessMap, normalMap: t.normalMap, normalScale: new THREE.Vector2(0.5, 0.5), envMapIntensity: 0.45 }), { rim: 0.35, rimPower: 3 });
     });
   }
   return cached(`armor:${color}`, () => {

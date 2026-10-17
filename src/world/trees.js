@@ -142,7 +142,7 @@ export function greatTree(ctx, o = {}) {
   const q = new THREE.Quaternion(), e = new THREE.Euler(), m = new THREE.Matrix4(), sc = new THREE.Vector3(), p = new THREE.Vector3();
   const card = new THREE.PlaneGeometry(1, 1);
   for (const t of tips) {
-    const cr = (2.2 + rand() * 1.6) * S;
+    const cr = (2.2 + rand() * 1.6) * S * (o.canopy ?? 1);
     const c = t.pos.clone().addScaledVector(t.dir, cr * 0.4);
     c.y += cr * 0.15;
     let blob = new THREE.IcosahedronGeometry(cr * 0.85, 2);
@@ -166,7 +166,7 @@ export function greatTree(ctx, o = {}) {
       p.set(r * Math.cos(a), u * 0.7, r * Math.sin(a)).multiplyScalar(cr * (0.75 + rand() * 0.35)).add(c);
       e.set(rand() * Math.PI, rand() * Math.PI, rand() * Math.PI);
       q.setFromEuler(e);
-      const s = (0.55 + rand() * 0.5) * S;
+      const s = (0.55 + rand() * 0.5) * S * Math.sqrt(o.canopy ?? 1);
       m.compose(p, q, sc.set(s, s, s));
       const g = card.clone().applyMatrix4(m);
       // normals point away from the cluster centre for soft, rounded shading
