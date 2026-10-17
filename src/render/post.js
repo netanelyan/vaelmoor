@@ -82,6 +82,8 @@ export class PostFX {
     this.composer = new EffectComposer(renderer);
     this.renderPass = new RenderPass(scene, camera);
     this.bloom = new UnrealBloomPass(new THREE.Vector2(size.x, size.y), 0.9, 0.7, 0.6);
+    // tight falloff: glow hugs the light source instead of washing whole facades
+    this.bloom.compositeMaterial.uniforms.bloomFactors.value = [1.0, 0.55, 0.22, 0.07, 0.02];
     this.output = new OutputPass();
     this.grade = new ShaderPass(GradeShader);
     this.sharpen = new SharpenPass();

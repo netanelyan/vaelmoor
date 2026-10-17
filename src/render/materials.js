@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { hashString } from '../engine/noise.js';
 
 // Shared, live uniforms injected into built-in materials via onBeforeCompile.
 // Uniform objects are passed by reference, so updating `.value` here updates
@@ -61,7 +62,9 @@ export function stylize(material, { rim = 1, rimPower = 3.0, sway = 0, swayHeigh
           ${emissiveBoost ? `totalEmissiveRadiance *= ${(1 + emissiveBoost).toFixed(2)};` : ''}
         }`);
   };
-  const key = `stylize:${rim}:${rimPower}:${sway}:${swayHeight}:${emissiveBoost}`;
+  // Include the material's own shader patch in the key: two materials of the
+  // same type with different onBeforeCompile code must not share a program.
+  const key = `stylize:${rim}:${rimPower}:${sway}:${swayHeight}:${emissiveBoost}:${hashString(prev ? prev.toString() : '')}`;
   const prevKey = material.customProgramCacheKey?.bind(material);
   material.customProgramCacheKey = () => (prevKey ? prevKey() : '') + key;
   return material;

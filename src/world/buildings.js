@@ -32,11 +32,13 @@ export function darkCastle(ctx, o = {}) {
   faceWindows(b, { cx: 0, cz: 0, ry: 0, y0: 13, cols: 3, rows: 1, dx: 3.2, dy: 0, w: 1.0, h: 2.6, key: glowKey, lit: 1, rand });
 
   for (const sx of [-1, 1]) {
-    const x = sx * 10.5, z = -2;
-    const top = roundTower(b, { x, z, r: 4.6, h: 26 });
-    roundCrenels(b, { x, z, y: top, r: 4.6 * 0.96 });
-    spire(b, { x, z, y: top + 2.2, r: 4.0, h: 15 });
-    towerWindows(b, { x, z, y0: 8, r: 4.6 * 0.98, rows: 3, perRow: 4, spacing: 5.5, key: glowKey, lit: 0.8, rand, phase: 0.2 });
+    const fr = o.flankR ?? 4.6, fh = o.flankH ?? 26;
+    const x = sx * (6 + fr), z = -2;
+    const top = roundTower(b, { x, z, r: fr, h: fh });
+    roundCrenels(b, { x, z, y: top, r: fr * 0.96, count: Math.round(fr * 3) });
+    if (o.flankSpire !== false) spire(b, { x, z, y: top + 2.2, r: fr * 0.87, h: 15 });
+    if (o.windowRing) towerWindows(b, { x, z, y0: fh - 4.5, r: fr * 0.98, rows: 1, perRow: 12, spacing: 1, w: 0.55, h: 1.9, key: glowKey, lit: 1, rand });
+    towerWindows(b, { x, z, y0: 8, r: fr * 0.98, rows: o.flankRows ?? 3, perRow: o.flankPerRow ?? 4, spacing: 5.5, w: o.flankWinW ?? 1.0, h: o.flankWinH ?? 2.4, key: glowKey, lit: 0.8, rand, phase: 0.2 });
   }
 
   // curtain walls to corner towers
@@ -105,7 +107,7 @@ export function darkCastle(ctx, o = {}) {
       ...ctx.assets.pbr('roof_slates_02', [1, 1]), color: o.roofColor ?? 0x37305a, roughness: 0.38, metalness: 0.15, envMapIntensity: 1.2,
     }), { rim: 0.6 }),
     glowGreen: glowMaterial(o.windowColor ?? '#5dff8a', o.windowIntensity ?? 5.5, 'mullion'),
-    gateGlow: glowMaterial(o.windowColor ?? '#5dff8a', 3.2, 'none'),
+    gateGlow: glowMaterial(o.windowColor ?? '#5dff8a', o.gateIntensity ?? 3.2, 'none'),
   };
   const object = b.build(mats);
   const colliders = [
@@ -114,9 +116,9 @@ export function darkCastle(ctx, o = {}) {
     { x: -23, z: -9, r: 3 }, { x: 23, z: -9, r: 3 },
   ];
   const lights = [
-    { x: 0, y: 4, z: 5, color: '#4dff86', intensity: 60, distance: 40 },
-    { x: -10, y: 12, z: 6, color: '#4dff86', intensity: 25, distance: 26 },
-    { x: 10, y: 12, z: 6, color: '#4dff86', intensity: 25, distance: 26 },
+    { x: 0, y: 4, z: 5, color: '#4dff86', intensity: o.lightScale != null ? 60 * o.lightScale : 60, distance: 40 },
+    { x: -10, y: 12, z: 6, color: '#4dff86', intensity: o.lightScale != null ? 25 * o.lightScale : 25, distance: 26 },
+    { x: 10, y: 12, z: 6, color: '#4dff86', intensity: o.lightScale != null ? 25 * o.lightScale : 25, distance: 26 },
   ];
   return { object, colliders, lights };
 }

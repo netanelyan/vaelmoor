@@ -9,6 +9,7 @@ import { stylize } from '../render/materials.js';
 import { mulberry32 } from '../engine/noise.js';
 import { lakeWater } from './water.js';
 import { cloudSea } from './particles.js';
+import { causeway } from './causeway.js';
 import { lady, campGnome, tent, trollBoat, pillarCabin, treeHouse, throneKing, glowVines, stoneTower, walkway } from './gloaming2.js';
 
 // type -> async (ctx, propJson, {x, z, area}) => { object, colliders, lights, glows, update }
@@ -53,6 +54,7 @@ const glowOrb = (hex, intensity, r) => {
 };
 
 export const PROP_BUILDERS = {
+  causeway: (ctx, p, at) => causeway(ctx, p, at),
   lady: (ctx, p) => lady(ctx, p),
   camp_gnome: (ctx, p) => campGnome(ctx, p),
   tent: (ctx, p) => tent(ctx, p),
