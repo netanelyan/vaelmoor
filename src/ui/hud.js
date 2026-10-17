@@ -32,6 +32,7 @@ export class HUD {
     const act = el('div', 'action', null, this.prompt);
     this.promptKey = keyBadge('E', act);
     this.promptAction = el('span', '', '', act);
+    this.promptSub = el('div', 'sub', '', this.prompt);
 
     // vitals: magicka left, health centre, stamina right
     this.vitals = el('div', 'vitals', null, this.root);
@@ -54,6 +55,19 @@ export class HUD {
     this.noteText = el('div', 'text', '', this.note);
 
     this.toastEl = el('div', 'toast ui-fade ui-off', '', this.root);
+
+    // skill increase (under the compass) and level-up notices, pickup log
+    this.skillNoteEl = el('div', 'skill-note ui-fade-slow ui-off', null, this.root);
+    this.skillNoteText = el('div', 't', '', this.skillNoteEl);
+    const sb = el('div', 'sb', null, this.skillNoteEl);
+    this.skillNoteBar = el('i', '', null, sb);
+    this.levelNoteEl = el('div', 'level-note ui-fade-slow ui-off', null, this.root);
+    el('div', 'lh', 'LEVEL UP', this.levelNoteEl);
+    this.levelNoteText = el('div', 'll', '', this.levelNoteEl);
+    rule({ diamond: true }, this.levelNoteEl);
+    const lk = el('div', 'lk', null, this.levelNoteEl);
+    keyBadge('K', lk); el('span', '', 'Open Skills to choose', lk);
+    this.log = el('div', 'pickup-log', null, this.root);
     this.fps = el('div', 'fps ui ui-off', '', root);
     this.photo = el('div', 'photo-label ui', '', root);
   }
@@ -86,7 +100,7 @@ export class HUD {
   updateVitals(v, dt) {
     for (const k of ['health', 'magicka', 'stamina']) {
       const bar = this.bars[k];
-      const val = v[k];
+      const val = v.frac(k);
       bar.fill.style.width = `${(val * 100).toFixed(1)}%`;
       // visible while not full or in combat, then linger briefly and fade
       if (val < 0.999 || v.combat) bar.shownFor = 1.5;
@@ -95,11 +109,36 @@ export class HUD {
     }
   }
 
+  /** target: { name, action, sub?, steal? } */
   setPrompt(target) {
     if (!target) { show(this.prompt, false); return; }
     this.promptName.textContent = target.name;
     this.promptAction.textContent = target.action;
+    this.promptSub.textContent = target.sub ?? '';
+    this.prompt.classList.toggle('steal', !!target.steal);
     show(this.prompt, true);
+  }
+
+  skillUp(name, level, progress) {
+    this.skillNoteText.textContent = `${name} increased to ${level}`;
+    this.skillNoteBar.style.transition = 'none';
+    this.skillNoteBar.style.width = '0%';
+    requestAnimationFrame(() => { this.skillNoteBar.style.transition = ''; this.skillNoteBar.style.width = `${Math.round(progress * 100)}%`; });
+    flash(this.skillNoteEl, 3200);
+  }
+
+  levelUp(level) {
+    this.levelNoteText.textContent = `Level ${level}`;
+    flash(this.levelNoteEl, 5200);
+  }
+
+  /** A short line in the bottom-left log ("Iron Sword added"). */
+  logLine(text) {
+    const d = el('div', '', text, null);
+    this.log.prepend(d);
+    while (this.log.children.length > 5) this.log.lastChild.remove();
+    setTimeout(() => { d.style.opacity = '0'; }, 3200);
+    setTimeout(() => d.remove(), 3900);
   }
 
   discover(name) {

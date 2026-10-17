@@ -1,0 +1,131 @@
+/* RPG screens: inventory/magic, transfer + barter, skills (constellations),
+   favorites, the Tab menu, lockpicking, books and the extra HUD notices.
+   Same language as kit.css: bone text on fading black, thin rules, diamonds. */
+
+/* ---------------------------------------------------------------- shared */
+.rpg-screen { inset: 0; }
+.rpg-hint { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); font-size: var(--t-s); color: var(--bone-60); letter-spacing: 0.08em; white-space: nowrap; }
+.rpg-hint .ui-key { margin: 0 6px 0 18px; }
+.rpg-head { font-size: var(--t-s); letter-spacing: var(--track-wide); color: var(--bone-60); }
+.rpg-col .ui-item { font-size: var(--t-l); font-weight: 400; letter-spacing: 0.04em; padding: 4px 0; display: flex; justify-content: space-between; gap: 16px; white-space: nowrap; }
+.rpg-col .ui-item .n { overflow: hidden; text-overflow: ellipsis; }
+.rpg-col .ui-item .c { color: var(--bone-70); font-size: var(--t-m); }
+.rpg-col .ui-item.eq .n::after { content: ''; display: inline-block; width: 5px; height: 5px; margin: 0 0 3px 10px; border: 1px solid var(--bone); transform: rotate(45deg); }
+.rpg-col .ui-item.eq-l .n::before { content: 'L '; color: var(--bone-60); font-size: var(--t-s); }
+.rpg-col .ui-item.eq-r .n::before { content: 'R '; color: var(--bone-60); font-size: var(--t-s); }
+.rpg-col .ui-item.eq-l.eq-r .n::before { content: 'L R '; }
+.rpg-col .ui-item.fav .c::before { content: '\2605 '; font-size: 10px; color: var(--bone-60); }
+.rpg-col.blur .ui-item.selected { opacity: 0.75; }
+.rpg-col .ui-item.stolen .n { color: #c87a6a; }
+.rpg-card { text-align: center; }
+.rpg-card .name { font-family: var(--serif); font-weight: 500; font-size: 30px; letter-spacing: 0.03em; line-height: 1.1; }
+.rpg-card .ui-rule { margin: 10px auto 12px; width: 80%; }
+.rpg-card .stats { display: flex; justify-content: center; gap: 26px; font-size: var(--t-s); letter-spacing: var(--track-caps); color: var(--bone-60); }
+.rpg-card .stats b { display: block; font-weight: 400; font-size: var(--t-l); color: var(--bone); letter-spacing: 0.04em; }
+.rpg-card .desc { margin-top: 12px; font-size: var(--t-m); color: var(--bone-70); line-height: 1.35; }
+.rpg-bar { position: absolute; left: 0; right: 0; bottom: 64px; display: flex; justify-content: center; gap: 46px; font-size: var(--t-m); letter-spacing: var(--track-caps); color: var(--bone-70); }
+.rpg-bar b { color: var(--bone); font-weight: 400; margin-left: 8px; }
+.rpg-bar .over { color: #c87a6a; }
+
+/* ---------------------------------------------------------------- inventory / magic */
+#inventory::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 760px; max-width: 70vw;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.78), rgba(0, 0, 0, 0.6) 70%, transparent); }
+#inventory .cats { position: absolute; left: 6vw; top: 18vh; width: 170px; }
+#inventory .cats .ui-item { font-size: var(--t-m); letter-spacing: var(--track-caps); text-transform: uppercase; }
+#inventory .items { position: absolute; left: calc(6vw + 210px); top: 18vh; width: min(360px, 34vw); max-height: 60vh; overflow: hidden; }
+#inventory .divider { position: absolute; left: calc(6vw + 190px); top: 17vh; height: 62vh; width: 1px; background: linear-gradient(to bottom, transparent, var(--bone-20) 15%, var(--bone-20) 85%, transparent); }
+#inventory .preview { position: absolute; right: 10vw; top: 12vh; width: min(420px, 34vw); height: min(380px, 44vh); }
+#inventory .rpg-card { position: absolute; right: 8vw; top: calc(12vh + min(380px, 44vh) + 10px); width: min(480px, 38vw); }
+#inventory .title { position: absolute; left: 6vw; top: 9vh; }
+#inventory .title .rpg-head { font-size: var(--t-m); }
+
+/* ---------------------------------------------------------------- transfer / barter */
+#transfer::before { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, 0.72), rgba(0, 0, 0, 0.45) 50%, rgba(0, 0, 0, 0.72)); }
+#transfer .side { position: absolute; top: 14vh; width: min(380px, 36vw); }
+#transfer .side.left { left: 9vw; }
+#transfer .side.right { right: 9vw; }
+#transfer .side .head { display: flex; justify-content: space-between; font-size: var(--t-m); letter-spacing: var(--track-caps); text-transform: uppercase; }
+#transfer .side .head .g { color: var(--bone-70); }
+#transfer .side .ui-rule { margin: 8px 0 12px; }
+#transfer .side .rpg-col { max-height: 50vh; overflow: hidden; }
+#transfer .empty { font-size: var(--t-m); color: var(--bone-40); letter-spacing: var(--track-caps); padding: 6px 0; }
+#transfer .rpg-card { position: absolute; left: 50%; bottom: 96px; transform: translateX(-50%); width: min(520px, 50vw); }
+#transfer .preview { position: absolute; left: 50%; top: 18vh; width: 240px; height: 240px; transform: translateX(-50%); }
+
+/* ---------------------------------------------------------------- skills */
+#skills { background: radial-gradient(ellipse at 50% 40%, rgba(4, 6, 14, 0.82), rgba(0, 0, 0, 0.94)); }
+#skills .stars { position: absolute; inset: 0; width: 100%; height: 100%; }
+#skills .top { position: absolute; left: 50%; top: 4vh; transform: translateX(-50%); text-align: center; width: min(560px, 80vw); }
+#skills .top .lvl { font-size: var(--t-l); letter-spacing: var(--track-wide); }
+#skills .top .xp { position: relative; height: 3px; margin: 10px auto 6px; width: 260px; border-top: 1px solid var(--bone-20); }
+#skills .top .xp i { position: absolute; left: 0; top: 0; height: 2px; background: var(--bone-70); }
+#skills .top .pts { font-size: var(--t-s); letter-spacing: var(--track-wide); color: var(--bone-60); }
+#skills .sky { position: absolute; left: 50%; top: 14vh; width: min(620px, 80vw); height: 46vh; transform: translateX(-50%); }
+#skills .cname { position: absolute; left: 50%; top: calc(14vh + 46vh + 4px); transform: translateX(-50%); font-family: var(--serif); font-style: italic; font-size: var(--t-l); color: var(--bone-60); }
+#skills .perk { position: absolute; left: 50%; top: calc(14vh + 46vh + 36px); transform: translateX(-50%); width: min(560px, 80vw); text-align: center; }
+#skills .perk .pn { font-family: var(--serif); font-weight: 500; font-size: 26px; }
+#skills .perk .pd { margin-top: 6px; font-size: var(--t-m); color: var(--bone-70); }
+#skills .perk .pr { margin-top: 6px; font-size: var(--t-s); letter-spacing: var(--track-caps); color: var(--bone-60); text-transform: uppercase; }
+#skills .perk .pr.ok { color: var(--accent); }
+#skills .strip { position: absolute; left: 0; right: 0; bottom: 70px; height: 70px; overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent); mask-image: linear-gradient(90deg, transparent, #000 18%, #000 82%, transparent); }
+#skills .strip .sk { position: absolute; top: 0; width: 180px; margin-left: -90px; text-align: center; transition: left var(--fast) ease, opacity var(--fast) ease; opacity: 0.45; }
+#skills .strip .sk.sel { opacity: 1; }
+#skills .strip .sk .sn { font-size: var(--t-m); letter-spacing: var(--track-caps); text-transform: uppercase; }
+#skills .strip .sk .sl { font-size: var(--t-xl); font-weight: 300; line-height: 1.1; }
+#skills .strip .sk .sb { position: relative; height: 1px; width: 90px; margin: 4px auto 0; background: var(--bone-20); }
+#skills .strip .sk .sb i { position: absolute; left: 0; top: 0; height: 1px; background: var(--bone); }
+#skills .levelup { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(0, 0, 0, 0.9); }
+#skills.choosing .perk, #skills.choosing .cname, #skills.choosing .sky { visibility: hidden; }
+#skills .levelup .lh { font-size: var(--t-s); letter-spacing: var(--track-wide); color: var(--bone-60); }
+#skills .levelup .ll { font-family: var(--serif); font-size: var(--t-xxl); font-weight: 500; margin: 6px 0 4px; }
+#skills .levelup .ui-rule { width: 300px; margin: 6px 0 16px; }
+#skills .levelup .ui-list { width: 260px; text-align: center; }
+#skills .levelup .ui-item { font-size: 24px; letter-spacing: 0.2em; padding: 6px 0; }
+
+/* ---------------------------------------------------------------- favorites */
+#favorites::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 460px; background: linear-gradient(90deg, rgba(0, 0, 0, 0.7), transparent); }
+#favorites .panel { position: absolute; left: 5vw; top: 50%; transform: translateY(-50%); width: 300px; }
+#favorites .ui-rule { margin: 8px 0 12px; }
+#favorites .empty { font-size: var(--t-m); color: var(--bone-60); line-height: 1.4; }
+
+/* ---------------------------------------------------------------- tab menu */
+#tabmenu { background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.2) 60%, transparent); }
+#tabmenu .opt { position: absolute; transform: translate(-50%, -50%); font-size: 28px; letter-spacing: 0.32em; margin-right: -0.32em; opacity: 0.55; transition: opacity var(--fast) ease; cursor: default; }
+#tabmenu .opt.sel { opacity: 1; }
+#tabmenu .opt.off { opacity: 0.2; }
+#tabmenu .n { left: 50%; top: 32%; } #tabmenu .s { left: 50%; top: 68%; } #tabmenu .w { left: 30%; top: 50%; } #tabmenu .e { left: 70%; top: 50%; }
+#tabmenu .center { position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -6px 0 0 -6px; border: 1px solid var(--bone-60); transform: rotate(45deg); }
+
+/* ---------------------------------------------------------------- lockpick */
+#lockpick { background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.85)); }
+#lockpick svg { position: absolute; left: 50%; top: 46%; width: min(440px, 70vw); height: min(440px, 70vw); transform: translate(-50%, -50%); overflow: visible; }
+#lockpick .info { position: absolute; left: 50%; top: 8vh; transform: translateX(-50%); text-align: center; }
+#lockpick .info .lv { font-size: var(--t-l); letter-spacing: var(--track-wide); }
+#lockpick .info .ct { margin-top: 6px; font-size: var(--t-s); letter-spacing: var(--track-caps); color: var(--bone-60); }
+
+/* ---------------------------------------------------------------- book */
+#book { display: flex; align-items: center; justify-content: center; }
+#book .page { position: relative; width: min(760px, 88vw); min-height: min(520px, 76vh); padding: 54px 64px; box-sizing: border-box; color: var(--ink); text-shadow: none;
+  background-color: #d9ccb0; background-image: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 55%, rgba(70, 48, 22, 0.32) 100%), url('../../assets/ui/paper.jpg');
+  background-blend-mode: normal, multiply; background-size: cover, 512px 512px; }
+#book .bt { font-family: var(--serif); font-weight: 600; font-size: 34px; text-align: center; }
+#book .ui-rule { margin: 12px 0 18px; }
+#book p { font-family: var(--serif); font-size: 21px; line-height: 1.5; margin: 0 0 14px; }
+#book .rpg-hint { bottom: -34px; color: var(--bone-60); text-shadow: var(--shadow); }
+
+/* ---------------------------------------------------------------- HUD notices */
+.skill-note { left: 50%; top: 74px; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.skill-note .t { font-size: var(--t-m); letter-spacing: var(--track-caps); text-transform: uppercase; }
+.skill-note .sb { position: relative; height: 1px; width: 180px; margin: 6px auto 0; background: var(--bone-20); }
+.skill-note .sb i { position: absolute; left: 0; top: 0; height: 1px; background: var(--bone); transition: width 900ms ease; }
+.level-note { left: 50%; top: 22vh; transform: translateX(-50%); text-align: center; white-space: nowrap; }
+.level-note .lh { font-size: var(--t-s); letter-spacing: var(--track-wide); color: var(--bone-70); }
+.level-note .ll { font-family: var(--serif); font-weight: 500; font-size: var(--t-xxl); margin-top: 4px; }
+.level-note .ui-rule { width: 320px; margin: 8px auto; }
+.level-note .lk { font-size: var(--t-s); color: var(--bone-70); letter-spacing: 0.08em; }
+.level-note .lk .ui-key { margin-right: 8px; }
+.pickup-log { left: 32px; bottom: 76px; display: flex; flex-direction: column-reverse; gap: 2px; font-size: var(--t-m); letter-spacing: 0.04em; }
+.pickup-log div { transition: opacity 600ms ease; }
+.prompt.steal .name, .prompt.steal .action span:last-child { color: #d07060; }
+.prompt .sub { margin-top: 2px; font-size: var(--t-s); letter-spacing: var(--track-caps); color: var(--bone-60); text-transform: uppercase; }

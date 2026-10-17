@@ -1,0 +1,13 @@
+{
+  "note": "Spells are cast from either hand. kind: stream (held, cost per second) | self (held, heals) | remembrance (Z, cooldown). Remembrances are learned from word walls.",
+  "spells": {
+    "flames": { "name": "Flames", "school": "destruction", "kind": "stream", "cost": 14, "damage": 10, "range": 7, "level": "novice", "value": 25, "color": "#ff7a2a",
+      "desc": "A gout of fire. Deals {damage} fire damage per second; costs {cost} magicka per second." },
+    "healing": { "name": "Healing", "school": "restoration", "kind": "self", "cost": 16, "heal": 12, "level": "novice", "value": 25, "color": "#ffd88a",
+      "desc": "Heals {heal} health per second while held; costs {cost} magicka per second." }
+  },
+  "remembrances": {
+    "recall": { "name": "Recall", "word": "VAEL", "meaning": "Remember", "seconds": 10, "cooldown": 30, "radius": 40,
+      "desc": "Speak the word and the world remembers itself: forgotten objects and paths within 40 m shimmer into sight for 10 seconds." }
+  }
+}

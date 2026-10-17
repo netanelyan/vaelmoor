@@ -521,5 +521,7 @@ region.title = {
   ],
 };
 
+require('./surface-game.cjs')(region);
+
 fs.writeFileSync('data/regions/surface.json', JSON.stringify(region, null, 2));
 console.log(`surface.json: ${region.areas.length} areas`);

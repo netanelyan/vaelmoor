@@ -24,6 +24,8 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   const interactables = new Interactables();
   const updaters = [];
   const waters = [];
+  const containerDefs = []; // [{ id, def }] registered with the game's Containers
+  const pickupDefs = [];    // [{ uid, item, count, at, rot }] placed by the game
 
   // --- ground & road tinting blended from area palettes
   const tintSources = region.areas.map((a) => ({
@@ -105,6 +107,12 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
       if (!builder) { console.warn('unknown prop type', prop.type); continue; }
       const res = await builder(ctx, prop, { x, z, area });
       if (!res) continue;
+      const propId = `${region.id}:${prop.id ?? `${prop.type}@${Math.round(x)},${Math.round(z)}`}`;
+      if (res.pickup) {
+        const py = prop.absY ?? groundAt(x, z) + (prop.y ?? 0);
+        pickupDefs.push({ uid: propId, ...res.pickup, at: [x, py, z], rot: (prop.rot ?? 0) * DEG });
+        continue;
+      }
       if (res.position) [x, z] = res.position;
       const yAtPos = prop.yAt ? local(prop.yAt) : null;
       const y = res.absY ?? prop.absY
@@ -135,6 +143,13 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
         scene.add(groundGlow({ ...g, x: wx, z: wz, groundAt, rotY: rot + (g.rotY ?? 0) }));
       }
       // things the player can use
+      if (res.container) {
+        const [cx, cz] = toWorld(0, res.targetZ ?? 0);
+        containerDefs.push({ id: propId, def: res.container });
+        const ci = interactables.add({ id: propId, name: res.container.name, action: 'Search', kind: 'container', radius: 0.55,
+          pos: new THREE.Vector3(cx, y + (res.targetY ?? 0.5) * s, cz), object: res.object });
+        ci.container = propId;
+      }
       if (prop.npc) {
         interactables.add({ id: prop.npc, name: prop.name ?? prop.npc, action: 'Talk', kind: 'npc', radius: 0.6,
           pos: new THREE.Vector3(x, y + (prop.talkY ?? 1.5) * s, z) });
@@ -222,7 +237,7 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   });
 
   const world = {
-    interactables, terrain, road, groundAt, colliders, waters, waterLevelAt,
+    interactables, terrain, road, groundAt, colliders, waters, waterLevelAt, containerDefs, pickupDefs,
     update(dt, t, cam) { for (const u of updaters) u(dt, t, cam); },
   };
   scene.add(buildGrass(world, region));

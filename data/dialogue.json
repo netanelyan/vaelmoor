@@ -280,5 +280,148 @@
         ]
       }
     }
+  },
+  "ysolde": {
+    "name": "Ysolde",
+    "start": "greet",
+    "starts": [
+      {
+        "flag": "ysolde_met",
+        "node": "again"
+      }
+    ],
+    "nodes": {
+      "greet": {
+        "line": "Careful where you step, there's a dead man down the road and I'd rather not join him. Ysolde. I sell, I buy, I don't ask where it came from. You look like you woke up in a ditch.",
+        "effects": [
+          "flag:ysolde_met"
+        ],
+        "options": [
+          {
+            "text": "Show me what you have.",
+            "effects": [
+              "barter:ysolde"
+            ]
+          },
+          {
+            "text": "A dead man?",
+            "next": "body"
+          },
+          {
+            "text": "Where are you headed?",
+            "next": "road"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "again": {
+        "line": "Back again. Buying, selling, or just admiring the cart?",
+        "options": [
+          {
+            "text": "Show me what you have.",
+            "effects": [
+              "barter:ysolde"
+            ]
+          },
+          {
+            "text": "That strongbox of yours. What's in it?",
+            "next": "box",
+            "once": true
+          },
+          {
+            "text": "Any news on the road?",
+            "next": "road"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "body": {
+        "line": "West of here, off the road. Wolves didn't kill him, I'll tell you that much. Took his purse and left his sword, which tells you they weren't thieves. Search him if you've the stomach. I didn't.",
+        "options": [
+          {
+            "text": "Show me what you have.",
+            "effects": [
+              "barter:ysolde"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "road": {
+        "line": "Hollowford, if the moon ever moves. Nine nights it's hung there like a lamp nobody can blow out. People in town have started forgetting things. Names. Their own front doors.",
+        "options": [
+          {
+            "text": "Show me what you have.",
+            "effects": [
+              "barter:ysolde"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "box": {
+        "line": "My business. Locked, and staying that way.",
+        "options": [
+          {
+            "text": "You could at least give a stranger a discount.",
+            "check": {
+              "kind": "persuade",
+              "level": 20
+            },
+            "next": "box_yes",
+            "fail": "box_no"
+          },
+          {
+            "text": "Fine. Keep your secrets.",
+            "end": true
+          }
+        ]
+      },
+      "box_yes": {
+        "line": "Hah. You've an honest face under all that dirt. Here, a few picks for the road. Don't use them on my strongbox.",
+        "effects": [
+          "give:lockpick*3"
+        ],
+        "options": [
+          {
+            "text": "Show me what you have.",
+            "effects": [
+              "barter:ysolde"
+            ]
+          },
+          {
+            "text": "Thank you.",
+            "end": true
+          }
+        ]
+      },
+      "box_no": {
+        "line": "Nice try. No.",
+        "options": [
+          {
+            "text": "Show me what you have.",
+            "effects": [
+              "barter:ysolde"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      }
+    }
   }
 }

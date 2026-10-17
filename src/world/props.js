@@ -3,7 +3,8 @@ import { darkCastle } from './buildings.js';
 import { manor, timberHouse, cottage, sandstoneCastle } from './houses.js';
 import { deadTree, greatTree } from './trees.js';
 import { goldenSkull } from './characters.js';
-import { wizardH, gnomeH, knightH, skeletonH, hoodedH, ladyH, campGnomeH } from './humans.js';
+import { wizardH, gnomeH, knightH, skeletonH, hoodedH, ladyH, campGnomeH, human } from './humans.js';
+import { CONTAINER_BUILDERS } from './containers.js';
 import { stoneCottage, ruinedTower, monolithTower, ruinedArch, darkKeep, cathedral, alleyRow, campfire, hornedSkull, barrow } from './surface.js';
 import { cragGeometry, rockMaterial, rockGeometry } from './vegetation.js';
 import { stylize } from '../render/materials.js';
@@ -146,6 +147,11 @@ export const PROP_BUILDERS = {
   },
 
   castle_dark: (ctx, p) => darkCastle(ctx, p),
+  ...CONTAINER_BUILDERS,
+  /** An item lying in the world (placed by the game, see Game.placePickup). */
+  loot: (ctx, p) => ({ pickup: { item: p.item, count: p.count ?? 1 } }),
+  /** A plain rigged person (merchants, townsfolk): options as in humans.js. */
+  person: (ctx, p) => human(ctx, p),
   wizard: (ctx, p) => wizardH(ctx, p),
   gnome: (ctx, p) => gnomeH(ctx, p),
   knight: (ctx, p) => knightH(ctx, p),

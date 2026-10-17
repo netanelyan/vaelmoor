@@ -1,0 +1,118 @@
+{
+  "note": "Loot tables. gold: [min, max]. rolls: each entry rolls once (chance 0..1, count [min, max]). pick: choose `pickCount` entries from the list by weight. Tables can include other tables with { \"table\": id }.",
+  "tables": {
+    "chest_common": {
+      "gold": [8, 30],
+      "rolls": [
+        { "item": "potion_health", "chance": 0.5, "count": [1, 2] },
+        { "item": "lockpick", "chance": 0.5, "count": [1, 3] },
+        { "item": "iron_arrow", "chance": 0.3, "count": [4, 10] },
+        { "item": "garnet", "chance": 0.1 }
+      ],
+      "pick": [
+        { "item": "iron_dagger", "w": 3 }, { "item": "iron_war_axe", "w": 2 }, { "item": "hide_bracers", "w": 3 },
+        { "item": "hide_boots", "w": 3 }, { "item": "potion_magicka", "w": 3 }, { "item": "potion_stamina", "w": 3 },
+        { "item": "silver_ring", "w": 1 }, { "item": "book_hollowford", "w": 1 }
+      ],
+      "pickCount": 2
+    },
+    "chest_locked": {
+      "gold": [30, 80],
+      "rolls": [
+        { "item": "potion_health_2", "chance": 0.6 },
+        { "item": "garnet", "chance": 0.4 },
+        { "item": "steel_sword", "chance": 0.25 },
+        { "item": "book_steady_hand", "chance": 0.35 }
+      ],
+      "pick": [{ "item": "iron_helmet", "w": 2 }, { "item": "iron_shield", "w": 2 }, { "item": "silver_ring", "w": 3 }, { "item": "potion_magicka", "w": 3 }],
+      "pickCount": 1
+    },
+    "barrel_food": {
+      "gold": [0, 0],
+      "rolls": [
+        { "item": "apple", "chance": 0.7, "count": [1, 3] },
+        { "item": "bread", "chance": 0.5, "count": [1, 2] },
+        { "item": "mead", "chance": 0.3 },
+        { "item": "redthorn", "chance": 0.4, "count": [1, 3] }
+      ]
+    },
+    "sack_herbs": {
+      "gold": [0, 4],
+      "rolls": [
+        { "item": "moonmoss", "chance": 0.6, "count": [1, 3] },
+        { "item": "frostbloom", "chance": 0.5, "count": [1, 2] },
+        { "item": "ashlily", "chance": 0.4, "count": [1, 2] },
+        { "item": "barrowcap", "chance": 0.4, "count": [1, 2] },
+        { "item": "leather_strips", "chance": 0.3, "count": [1, 3] }
+      ]
+    },
+    "body_traveller": {
+      "gold": [5, 25],
+      "rolls": [
+        { "item": "potion_health", "chance": 0.6 },
+        { "item": "lockpick", "chance": 0.4, "count": [1, 2] },
+        { "item": "bread", "chance": 0.4 }
+      ],
+      "pick": [{ "item": "iron_dagger", "w": 2 }, { "item": "hide_helmet", "w": 2 }, { "item": "longbow", "w": 1 }, { "item": "book_first_flame", "w": 1 }],
+      "pickCount": 1
+    },
+    "wolf": {
+      "gold": [0, 0],
+      "rolls": [{ "item": "wolf_pelt", "chance": 1 }, { "item": "wolf_fang", "chance": 0.6, "count": [1, 2] }]
+    },
+    "hollow_one": {
+      "gold": [2, 15],
+      "rolls": [
+        { "item": "hollow_dust", "chance": 0.8 },
+        { "item": "bonesalt", "chance": 0.4 },
+        { "item": "iron_arrow", "chance": 0.3, "count": [2, 6] }
+      ],
+      "pick": [{ "item": "iron_war_axe", "w": 2 }, { "item": "iron_sword", "w": 2 }, { "item": "iron_helmet", "w": 1 }, { "item": "potion_health", "w": 2 }],
+      "pickCount": 1
+    },
+    "shade": {
+      "gold": [0, 0],
+      "rolls": [{ "item": "hollow_dust", "chance": 1, "count": [1, 2] }, { "item": "mothwing", "chance": 0.5 }]
+    },
+    "coffin": {
+      "gold": [5, 20],
+      "rolls": [{ "item": "bonesalt", "chance": 0.5 }, { "item": "silver_ring", "chance": 0.25 }],
+      "pick": [{ "item": "iron_sword", "w": 1 }, { "item": "potion_health", "w": 2 }, { "item": "hollow_dust", "w": 2 }],
+      "pickCount": 1
+    },
+    "boss_chest": {
+      "gold": [120, 200],
+      "rolls": [
+        { "item": "barrow_blade", "chance": 1 },
+        { "item": "potion_health_2", "chance": 1, "count": [2, 2] },
+        { "item": "garnet", "chance": 1, "count": [1, 2] }
+      ]
+    }
+  },
+  "merchants": {
+    "ysolde": {
+      "gold": 600,
+      "stock": [
+        { "item": "iron_dagger", "count": 2 }, { "item": "iron_sword", "count": 2 }, { "item": "steel_sword", "count": 1 },
+        { "item": "iron_war_axe", "count": 1 }, { "item": "hunting_bow", "count": 1 }, { "item": "iron_arrow", "count": 60 },
+        { "item": "hide_helmet", "count": 1 }, { "item": "hide_armor", "count": 1 }, { "item": "hide_bracers", "count": 1 }, { "item": "hide_boots", "count": 1 },
+        { "item": "iron_shield", "count": 1 }, { "item": "wooden_shield", "count": 1 },
+        { "item": "potion_health", "count": 5 }, { "item": "potion_magicka", "count": 3 }, { "item": "potion_stamina", "count": 3 },
+        { "item": "lockpick", "count": 15 }, { "item": "leather", "count": 4 }, { "item": "leather_strips", "count": 10 }, { "item": "iron_ingot", "count": 6 },
+        { "item": "book_barrow_bells", "count": 1 }, { "item": "moonmoss", "count": 4 }, { "item": "ashlily", "count": 3 }
+      ],
+      "spells": ["flames", "healing"],
+      "buys": ["weapons", "apparel", "potions", "ingredients", "books", "misc"]
+    },
+    "maren": {
+      "gold": 250,
+      "stock": [{ "item": "bread", "count": 6 }, { "item": "apple", "count": 6 }, { "item": "mead", "count": 8 }, { "item": "redthorn", "count": 4 }, { "item": "candle", "count": 4 }],
+      "buys": ["potions", "ingredients", "misc"]
+    },
+    "smith": {
+      "gold": 400,
+      "stock": [{ "item": "iron_ingot", "count": 10 }, { "item": "steel_ingot", "count": 4 }, { "item": "leather", "count": 6 }, { "item": "leather_strips", "count": 12 }, { "item": "iron_helmet", "count": 1 }, { "item": "iron_boots", "count": 1 }],
+      "buys": ["weapons", "apparel", "misc"]
+    }
+  }
+}

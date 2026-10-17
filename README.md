@@ -21,6 +21,10 @@ npx serve .
 
 Then open the printed URL. Any static server works; the game just can't be opened from `file://`.
 
+## Playing
+
+Vaelmoor is a first-person RPG in the old mould. Ten skills (One-Handed, Block, Archery, Destruction, Restoration, Sneak, Lockpicking, Speech, Alchemy and Smithing) rise as you use them, and your character level rises with them. Each level-up gives +10 to health, magicka or stamina and a perk point for that skill's constellation. Chests, barrels, sacks and bodies can be searched (take one with E, everything with R); locked ones need a lockpick and a steady hand. Merchants buy and sell at prices set by your Speech. Items, loot tables, skills, perks and spells all live in `data/`.
+
 ## Controls
 
 | Key | Action |
@@ -29,8 +33,14 @@ Then open the printed URL. Any static server works; the game just can't be opene
 | W A S D, mouse | Move, look |
 | Shift | Sprint (uses stamina) |
 | Space | Jump |
-| E | Use what the crosshair is on: talk, take, open |
-| J or Tab | Journal |
+| E | Use what the crosshair is on: talk, take, search, unlock, read |
+| Tab | Menu: Skills / Items / Magic / Map |
+| I | Items: categories, 3D preview, equip (E right hand, R left hand), favorite (F), drop (X) |
+| P | Magic: put Flames or Healing in either hand |
+| K | Skills: constellations and perks; level-ups choose +10 health, magicka or stamina |
+| Q | Favorites: quick-switch what each hand holds |
+| R | Draw / sheathe |
+| J | Journal |
 | Esc | Pause menu (resume, journal, save, load, settings, quit) |
 | F3 | FPS overlay |
 | F2 | Photo-mode menu: every reference shot in both layers |

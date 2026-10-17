@@ -1,0 +1,91 @@
+{
+  "levelling": {
+    "note": "A skill needs (base + level * perLevel) use-points to rise one level. Each skill increase adds the new skill level to character XP; the character levels when XP reaches (level + 2) * levelStep.",
+    "base": 4,
+    "perLevel": 0.6,
+    "levelStep": 15,
+    "maxSkill": 100,
+    "statGain": 10
+  },
+  "skills": [
+    { "id": "one_handed", "name": "One-Handed", "school": "warrior", "start": 15, "constellation": "The Warden",
+      "desc": "Swords, axes and daggers held in one hand. Raised by striking with them.",
+      "perks": [
+        { "id": "oh_armsman", "name": "Armsman", "at": [0.5, 0.86], "req": 0, "desc": "One-handed weapons do 20% more damage.", "mods": { "one_handed.damage": 0.2 } },
+        { "id": "oh_fighting_stance", "name": "Fighting Stance", "at": [0.3, 0.6], "req": 20, "needs": ["oh_armsman"], "desc": "Power attacks cost 25% less stamina.", "mods": { "power.cost": -0.25 } },
+        { "id": "oh_savage_strike", "name": "Savage Strike", "at": [0.68, 0.55], "req": 30, "needs": ["oh_armsman"], "desc": "Power attacks do 25% more damage.", "mods": { "power.damage": 0.25 } },
+        { "id": "oh_armsman2", "name": "Armsman II", "at": [0.5, 0.3], "req": 40, "needs": ["oh_fighting_stance", "oh_savage_strike"], "desc": "One-handed weapons do a further 20% more damage.", "mods": { "one_handed.damage": 0.2 } },
+        { "id": "oh_paralyzing", "name": "Paralyzing Strike", "at": [0.5, 0.1], "req": 60, "needs": ["oh_armsman2"], "desc": "Power attacks stagger even large foes.", "mods": { "power.stagger": 1 } }
+      ] },
+    { "id": "block", "name": "Block", "school": "warrior", "start": 15, "constellation": "The Shieldwall",
+      "desc": "Turning blows aside with a shield or blade. Raised by blocking hits.",
+      "perks": [
+        { "id": "bl_wall", "name": "Shield Wall", "at": [0.5, 0.85], "req": 0, "desc": "Blocking is 20% more effective.", "mods": { "block.reduction": 0.2 } },
+        { "id": "bl_deflect", "name": "Deflect Arrows", "at": [0.28, 0.5], "req": 30, "needs": ["bl_wall"], "desc": "Arrows that hit your block do no damage.", "mods": { "block.arrows": 1 } },
+        { "id": "bl_quick", "name": "Quick Reflexes", "at": [0.72, 0.5], "req": 30, "needs": ["bl_wall"], "desc": "A well-timed block staggers the attacker.", "mods": { "block.timedStagger": 1 } },
+        { "id": "bl_bash", "name": "Elemental Ward", "at": [0.5, 0.18], "req": 50, "needs": ["bl_deflect", "bl_quick"], "desc": "Blocking halves fire damage.", "mods": { "block.fire": 0.5 } }
+      ] },
+    { "id": "archery", "name": "Archery", "school": "warrior", "start": 15, "constellation": "The Heron",
+      "desc": "The bow. Raised by hitting targets with arrows.",
+      "perks": [
+        { "id": "ar_overdraw", "name": "Overdraw", "at": [0.5, 0.86], "req": 0, "desc": "Bows do 20% more damage.", "mods": { "archery.damage": 0.2 } },
+        { "id": "ar_eagle", "name": "Eagle Eye", "at": [0.25, 0.55], "req": 30, "needs": ["ar_overdraw"], "desc": "Hold block while drawn to zoom in.", "mods": { "archery.zoom": 1 } },
+        { "id": "ar_steady", "name": "Steady Hand", "at": [0.75, 0.55], "req": 40, "needs": ["ar_overdraw"], "desc": "Draw the bow 30% faster.", "mods": { "archery.draw": 0.3 } },
+        { "id": "ar_overdraw2", "name": "Overdraw II", "at": [0.5, 0.2], "req": 50, "needs": ["ar_eagle", "ar_steady"], "desc": "Bows do a further 20% more damage.", "mods": { "archery.damage": 0.2 } }
+      ] },
+    { "id": "destruction", "name": "Destruction", "school": "mage", "start": 15, "constellation": "The Kindler",
+      "desc": "Spells that burn and break. Raised by damaging foes with them.",
+      "perks": [
+        { "id": "de_novice", "name": "Novice Destruction", "at": [0.5, 0.86], "req": 0, "desc": "Novice destruction spells cost half as much magicka.", "mods": { "destruction.cost": -0.5 } },
+        { "id": "de_augmented", "name": "Augmented Flames", "at": [0.28, 0.55], "req": 30, "needs": ["de_novice"], "desc": "Fire spells do 25% more damage.", "mods": { "destruction.damage": 0.25 } },
+        { "id": "de_intense", "name": "Intense Flames", "at": [0.72, 0.55], "req": 40, "needs": ["de_novice"], "desc": "Foes at low health flee from fire.", "mods": { "destruction.fear": 1 } },
+        { "id": "de_augmented2", "name": "Augmented Flames II", "at": [0.5, 0.2], "req": 60, "needs": ["de_augmented"], "desc": "Fire spells do a further 25% more damage.", "mods": { "destruction.damage": 0.25 } }
+      ] },
+    { "id": "restoration", "name": "Restoration", "school": "mage", "start": 15, "constellation": "The Kindly Lamp",
+      "desc": "Mending flesh. Raised by healing wounds.",
+      "perks": [
+        { "id": "re_novice", "name": "Novice Restoration", "at": [0.5, 0.86], "req": 0, "desc": "Novice restoration spells cost half as much magicka.", "mods": { "restoration.cost": -0.5 } },
+        { "id": "re_regen", "name": "Regeneration", "at": [0.3, 0.52], "req": 20, "needs": ["re_novice"], "desc": "Healing spells cure 50% more.", "mods": { "restoration.heal": 0.5 } },
+        { "id": "re_recovery", "name": "Recovery", "at": [0.7, 0.52], "req": 30, "needs": ["re_novice"], "desc": "Magicka regenerates 25% faster.", "mods": { "magicka.regen": 0.25 } },
+        { "id": "re_respite", "name": "Respite", "at": [0.5, 0.18], "req": 40, "needs": ["re_regen", "re_recovery"], "desc": "Healing spells also restore stamina.", "mods": { "restoration.stamina": 1 } }
+      ] },
+    { "id": "sneak", "name": "Sneak", "school": "thief", "start": 15, "constellation": "The Shadow",
+      "desc": "Moving unseen. Raised by staying hidden near those who would see you.",
+      "perks": [
+        { "id": "sn_stealth", "name": "Stealth", "at": [0.5, 0.86], "req": 0, "desc": "You are 20% harder to detect while sneaking.", "mods": { "sneak.detect": -0.2 } },
+        { "id": "sn_backstab", "name": "Backstab", "at": [0.28, 0.55], "req": 30, "needs": ["sn_stealth"], "desc": "Sneak attacks with one-handed weapons do 6x damage.", "mods": { "sneak.melee": 6 } },
+        { "id": "sn_deadly", "name": "Deadly Aim", "at": [0.72, 0.55], "req": 40, "needs": ["sn_stealth"], "desc": "Sneak attacks with bows do 3x damage.", "mods": { "sneak.bow": 3 } },
+        { "id": "sn_muffled", "name": "Muffled Movement", "at": [0.5, 0.18], "req": 50, "needs": ["sn_backstab", "sn_deadly"], "desc": "Moving makes half as much noise.", "mods": { "sneak.noise": -0.5 } }
+      ] },
+    { "id": "lockpicking", "name": "Lockpicking", "school": "thief", "start": 15, "constellation": "The Key",
+      "desc": "Opening what was meant to stay shut. Raised by picking locks.",
+      "perks": [
+        { "id": "lp_novice", "name": "Novice Locks", "at": [0.5, 0.86], "req": 0, "desc": "Novice and apprentice locks are much easier to pick.", "mods": { "lock.easy": 0.5 } },
+        { "id": "lp_quick", "name": "Quick Hands", "at": [0.3, 0.5], "req": 30, "needs": ["lp_novice"], "desc": "Picking a lock never gets you noticed.", "mods": { "lock.silent": 1 } },
+        { "id": "lp_unbreakable", "name": "Steady Pick", "at": [0.7, 0.5], "req": 50, "needs": ["lp_novice"], "desc": "Lockpicks break half as often.", "mods": { "lock.durability": 1 } }
+      ] },
+    { "id": "speech", "name": "Speech", "school": "thief", "start": 15, "constellation": "The Tongue",
+      "desc": "Bargaining, persuading and threatening. Raised by trading and by winning arguments.",
+      "perks": [
+        { "id": "sp_haggling", "name": "Haggling", "at": [0.5, 0.86], "req": 0, "desc": "Buying and selling prices are 10% better.", "mods": { "speech.prices": 0.1 } },
+        { "id": "sp_persuasion", "name": "Persuasion", "at": [0.28, 0.52], "req": 30, "needs": ["sp_haggling"], "desc": "Persuasion attempts are 30% easier.", "mods": { "speech.persuade": 0.3 } },
+        { "id": "sp_intimidation", "name": "Intimidation", "at": [0.72, 0.52], "req": 40, "needs": ["sp_haggling"], "desc": "Intimidation attempts are twice as likely to work.", "mods": { "speech.intimidate": 1 } },
+        { "id": "sp_haggling2", "name": "Haggling II", "at": [0.5, 0.18], "req": 50, "needs": ["sp_persuasion", "sp_intimidation"], "desc": "Prices are a further 10% better.", "mods": { "speech.prices": 0.1 } }
+      ] },
+    { "id": "alchemy", "name": "Alchemy", "school": "thief", "start": 15, "constellation": "The Cauldron",
+      "desc": "Brewing potions at an alchemy table. Raised by making them.",
+      "perks": [
+        { "id": "al_alchemist", "name": "Alchemist", "at": [0.5, 0.86], "req": 0, "desc": "Potions you make are 20% stronger.", "mods": { "alchemy.potency": 0.2 } },
+        { "id": "al_physician", "name": "Physician", "at": [0.28, 0.5], "req": 20, "needs": ["al_alchemist"], "desc": "Restoring potions are 25% stronger.", "mods": { "alchemy.restore": 0.25 } },
+        { "id": "al_experimenter", "name": "Experimenter", "at": [0.72, 0.5], "req": 40, "needs": ["al_alchemist"], "desc": "Eating an ingredient reveals all of its effects.", "mods": { "alchemy.reveal": 4 } },
+        { "id": "al_alchemist2", "name": "Alchemist II", "at": [0.5, 0.16], "req": 50, "needs": ["al_physician", "al_experimenter"], "desc": "Potions you make are a further 20% stronger.", "mods": { "alchemy.potency": 0.2 } }
+      ] },
+    { "id": "smithing", "name": "Smithing", "school": "warrior", "start": 15, "constellation": "The Anvil",
+      "desc": "Forging weapons and armour. Raised by making them at a forge.",
+      "perks": [
+        { "id": "sm_iron", "name": "Iron Smithing", "at": [0.5, 0.86], "req": 0, "desc": "You can forge iron at a forge.", "mods": { "smith.iron": 1 } },
+        { "id": "sm_steel", "name": "Steel Smithing", "at": [0.5, 0.52], "req": 25, "needs": ["sm_iron"], "desc": "You can forge steel, and steel items you make are 10% better.", "mods": { "smith.steel": 1 } },
+        { "id": "sm_temper", "name": "Arcane Temper", "at": [0.5, 0.18], "req": 50, "needs": ["sm_steel"], "desc": "Weapons and armour you forge are 20% better.", "mods": { "smith.quality": 0.2 } }
+      ] }
+  ]
+}

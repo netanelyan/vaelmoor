@@ -1,4 +1,5 @@
-// Keyboard + pointer-lock mouse input.
+// Keyboard + pointer-lock mouse input. Mouse buttons are tracked as
+// 'Mouse0' (left) / 'Mouse2' (right) alongside key codes, so `down()` covers both.
 export class Input {
   constructor(element) {
     this.element = element;
@@ -6,14 +7,24 @@ export class Input {
     this.mouseDX = 0;
     this.mouseDY = 0;
     this.locked = false;
-    this.listeners = { keydown: [], lock: [] };
+    this.listeners = { keydown: [], keyup: [], lock: [], mousedown: [], mouseup: [] };
 
     addEventListener('keydown', (e) => {
       if (e.repeat) return;
       this.keys.add(e.code);
       for (const fn of this.listeners.keydown) fn(e);
     });
-    addEventListener('keyup', (e) => this.keys.delete(e.code));
+    addEventListener('keyup', (e) => { this.keys.delete(e.code); for (const fn of this.listeners.keyup) fn(e); });
+    element.addEventListener('mousedown', (e) => {
+      if (!this.locked) return;
+      this.keys.add(`Mouse${e.button}`);
+      for (const fn of this.listeners.mousedown) fn(e);
+    });
+    addEventListener('mouseup', (e) => {
+      if (!this.keys.delete(`Mouse${e.button}`)) return;
+      for (const fn of this.listeners.mouseup) fn(e);
+    });
+    element.addEventListener('contextmenu', (e) => e.preventDefault());
     addEventListener('blur', () => this.keys.clear());
     addEventListener('mousemove', (e) => {
       if (!this.locked) return;

@@ -10,8 +10,10 @@ import { blendProfiles } from './world/profiles.js';
 import { Player } from './player/player.js';
 import { PhotoMode } from './player/photoMode.js';
 import { settings } from './game/settings.js';
-import { Vitals } from './game/vitals.js';
 import { QuestLog } from './game/quests.js';
+import { Game } from './game/game.js';
+import { Viewmodel } from './player/viewmodel.js';
+import { Sfx } from './audio/sfx.js';
 import { GameUI } from './ui/ui.js';
 
 const params = new URLSearchParams(location.search);
@@ -36,18 +38,28 @@ async function main() {
   const assets = new Assets(renderer);
   assets.onProgress = (f) => { $('loading-fill').style.width = `${Math.round(f * 100)}%`; };
 
-  const [questData, dialogues, ...regions] = await Promise.all(
-    ['data/quests.json', 'data/dialogue.json', ...REALMS.map((r) => `data/regions/${r}.json`)].map(fetchJSON),
-  );
+  const DATA = ['quests', 'dialogue', 'items', 'skills', 'loot', 'spells'];
+  const loaded = await Promise.all([...DATA.map((d) => `data/${d}.json`), ...REALMS.map((r) => `data/regions/${r}.json`)].map(fetchJSON));
+  const [questData, dialogues, items, skills, loot, spells] = loaded;
+  const regions = loaded.slice(DATA.length);
 
   // --- realms (each region is its own scene)
   const realms = {};
   for (const region of regions) realms[region.id] = await Realm.create(renderer, assets, region);
   let realm = realms[params.get('region') || 'surface'] || realms.surface;
 
-  const vitals = new Vitals();
+  const audio = new Sfx();
+  const game = new Game({ items, skills, loot, spells }, { audio });
+  game.realmOf = () => realm;
+  // containers and loot placed in the region data
+  for (const r of Object.values(realms)) {
+    for (const c of r.world.containerDefs) game.containers.define(c.id, c.def);
+    for (const p of r.world.pickupDefs) game.placePickup(r, p);
+  }
   const player = new Player(camera, input, realm.world);
-  player.vitals = vitals;
+  player.vitals = game.character;
+  realm.scene.add(camera); // the first-person hands ride on the camera
+  const viewmodel = new Viewmodel(camera, game);
   const quests = new QuestLog(questData);
   const post = new PostFX(renderer, realm.scene, camera);
 
@@ -62,6 +74,7 @@ async function main() {
     if (crossfade) transition = { from: blendProfiles(profileNow, profileNow, 0), fromPost: postSnapshot, t: 0 };
     else transition = null;
     realm = next;
+    realm.scene.add(camera);
     player.world = realm.world;
     post.setScene(realm.scene);
     realm.envDirty = true;
@@ -110,7 +123,7 @@ async function main() {
   for (const r of Object.values(realms)) await r.warmUp(camera);
 
   // --- UI + game flow
-  ui = new GameUI({ input, canvas, camera, player, realm, quests, vitals, dialogues, photo });
+  ui = new GameUI({ input, canvas, camera, player, realm, realms, quests, game, dialogues, photo });
   if (params.has('nohud')) $('ui').style.display = 'none';
   $('loading').classList.add('ui-off');
 
@@ -164,10 +177,11 @@ async function main() {
     if (ui.state === 'photo' && player.isMoving()) leavePhoto();
     if (ui.playerControl) {
       player.update(dt);
-      vitals.update(dt, player.events);
+      game.character.update(dt, player.events);
       checkPortals();
     }
     ui.update(dt, time);
+    viewmodel.update(dt, { moving: Math.min(1, Math.hypot(player.vel.x, player.vel.z) / 5), sprinting: player.events.sprinting });
     realm.update(dt, time, camera, post, photo.active?.area);
 
     // render profile + post: crossfade during a realm transition
@@ -192,7 +206,7 @@ async function main() {
   window.vaelmoor = {
     ready: false, camera, renderer, assets, realms, get realm() { return realm; }, get world() { return realm.world; },
     get scene() { return realm.scene; }, get atmosphere() { return realm.atmosphere; }, get region() { return realm.region; },
-    photo, player, ui, quests, vitals, settings, post, setRealm: (id, o) => setRealm(realms[id], o),
+    photo, player, ui, quests, game, input, viewmodel, audio, settings, post, setRealm: (id, o) => setRealm(realms[id], o),
     shot: (id) => enterPhoto(String(id).includes(':') ? id : `gloaming:${id}`),
     info: () => ({ ratio: renderer.getPixelRatio(), calls: renderer.info.render.calls, triangles: renderer.info.render.triangles, programs: renderer.info.programs.length }),
   };
@@ -206,6 +220,7 @@ async function main() {
     const dt = Math.min(timer.getDelta(), 0.05);
     renderer.info.reset();
     if (ui.simulating) step(dt);
+    ui.menus(dt);
     post.render(dt, time);
     frames++;
     fpsTimer += dt;

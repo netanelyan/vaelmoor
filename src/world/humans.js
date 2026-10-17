@@ -427,7 +427,7 @@ const POSE_CLIP = {
  *   robe: '#hex' (adds a long skirt), robeLen, hemR, tatter, mantle: '#hex', cape,
  *   hood: bool, faceless: bool, hat: '#hex', helmet: bool, armour: '#hex', dull,
  *   staff: true|'#glow', sword, torch: '#hex', skull: '#glow', headScale,
- *   patrol: metres (walk back and forth), rim
+ *   patrol: metres (walk back and forth), at: hold the clip at this fraction (with freeze), rim
  * }
  * Returns a prop result { object, colliders, lights, update }.
  */
@@ -603,7 +603,8 @@ export async function human(ctx, o = {}) {
   action.play();
   const seed = o.seed ?? Math.floor(Math.random() * 1000);
   action.timeScale = 0.85 + ((seed * 37) % 30) / 100;
-  mixer.update(((seed * 0.731) % 1) * clip.duration);
+  if (o.at != null) { action.setLoop(THREE.LoopOnce); action.clampWhenFinished = true; }
+  mixer.update(o.at != null ? o.at * clip.duration * 0.999 : ((seed * 0.731) % 1) * clip.duration);
   tweak();
   if (o.freeze) action.paused = true;
   let groundShift = 0;

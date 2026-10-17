@@ -1,0 +1,195 @@
+{
+  "results": [
+    {
+      "name": "new game: starting gear",
+      "ok": true,
+      "detail": "{\"head\":\"grey_hood\",\"body\":\"wanderer_tunic\",\"hands\":null,\"feet\":null,\"left\":null,\"right\":\"iron_dagger\",\"ammo\":null}"
+    },
+    {
+      "name": "prompt on Ysolde",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "dialogue opens",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "barter opens",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "buy a lockpick",
+      "ok": true,
+      "detail": "price 4, gold 25 -> 21"
+    },
+    {
+      "name": "sell bread",
+      "ok": true,
+      "detail": "gold 21 -> 22"
+    },
+    {
+      "name": "trading trains Speech",
+      "ok": true,
+      "detail": "progress 0.00 -> 0.08"
+    },
+    {
+      "name": "barter closes to play",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "returning greeting differs",
+      "ok": true,
+      "detail": "Show me what you have. | That strongbox of yours. What's in it? | Any news on the road? | Farewell."
+    },
+    {
+      "name": "persuade option labelled",
+      "ok": true,
+      "detail": "(Persuade) You could at least give a stranger a discount."
+    },
+    {
+      "name": "persuade fails at Speech 15",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "locked chest prompt",
+      "ok": true,
+      "detail": "{\"name\":\"Old Chest\",\"action\":\"Unlock\",\"sub\":\"Novice lock\",\"steal\":false}"
+    },
+    {
+      "name": "lockpick screen",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "lock opened, chest shows its contents",
+      "ok": true,
+      "detail": "state transfer"
+    },
+    {
+      "name": "picking trains Lockpicking",
+      "ok": true,
+      "detail": "{\"level\":15,\"progress\":2}"
+    },
+    {
+      "name": "take all from the chest",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "search a body",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "take one from a body",
+      "ok": true,
+      "detail": "Gold"
+    },
+    {
+      "name": "ground loot prompt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "take the sword",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "inventory opens",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "equip the iron sword (right hand)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "favorite it",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "armor / weight / gold bar",
+      "ok": true,
+      "detail": "ARMOR0WEIGHT17/200GOLD34"
+    },
+    {
+      "name": "potion heals",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "read a book",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "magic menu lists spells",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Flames in the left hand",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "favorites open",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "favorites equip the dagger",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "skills level by use, character levels up",
+      "ok": true,
+      "detail": "{\"level\":2,\"oneHanded\":17,\"pending\":1,\"perks\":1}"
+    },
+    {
+      "name": "skills screen opens with level-up choice",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "+10 health from the level-up",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "take a perk",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "tab menu",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "save/load restores inventory and gold",
+      "ok": true,
+      "detail": "34 / 34"
+    },
+    {
+      "name": "save/load keeps the chest looted",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fps 58+ at the peddler camp",
+      "ok": true,
+      "detail": "avg 59.1, min 56"
+    }
+  ],
+  "console": []
+}
