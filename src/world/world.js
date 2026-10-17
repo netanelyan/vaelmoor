@@ -7,6 +7,8 @@ import { fireflies, smoke, mist, groundGlow } from './particles.js';
 import { PROP_BUILDERS } from './props.js';
 import { buildGrass } from './grass.js';
 import { Interactables } from '../game/interact.js';
+import { heroDefs, heroProp, heroInstanced } from './hero.js';
+import { fire } from './particles.js';
 import { mulberry32, hashString, smoothstep } from '../engine/noise.js';
 
 const DEG = Math.PI / 180;
@@ -27,6 +29,8 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   const containerDefs = []; // [{ id, def }] registered with the game's Containers
   const pickupDefs = [];    // [{ uid, item, count, at, rot }] placed by the game
   const enemyDefs = [];     // [{ id, kind, at, rot, patrol }] spawned by the game
+  const heroes = await heroDefs(); // hero models available in assets/hero (data/hero.json)
+  const heroBatches = new Map();   // static repeated heroes -> one InstancedMesh each
 
   // --- ground & road tinting blended from area palettes
   const tintSources = region.areas.map((a) => ({
@@ -105,9 +109,28 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
     for (const prop of area.props || []) {
       let [x, z] = local(prop.at ?? [0, 0]);
       const builder = PROP_BUILDERS[prop.type];
-      if (!builder) { console.warn('unknown prop type', prop.type); continue; }
-      const res = await builder(ctx, prop, { x, z, area });
+      // a hero model replaces the procedural version when one is listed for it
+      const heroName = prop.hero ? (typeof prop.hero === 'string' ? prop.hero : prop.hero.model) : null;
+      const heroSpec = heroName ? heroes[heroName] : null;
+      if (!builder && !heroSpec) { console.warn('unknown prop type', prop.type); continue; }
+      if (heroSpec && prop.instance) {
+        const hy = prop.absY ?? groundAt(x, z) + (prop.y ?? 0);
+        if (!heroBatches.has(heroName)) heroBatches.set(heroName, []);
+        heroBatches.get(heroName).push({ x, y: hy, z, rot: (prop.rot ?? 0) * DEG, height: prop.heroHeight, stretch: prop.stretch });
+        continue;
+      }
+      const res = heroSpec ? await heroProp(ctx, prop, heroSpec) : await builder(ctx, prop, { x, z, area });
       if (!res) continue;
+      if (heroSpec && prop.type === 'campfire') {
+        // the hero fire pit gets a living fire, a flickering light and a warm ground glow
+        const f = fire({ scale: prop.fireScale ?? 1, color: prop.color ?? '#ff6a20', seed: Math.round(x * 7 + z) });
+        f.object.position.y = 0.12;
+        res.object.add(f.object);
+        const prev = res.update;
+        res.update = (dt, t, cam) => { prev?.(dt, t, cam); f.update(dt, t); };
+        res.lights = [{ x: 0, y: 1.0, z: 0, color: prop.color ?? '#ff5a1a', intensity: (prop.light ?? 1.4) * 1.6, distance: 9, flicker: 0.35 }];
+        res.glows = [{ x: 0, z: 0, radius: 2.4, color: prop.color ?? '#ff3a18', intensity: 0.14 }];
+      }
       const propId = `${region.id}:${prop.id ?? `${prop.type}@${Math.round(x)},${Math.round(z)}`}`;
       if (res.enemy) {
         enemyDefs.push({ id: propId, kind: res.enemy.kind, at: [x, z], rot: (prop.rot ?? 0) * DEG, patrol: res.enemy.patrol });
@@ -156,8 +179,9 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
         ci.container = propId;
       }
       if (prop.npc) {
-        interactables.add({ id: prop.npc, name: prop.name ?? prop.npc, action: 'Talk', kind: 'npc', radius: 0.6,
-          pos: new THREE.Vector3(x, y + (prop.talkY ?? 1.5) * s, z) });
+        const npc = interactables.add({ id: prop.npc, name: prop.name ?? prop.npc, action: 'Talk', kind: 'npc', radius: 0.6,
+          pos: new THREE.Vector3(x, y + (prop.talkY ?? (res.height ? res.height * 0.85 : 1.5)) * s, z) });
+        npc.hero = res.hero ?? null;
       }
       if (prop.item) {
         interactables.add({ id: prop.item, name: prop.name ?? prop.item, action: 'Take', kind: 'item', radius: 0.45,
@@ -232,6 +256,11 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
         addTree(ctx, 'pine', px, pz, F.scale[0] + rand() * (F.scale[1] - F.scale[0]), rand() * 1000);
       }
     }
+  }
+  for (const [name, items] of heroBatches) {
+    const b = await heroInstanced(ctx, name, heroes[name], items);
+    scene.add(b.object);
+    for (const c of b.colliders) colliders.add(c.x, c.z, c.r);
   }
   scene.add(pines.build());
   scene.add(rocks.build());

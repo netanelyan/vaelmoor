@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
 
 // Central asset loading: textures (PBR sets from assets/textures/<id>_{diff,nor,rough}.jpg)
 // and glTF models. One LoadingManager drives the loading bar.
@@ -9,6 +10,7 @@ export class Assets {
     this.manager = new THREE.LoadingManager();
     this.textureLoader = new THREE.TextureLoader(this.manager);
     this.gltfLoader = new GLTFLoader(this.manager);
+    this.gltfLoader.setMeshoptDecoder(MeshoptDecoder); // hero models: meshopt geometry + WebP textures
     this.anisotropy = Math.min(8, renderer.capabilities.getMaxAnisotropy());
     this.textures = new Map();
     this.models = new Map();

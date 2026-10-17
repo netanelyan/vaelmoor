@@ -3,7 +3,7 @@
     {
       "name": "wolves notice the player",
       "ok": true,
-      "detail": "1 aware"
+      "detail": "2 aware"
     },
     {
       "name": "blocking a bite trains Block",
@@ -18,7 +18,7 @@
     {
       "name": "power attack costs stamina",
       "ok": true,
-      "detail": "stamina 90.80619999991657"
+      "detail": "stamina 94.98029999999997"
     },
     {
       "name": "sword hits train One-Handed",
@@ -58,7 +58,7 @@
     {
       "name": "Flames burn the Hollow One",
       "ok": true,
-      "detail": "health 40.8 -> 2.6"
+      "detail": "health 40.8 -> 0.0"
     },
     {
       "name": "Flames train Destruction",
@@ -82,8 +82,8 @@
     },
     {
       "name": "fps 58+ in a fight",
-      "ok": false,
-      "detail": "avg 57.6, min 54"
+      "ok": true,
+      "detail": "avg 59, min 56"
     },
     {
       "name": "death fades to black",
@@ -93,7 +93,7 @@
     {
       "name": "reloads the last save",
       "ok": true,
-      "detail": "{\"st\":\"play\",\"arrows\":19,\"hp\":90.4699399999976,\"saved\":19}"
+      "detail": "{\"st\":\"play\",\"arrows\":19,\"hp\":90.84322000000472,\"saved\":19}"
     }
   ],
   "console": []

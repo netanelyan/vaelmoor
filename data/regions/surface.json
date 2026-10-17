@@ -417,7 +417,8 @@
           "h": 3.4,
           "roofH": 5.2,
           "chimney": 7.5,
-          "clear": 9
+          "clear": 9,
+          "hero": "cottage"
         },
         {
           "type": "hooded",
@@ -430,7 +431,8 @@
           "robe": "#0c0a10",
           "height": 1.9,
           "npc": "wanderer",
-          "name": "Hooded Wanderer"
+          "name": "Hooded Wanderer",
+          "hero": "hooded_figure"
         },
         {
           "type": "great_tree",
@@ -656,7 +658,8 @@
           "seed": 14,
           "npc": "ysolde",
           "name": "Ysolde",
-          "talkY": 1.55
+          "talkY": 1.55,
+          "hero": "ysolde_merchant"
         },
         {
           "type": "chest",
@@ -914,7 +917,9 @@
           ],
           "color": "#ff3a18",
           "light": 1.4,
-          "scale": 0.7
+          "scale": 0.7,
+          "hero": "campfire",
+          "fireScale": 0.9
         },
         {
           "type": "crag",
@@ -957,7 +962,8 @@
           "dull": true,
           "armor": "#7a7680",
           "cape": "#5a0a0c",
-          "y": 0.02
+          "y": 0.02,
+          "hero": "knight_campfire"
         },
         {
           "type": "knight",
@@ -970,7 +976,8 @@
           "dull": true,
           "armor": "#7a7680",
           "cape": "#6a0c10",
-          "y": 0.02
+          "y": 0.02,
+          "hero": "knight_campfire"
         },
         {
           "type": "great_tree",
@@ -1012,7 +1019,10 @@
           "height": 70,
           "tiers": 5,
           "stone": "#141c1a",
-          "viewDist": 2000
+          "viewDist": 2000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 70
         }
       ],
       "clearings": [
@@ -1180,7 +1190,9 @@
           "height": 18,
           "broken": 7,
           "texture": "mossy_rock",
-          "stone": "#5a6058"
+          "stone": "#5a6058",
+          "hero": "ruined_tower",
+          "heroHeight": 16
         },
         {
           "type": "ruined_arch",
@@ -1205,7 +1217,12 @@
           "pose": "kneel",
           "robe": "#4a0608",
           "rim": 0.2,
-          "seed": 40
+          "seed": 40,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#9a2420",
+            "gain": 2.2
+          }
         },
         {
           "type": "hooded",
@@ -1217,7 +1234,12 @@
           "pose": "walk",
           "robe": "#4a0608",
           "rim": 0.2,
-          "seed": 41
+          "seed": 41,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#9a2420",
+            "gain": 2.2
+          }
         },
         {
           "type": "hooded",
@@ -1229,7 +1251,12 @@
           "pose": "walk",
           "robe": "#4a0608",
           "rim": 0.2,
-          "seed": 42
+          "seed": 42,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#9a2420",
+            "gain": 2.2
+          }
         },
         {
           "type": "hooded",
@@ -1241,7 +1268,12 @@
           "pose": "bowed",
           "robe": "#4a0608",
           "rim": 0.2,
-          "seed": 43
+          "seed": 43,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#9a2420",
+            "gain": 2.2
+          }
         },
         {
           "type": "great_tree",
@@ -1554,7 +1586,9 @@
             10
           ],
           "y": -0.3,
-          "clear": 9
+          "clear": 9,
+          "hero": "barrow_entrance",
+          "heroSize": 9
         },
         {
           "type": "crag",
@@ -1807,7 +1841,8 @@
           "pose": "walk",
           "robe": "#120a1a",
           "height": 1.95,
-          "seed": 51
+          "seed": 51,
+          "hero": "hooded_figure"
         },
         {
           "type": "hooded",
@@ -1819,7 +1854,8 @@
           "pose": "walk",
           "robe": "#120a1a",
           "height": 1.9,
-          "seed": 52
+          "seed": 52,
+          "hero": "hooded_figure"
         },
         {
           "type": "hooded",
@@ -1831,7 +1867,8 @@
           "pose": "walk",
           "robe": "#1a0e26",
           "height": 1.85,
-          "seed": 53
+          "seed": 53,
+          "hero": "hooded_figure"
         },
         {
           "type": "castle_dark",
@@ -1962,7 +1999,9 @@
           "height": 32,
           "broken": 6,
           "stone": "#6a6470",
-          "viewDist": 1500
+          "viewDist": 1500,
+          "hero": "ruined_tower",
+          "heroHeight": 14
         },
         {
           "type": "hooded",
@@ -1976,7 +2015,12 @@
           "robe": "#8a1a5a",
           "rim": 0.4,
           "height": 1.9,
-          "seed": 61
+          "seed": 61,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#8a2a64",
+            "gain": 2.2
+          }
         },
         {
           "type": "crag",
@@ -2230,7 +2274,8 @@
             2,
             -0.1
           ],
-          "y": -2.7
+          "y": -2.7,
+          "hero": "hooded_figure"
         },
         {
           "type": "castle_dark",
@@ -2260,7 +2305,11 @@
           "seed": 80,
           "color": "#141016",
           "matte": true,
-          "viewDist": 2000
+          "viewDist": 2000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 15.9375,
+          "rot": 160
         },
         {
           "type": "crag",
@@ -2276,7 +2325,11 @@
           "seed": 81,
           "color": "#141016",
           "matte": true,
-          "viewDist": 2000
+          "viewDist": 2000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 14.0625,
+          "rot": 207
         },
         {
           "type": "crag",
@@ -2292,7 +2345,11 @@
           "seed": 82,
           "color": "#141016",
           "matte": true,
-          "viewDist": 2000
+          "viewDist": 2000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 18.75,
+          "rot": 254
         },
         {
           "type": "crag",
@@ -2308,7 +2365,11 @@
           "seed": 83,
           "color": "#141016",
           "matte": true,
-          "viewDist": 2000
+          "viewDist": 2000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 15,
+          "rot": 301
         },
         {
           "type": "crag",
@@ -2324,7 +2385,11 @@
           "seed": 84,
           "color": "#141016",
           "matte": true,
-          "viewDist": 2000
+          "viewDist": 2000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 16.875,
+          "rot": 348
         },
         {
           "type": "crag",
@@ -2340,7 +2405,11 @@
           "seed": 85,
           "color": "#141016",
           "matte": true,
-          "viewDist": 2000
+          "viewDist": 2000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 15.9375,
+          "rot": 35
         },
         {
           "type": "crag",
@@ -2356,7 +2425,11 @@
           "seed": 86,
           "color": "#141016",
           "matte": true,
-          "viewDist": 2000
+          "viewDist": 2000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 13.125,
+          "rot": 82
         },
         {
           "type": "crag",
@@ -2372,7 +2445,11 @@
           "seed": 87,
           "color": "#141016",
           "matte": true,
-          "viewDist": 2000
+          "viewDist": 2000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 18.75,
+          "rot": 129
         }
       ],
       "mist": [
@@ -2490,7 +2567,12 @@
           "pose": "walk",
           "robe": "#4a0a0c",
           "height": 1.95,
-          "seed": 91
+          "seed": 91,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#9a2420",
+            "gain": 2.2
+          }
         },
         {
           "type": "hooded",
@@ -2504,7 +2586,12 @@
           "torchLight": 18,
           "robe": "#5a0c10",
           "height": 1.9,
-          "seed": 92
+          "seed": 92,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#9a2420",
+            "gain": 2.2
+          }
         },
         {
           "type": "crag",
@@ -2860,7 +2947,12 @@
           "pose": "bowed",
           "robe": "#6a0a10",
           "height": 1.8,
-          "seed": 130
+          "seed": 130,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#9a2420",
+            "gain": 2.2
+          }
         },
         {
           "type": "hooded",
@@ -2872,7 +2964,12 @@
           "pose": "bowed",
           "robe": "#6a0a10",
           "height": 1.8,
-          "seed": 131
+          "seed": 131,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#9a2420",
+            "gain": 2.2
+          }
         },
         {
           "type": "hooded",
@@ -2884,7 +2981,12 @@
           "pose": "kneel",
           "robe": "#6a0a10",
           "height": 1.8,
-          "seed": 132
+          "seed": 132,
+          "hero": "hooded_figure",
+          "dye": {
+            "color": "#9a2420",
+            "gain": 2.2
+          }
         }
       ],
       "clearings": [
@@ -2981,7 +3083,10 @@
           "height": 64,
           "tiers": 6,
           "stone": "#141018",
-          "viewDist": 3000
+          "viewDist": 3000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 64
         },
         {
           "type": "ruined_arch",
@@ -3010,7 +3115,10 @@
           "seed": 140,
           "color": "#1a1820",
           "matte": true,
-          "viewDist": 3000
+          "viewDist": 3000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 40.625
         },
         {
           "type": "crag",
@@ -3026,7 +3134,10 @@
           "seed": 141,
           "color": "#1a1820",
           "matte": true,
-          "viewDist": 3000
+          "viewDist": 3000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 34.125
         },
         {
           "type": "crag",
@@ -3042,7 +3153,10 @@
           "seed": 142,
           "color": "#1a1820",
           "matte": true,
-          "viewDist": 3000
+          "viewDist": 3000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 24.375
         },
         {
           "type": "crag",
@@ -3058,7 +3172,10 @@
           "seed": 143,
           "color": "#1a1820",
           "matte": true,
-          "viewDist": 3000
+          "viewDist": 3000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 29.25
         },
         {
           "type": "crag",
@@ -3074,7 +3191,10 @@
           "seed": 144,
           "color": "#1a1820",
           "matte": true,
-          "viewDist": 3000
+          "viewDist": 3000,
+          "hero": "rock_spire",
+          "instance": true,
+          "heroHeight": 19.5
         },
         {
           "type": "crag",
@@ -3264,7 +3384,9 @@
           ],
           "rot": 42.900000000000006,
           "color": "#5a6080",
-          "y": -0.25
+          "y": -0.1,
+          "hero": "skull_horned",
+          "heroSize": 3.4
         },
         {
           "type": "hooded",
@@ -3277,7 +3399,8 @@
           "staff": true,
           "robe": "#0a0810",
           "height": 1.9,
-          "seed": 161
+          "seed": 161,
+          "hero": "hooded_figure"
         },
         {
           "type": "dark_keep",

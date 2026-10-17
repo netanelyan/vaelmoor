@@ -69,16 +69,18 @@ check('locked chest prompt', prompt?.action === 'Unlock' && /Novice/.test(prompt
 await press('e', 400);
 check('lockpick screen', (await st()) === 'lockpick');
 const lp0 = await ev(() => window.vaelmoor.game.character.skills.lockpicking.progress);
-// move the pick to the sweet spot with the mouse over the lock, then hold E
-const sweet = await ev(() => window.vaelmoor.ui.lockpick.sweet);
-const box = await ev(() => { const r = document.querySelector('#lockpick svg').getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; });
-await page.mouse.move(box.x + (sweet / 110 + 1) / 2 * box.w, box.y + box.h * 0.3, { steps: 8 });
-await page.waitForTimeout(200);
-await shot('05_lockpick');
-await page.keyboard.down('e');
-await page.waitForTimeout(1200);
-await page.keyboard.up('e');
-await page.waitForTimeout(800);
+// move the pick to the sweet spot with the mouse over the lock, then hold E (a player may need a few tries)
+for (let attempt = 0; attempt < 3 && (await st()) === 'lockpick'; attempt++) {
+  const sweet = await ev(() => window.vaelmoor.ui.lockpick.sweet);
+  const box = await ev(() => { const r = document.querySelector('#lockpick svg').getBoundingClientRect(); return { x: r.left, y: r.top, w: r.width, h: r.height }; });
+  await page.mouse.move(box.x + (sweet / 110 + 1) / 2 * box.w, box.y + box.h * 0.3, { steps: 8 });
+  await page.waitForTimeout(200);
+  if (attempt === 0) await shot('05_lockpick');
+  await page.keyboard.down('e');
+  await page.waitForTimeout(1200);
+  await page.keyboard.up('e');
+  await page.waitForTimeout(800);
+}
 check('lock opened, chest shows its contents', (await st()) === 'transfer', `state ${await st()}`);
 const lp1 = await ev(() => window.vaelmoor.game.character.skills.lockpicking);
 check('picking trains Lockpicking', lp1.progress > lp0 || lp1.level > 15, JSON.stringify(lp1));

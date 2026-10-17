@@ -17,6 +17,8 @@ const entries = [
   'examples/jsm/objects/Water.js',
   'examples/jsm/loaders/GLTFLoader.js',
   'examples/jsm/utils/BufferGeometryUtils.js',
+  'examples/jsm/utils/SkeletonUtils.js',
+  'examples/jsm/libs/meshopt_decoder.module.js',
   'examples/jsm/controls/PointerLockControls.js',
   'examples/jsm/math/SimplexNoise.js',
 ];

@@ -8,6 +8,7 @@
 import * as THREE from 'three';
 import { Assets } from './src/engine/assets.js';
 import { human } from './src/world/humans.js';
+import { heroProp, heroDefs } from './src/world/hero.js';
 const r = new THREE.WebGLRenderer({ antialias: true });
 r.setSize(innerWidth, innerHeight); r.shadowMap.enabled = true; r.toneMapping = THREE.ACESFilmicToneMapping;
 document.body.appendChild(r.domElement);
@@ -32,6 +33,17 @@ window.spawn = async (list, { gap = 1.1, dist = 7, y = 1.0, yaw = 0, t = 1.0 } =
   }
   cam.position.set(0, y + 0.3, dist); cam.lookAt(0, y, 0);
   for (const u of window.bench.ups) u(t);
+  r.render(scene, cam);
+  return 'ok';
+};
+window.spawnHero = async (names, { gap = 2.2, dist = 12, y = 1.0 } = {}) => {
+  const defs = await heroDefs();
+  for (const [i, n] of names.entries()) {
+    const res = await heroProp(ctx, { hero: n }, defs[n]);
+    res.object.position.set((i - (names.length - 1) / 2) * gap, 0, 0);
+    scene.add(res.object);
+  }
+  cam.position.set(0, y + 0.6, dist); cam.lookAt(0, y, 0);
   r.render(scene, cam);
   return 'ok';
 };

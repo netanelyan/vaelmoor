@@ -3,6 +3,7 @@ import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
 import { human, attachToHand } from '../world/humans.js';
 import { itemMesh } from '../render/itemMesh.js';
 import { stylize } from '../render/materials.js';
+import { heroDefs, heroProp } from '../world/hero.js';
 
 // Hostile creatures (data/enemies.json): wolves on the surface, Hollow Ones
 // in the barrow, shades in the Gloaming. A small state machine each:
@@ -65,6 +66,19 @@ export class Enemy {
 
   async build(assets) {
     const d = this.def;
+    const heroes = d.hero ? await heroDefs() : {};
+    if (d.hero && heroes[d.hero]) {
+      // a static hero model: it slides, bobs or hovers until it is rigged
+      const res = await heroProp({ assets }, { hero: d.hero, idle: 'static' }, heroes[d.hero]);
+      this.static = true;
+      this.body = res.hero.body;
+      this.object.add(res.object);
+      this.mixer = null;
+      this.clipMap = {};
+      this.phase = Math.random() * 10;
+      this.ready = true;
+      return;
+    }
     if (d.model === 'wolf') {
       const { root, clips } = await wolfModel(assets);
       root.scale.multiplyScalar(d.scale ?? 1);
@@ -100,6 +114,7 @@ export class Enemy {
   }
 
   play(name, { once = false, fade = 0.2, speed = 1 } = {}) {
+    if (!this.mixer) return;
     const clip = this.clipMap[name];
     if (!clip) return;
     const a = this.mixer.clipAction(clip);
@@ -143,7 +158,8 @@ export class Enemy {
     this.health = 0;
     this.state = 'dead';
     this.attack = null;
-    if (this.def.model === 'wolf') { this.mixer.stopAllAction(); this.deathT = 0; }
+    if (this.static) { this.deathT = 0; this.body.position.z = 0; this.body.rotation.x = 0; }
+    else if (this.def.model === 'wolf') { this.mixer.stopAllAction(); this.deathT = 0; }
     else this.play('death', { once: true, fade: 0.1 });
     this.game.onEnemyKilled?.(this);
   }
@@ -153,6 +169,7 @@ export class Enemy {
     this.dead = true;
     this.state = 'dead';
     this.health = 0;
+    if (this.static) { this.deathT = 0.999; return; }
     if (this.def.model === 'wolf') { this.body.rotation.z = Math.PI / 2; this.body.position.y = 0.35; }
     else { this.play('death', { once: true, fade: 0 }); this.mixer.update(10); }
   }
@@ -182,9 +199,15 @@ export class Enemy {
     const dist = Math.hypot(player.pos.x - this.pos.x, player.pos.z - this.pos.z);
     if (dist > 120 && this.state === 'idle') { this.object.visible = dist < 220; return; } // far and calm: sleep
     this.object.visible = true;
-    this.mixer.update(dt);
+    this.mixer?.update(dt);
     if (this.dead) {
-      if (this.def.model === 'wolf' && this.deathT != null && this.deathT < 1) {
+      if (this.static && this.deathT != null && this.deathT < 1) {
+        // static models: topple (or, for a shade, sink and fade)
+        this.deathT = Math.min(1, this.deathT + dt * 1.8);
+        const k = this.deathT * this.deathT;
+        if (this.def.motion === 'hover') { this.body.position.y = 0.3 - k * 1.6; this.body.scale.setScalar(1 - k * 0.5); }
+        else { this.body.rotation.z = (Math.PI / 2) * k; this.body.position.y = (this.def.model === 'wolf' ? 0.32 : 0.25) * k; }
+      } else if (this.def.model === 'wolf' && this.deathT != null && this.deathT < 1) {
         this.deathT = Math.min(1, this.deathT + dt * 2.2);
         this.body.rotation.z = (Math.PI / 2) * this.deathT * this.deathT;
         this.body.position.y = 0.35 * this.deathT;
@@ -239,7 +262,12 @@ export class Enemy {
         // telegraphed strike: wind up, then the blow lands if the player is still in reach
         this.attack.t += dt;
         faceTo = player.pos;
-        if (this.def.model === 'wolf') this.body.position.z = Math.sin(Math.min(1, this.attack.t / d.windup) * Math.PI) * 0.6;
+        if (this.def.model === 'wolf' || this.static) {
+          const u = this.attack.t / d.windup;
+          // rear back through the windup, then lunge as the blow lands
+          this.body.position.z = u < 1 ? -0.15 * u : Math.sin(Math.min(1, (this.attack.t - d.windup) / 0.3) * Math.PI) * (this.def.model === 'wolf' ? 0.7 : 0.45);
+          if (this.static) this.body.rotation.x = u < 1 ? -0.12 * u : 0.22 * Math.sin(Math.min(1, (this.attack.t - d.windup) / 0.3) * Math.PI);
+        }
         if (!this.attack.landed && this.attack.t >= d.windup) {
           this.attack.landed = true;
           const toP = Math.atan2(player.pos.x - this.pos.x, player.pos.z - this.pos.z);
@@ -255,7 +283,7 @@ export class Enemy {
           const power = Math.random() < 0.25;
           this.attack = { t: 0, power, landed: false };
           if (this.def.model === 'wolf') { this.game.audio?.play('growl', 0.6); this.play('run', { speed: 2.2 }); }
-          else this.play(power && this.clipMap.power ? 'power' : 'attack', { once: true, fade: 0.1, speed: this.clipMap.attack.duration / (d.windup + 0.45) });
+          else if (this.mixer) this.play(power && this.clipMap.power ? 'power' : 'attack', { once: true, fade: 0.1, speed: this.clipMap.attack.duration / (d.windup + 0.45) });
         }
       }
     }
@@ -272,6 +300,16 @@ export class Enemy {
       if (move > d.walk * 1.2) this.play('run', { speed: this.def.model === 'wolf' ? move / 1.6 * 0.55 : 1 });
       else if (move > 0) this.play('walk');
       else this.play('idle');
+    }
+    if (this.static) {
+      // no rig yet: a gait bob while moving, a slow hover for shades, a breath when still
+      this.phase += dt * (move > 0 ? move * 2.6 : 1.2);
+      if (this.def.motion === 'hover') this.body.position.y = 0.3 + Math.sin(this.phase * 0.8) * 0.12;
+      else this.body.position.y = move > 0 ? Math.abs(Math.sin(this.phase)) * 0.06 : 0;
+      this.body.scale.y = 1 + 0.01 * Math.sin(this.phase * 1.3);
+      if (!this.attack && this.stagger <= 0) this.body.rotation.x = move > this.def.walk * 1.2 ? 0.08 : 0;
+      if (this.stagger > 0) this.body.rotation.x = -0.25 * Math.min(1, this.stagger * 3);
+      if (!this.attack) this.body.position.z = 0;
     }
     this.object.position.set(this.pos.x, this.pos.y, this.pos.z);
     this.object.rotation.y = this.yaw;
@@ -321,7 +359,7 @@ export class Enemies {
       for (const e of list) {
         const realm = realms[e.realm];
         e.health = e.def.health; e.dead = false; e.state = 'idle'; e.detect = 0; e.attack = null; e.fled = false;
-        e.pos.copy(e.home); e.body.rotation.set(0, 0, 0); e.body.position.set(0, 0, 0);
+        e.pos.copy(e.home); e.body.rotation.set(0, 0, 0); e.body.position.set(0, 0, 0); e.body.scale.setScalar(1); e.deathT = null;
         if (this.killed.has(e.id)) e.corpse();
         else e.play('idle', { fade: 0 });
         e.object.position.copy(e.pos);

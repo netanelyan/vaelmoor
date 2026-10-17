@@ -1008,38 +1008,6 @@
         {
           "type": "wizard",
           "at": [
-            -1.6,
-            13.6
-          ],
-          "rot": -6.6,
-          "robe": "#4a1c80",
-          "hat": "#32125a",
-          "seed": 30,
-          "pose": "staff",
-          "height": 2,
-          "staff": true,
-          "npc": "archmage",
-          "name": "Archmage Velloran"
-        },
-        {
-          "type": "wizard",
-          "at": [
-            2.9,
-            13.2
-          ],
-          "rot": -31.4,
-          "robe": "#5a5a6c",
-          "hat": "#44444f",
-          "seed": 31,
-          "pose": "gesture",
-          "height": 2.08,
-          "staff": true,
-          "npc": "elder",
-          "name": "Conclave Elder"
-        },
-        {
-          "type": "wizard",
-          "at": [
             3.4,
             16.6
           ],
@@ -1051,7 +1019,8 @@
           "height": 2.16,
           "staff": true,
           "npc": "elder",
-          "name": "Conclave Elder"
+          "name": "Conclave Elder",
+          "hero": "wizard_purple"
         },
         {
           "type": "wizard",
@@ -1067,7 +1036,12 @@
           "height": 2,
           "staff": false,
           "npc": "elder",
-          "name": "Conclave Elder"
+          "name": "Conclave Elder",
+          "hero": "wizard_purple",
+          "dye": {
+            "color": "#a8a8b8",
+            "gain": 2.6
+          }
         },
         {
           "type": "wizard",
@@ -1082,8 +1056,9 @@
           "pose": "staffTall",
           "height": 2.08,
           "staff": true,
-          "npc": "elder",
-          "name": "Conclave Elder"
+          "npc": "archmage",
+          "name": "Archmage Velloran",
+          "hero": "wizard_purple"
         },
         {
           "type": "kenney",
@@ -1104,12 +1079,13 @@
             21.4
           ],
           "rot": 151,
-          "y": 0.24,
+          "y": 0.62,
           "robe": "#2a5ad0",
           "hat": "#1e44b0",
           "npc": "gnome",
           "name": "Pipwick the Lesser",
-          "talkY": 0.7
+          "talkY": 0.7,
+          "hero": "gnome"
         },
         {
           "type": "lantern",
@@ -1552,13 +1528,14 @@
             -2,
             -2
           ],
-          "aboveWater": -0.02,
+          "aboveWater": 0.55,
           "pose": "sit",
           "rot": 93.4,
           "armor": "#9aa0b0",
           "npc": "lake_knight",
           "name": "Ser Aldric of the Glass",
-          "talkY": 1.1
+          "talkY": 1.1,
+          "hero": "knight_sitting"
         },
         {
           "type": "crag",
@@ -1782,7 +1759,8 @@
           "rot": 155,
           "seed": 21,
           "npc": "pale_wizard",
-          "name": "The Pale Wanderer"
+          "name": "The Pale Wanderer",
+          "hero": "wizard_white"
         }
       ],
       "scatter": [],
@@ -1898,7 +1876,8 @@
           "npc": "keeper",
           "name": "The Hollow Keeper",
           "glowStrength": 0.05,
-          "light": 0.4
+          "light": 0.4,
+          "hero": "skeleton_keeper"
         },
         {
           "type": "golden_skull",
@@ -2389,7 +2368,9 @@
           "lightScale": 0.05,
           "viewDist": 3000,
           "gateIntensity": 0.04,
-          "windowRing": true
+          "windowRing": true,
+          "hero": "castle",
+          "heroHeight": 60
         },
         {
           "type": "causeway",
@@ -2753,7 +2734,8 @@
           "rot": 146.6,
           "npc": "lady",
           "name": "Lady Isolde",
-          "talkY": 1.5
+          "talkY": 1.5,
+          "hero": "lady_isolde"
         },
         {
           "type": "great_tree",
@@ -2916,7 +2898,8 @@
             2.2,
             -2.4
           ],
-          "rot": 150.4
+          "rot": 150.4,
+          "hero": "gnome"
         },
         {
           "type": "camp_gnome",
@@ -2925,7 +2908,8 @@
             -5.4
           ],
           "rot": 155.2,
-          "hat": "#238a23"
+          "hat": "#238a23",
+          "hero": "gnome"
         },
         {
           "type": "crag",
@@ -3490,7 +3474,9 @@
           "pods": 3,
           "trunk": 1.8,
           "face": 0,
-          "viewDist": 600
+          "viewDist": 600,
+          "hero": "tree_house",
+          "heroHeight": 12
         },
         {
           "type": "tree_house",
@@ -3505,7 +3491,9 @@
           "height": 30,
           "face": 0,
           "roof": 6965802,
-          "viewDist": 600
+          "viewDist": 600,
+          "hero": "tree_house",
+          "heroHeight": 16
         },
         {
           "type": "great_tree",
@@ -3680,7 +3668,9 @@
           "rot": 0,
           "npc": "green_king",
           "name": "The Green King",
-          "talkY": 2.6
+          "talkY": 2.6,
+          "hero": "green_king",
+          "heroHeight": 2.7
         },
         {
           "type": "stone_tower",
@@ -3827,11 +3817,12 @@
             -5.5
           ],
           "rot": -7.5,
-          "aboveWater": 0.05,
+          "aboveWater": -0.35,
           "npc": "ferryman",
           "name": "Grumm the Ferryman",
           "talkY": 1.6,
-          "scale": 1.1
+          "scale": 1.1,
+          "hero": "troll"
         },
         {
           "type": "dead_tree",

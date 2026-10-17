@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import { mulberry32 } from '../engine/noise.js';
-import { shared, canvasTexture } from '../render/materials.js';
+import { shared, canvasTexture, radialTexture } from '../render/materials.js';
 import { NOISE_GLSL } from '../shaders/noise.glsl.js';
 
 // GPU-animated particle systems: everything moves in the vertex shader from
@@ -258,4 +258,44 @@ export function cloudSea({ size = [260, 260], top = '#ff5a9a', mid = '#5a4aa0', 
   m.renderOrder = 1;
   m.name = 'cloudSea';
   return m;
+}
+
+/**
+ * A living fire for hero campfires: additive flame sprites that rise, shrink
+ * and redden, plus a few embers that drift higher. Returns { object, update }.
+ */
+export function fire({ scale = 1, color = '#ff6a20', count = 26, embers = 10, seed = 5 } = {}) {
+  const rand = mulberry32(seed);
+  const g = new THREE.Group();
+  const base = new THREE.Color(color);
+  const parts = [];
+  const tex = radialTexture();
+  for (let i = 0; i < count + embers; i++) {
+    const ember = i >= count;
+    const m = new THREE.SpriteMaterial({ map: tex, color: base.clone(), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+    const s = new THREE.Sprite(m);
+    g.add(s);
+    parts.push({ s, ember, t: rand(), life: ember ? 1.6 + rand() : 0.55 + rand() * 0.35, x: (rand() - 0.5) * 0.5, z: (rand() - 0.5) * 0.5, sw: rand() * 6 });
+  }
+  const update = (dt, time) => {
+    if (!g.visible) return;
+    for (const p of parts) {
+      p.t += dt / p.life;
+      if (p.t >= 1) { p.t -= 1; p.x = (rand() - 0.5) * 0.5; p.z = (rand() - 0.5) * 0.5; }
+      const k = p.t;
+      if (p.ember) {
+        p.s.position.set((p.x + Math.sin(time * 2 + p.sw) * 0.15 * k) * scale, (0.3 + k * 2.6) * scale, (p.z + Math.cos(time * 1.7 + p.sw) * 0.15 * k) * scale);
+        p.s.scale.setScalar(0.05 * scale);
+        p.s.material.color.setRGB(3, 1.4, 0.4);
+        p.s.material.opacity = Math.sin(k * Math.PI) * 0.9;
+      } else {
+        p.s.position.set(p.x * (1 - k) * scale, (0.15 + k * 0.95) * scale, p.z * (1 - k) * scale);
+        p.s.scale.setScalar((0.55 - k * 0.35) * scale * (0.8 + 0.4 * Math.sin(time * 13 + p.sw)));
+        // white-yellow at the base, deep red at the tips
+        p.s.material.color.setRGB(base.r * 2.6, base.g * (2.4 - k * 2.0), base.b * (1.4 - k * 1.3));
+        p.s.material.opacity = (k < 0.15 ? k / 0.15 : 1 - (k - 0.15) / 0.85) * 0.85;
+      }
+    }
+  };
+  return { object: g, update };
 }

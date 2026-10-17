@@ -1,0 +1,33 @@
+{
+  "note": "Hero models in assets/hero (Meshy AI). fit: height | length | size (largest side), value in metres. rotY: degrees to turn the model so it faces +Z. idle: person (breathe, sway, face the speaker) | hover | static. rough/metal/env/rim: material overrides. collide: collider radius (m).",
+  "models": {
+    "barrow_entrance": { "fit": "size", "value": 8, "idle": "static" },
+    "brother_cass": { "fit": "height", "value": 1.78, "idle": "person" },
+    "campfire": { "fit": "size", "value": 1.9, "idle": "static", "collide": 0.9, "shadow": false },
+    "castle": { "fit": "height", "value": 60, "idle": "static", "collide": 0, "rough": 0.7 },
+    "cottage": { "fit": "size", "value": 7.5, "idle": "static", "collide": 3.2 },
+    "gnome": { "fit": "height", "value": 1.0, "idle": "person", "collide": 0.3 },
+    "green_king": { "fit": "height", "value": 2.5, "idle": "person", "collide": 1.0 },
+    "hollow_one": { "fit": "height", "value": 1.9, "idle": "static", "rough": 0.7 },
+    "hooded_figure": { "fit": "height", "value": 1.88, "idle": "person", "rough": 0.85 },
+    "knight_campfire": { "fit": "height", "value": 1.9, "idle": "person", "metal": 0.55, "rough": 0.5 },
+    "knight_sitting": { "fit": "height", "value": 1.4, "idle": "person", "metal": 0.55, "rough": 0.5, "collide": 0.6 },
+    "lady_isolde": { "fit": "height", "value": 1.72, "idle": "person" },
+    "maren_innkeeper": { "fit": "height", "value": 1.7, "idle": "person" },
+    "old_drunk": { "fit": "height", "value": 1.74, "idle": "person" },
+    "rock_spire": { "fit": "height", "value": 22, "idle": "static", "rough": 0.9 },
+    "ruined_tower": { "fit": "height", "value": 14, "idle": "static", "collide": 3.4 },
+    "shade": { "fit": "height", "value": 1.95, "idle": "static", "rough": 0.9 },
+    "sir_aldric": { "fit": "height", "value": 1.86, "idle": "person", "metal": 0.5 },
+    "skeleton_keeper": { "fit": "height", "value": 1.95, "idle": "person" },
+    "skull_horned": { "fit": "size", "value": 3.2, "idle": "static", "collide": 1.2 },
+    "town_guard": { "fit": "height", "value": 1.86, "idle": "person", "metal": 0.5 },
+    "tree_house": { "fit": "height", "value": 12, "idle": "static", "collide": 2.6 },
+    "troll": { "fit": "size", "value": 3.4, "idle": "person", "collide": 1.4 },
+    "village_child": { "fit": "height", "value": 1.2, "idle": "person", "collide": 0.3 },
+    "wizard_purple": { "fit": "height", "value": 2.05, "idle": "person" },
+    "wizard_white": { "fit": "height", "value": 2.1, "idle": "person" },
+    "wolf": { "fit": "length", "value": 1.5, "idle": "static" },
+    "ysolde_merchant": { "fit": "height", "value": 1.74, "idle": "person" }
+  }
+}

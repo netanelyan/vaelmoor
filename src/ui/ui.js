@@ -28,7 +28,11 @@ export class GameUI {
     this.title = new TitleScreen(root);
     this.dialogue = new DialogueScreen(root, {
       onEffect: (fx) => this.effect(fx),
-      onClose: () => { if (this.state === 'dialogue') this.setState('play'); },
+      onClose: () => {
+        if (this.state === 'dialogue') this.setState('play');
+        const t = this.talkingTo;
+        if (t?.hero) setTimeout(() => { if (this.talkingTo !== t || this.state !== 'dialogue') t.hero.release(); }, 4000);
+      },
       check: (o) => this.game.speechCheck?.(o) ?? true,
     });
     this.pause = new PauseMenu(root, { onChoose: (v) => this.pauseChoice(v) });
@@ -201,6 +205,7 @@ export class GameUI {
       if (!d) return;
       this.quests.notify('talk', t.id);
       this.talkingTo = t;
+      t.hero?.face(this.player.pos.x, this.player.pos.z); // static hero NPCs turn to the speaker
       this.setState('dialogue');
       this.dialogue.start(d, (item) => this.quests.has(item) || g.inventory.has(item), (flag) => !!g.flags[flag]);
     } else if (t.kind === 'container') {

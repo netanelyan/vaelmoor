@@ -53,6 +53,12 @@ Self-hosted from Google Fonts; licences beside the files in `assets/fonts/`.
 | [LeafSet016](https://ambientcg.com/view?id=LeafSet016) | oak leaves, composed into a clump card (`assets/textures/oak_leaf_clump.png`, `tools/make-leaf-clump.mjs`) |
 | [LeafSet019](https://ambientcg.com/view?id=LeafSet019) | fir needles, composed into a drooping bough card (`assets/textures/fir_branch.png`, `tools/make-fir-branch.mjs`) |
 
+## Hero models
+
+Hero models generated with Meshy AI (meshy.ai), private license.
+
+28 models in `assets/hero/` (meshopt geometry, WebP textures): the cottage, castle, ruined tower, tree house, barrow entrance, campfire, horned skull and rock spire; the knights, wizards, Lady Isolde, the skeleton keeper, the Green King, the troll, the gnome, the hooded figure; Hollowford's people (Maren, Sir Aldric, Brother Cass, Ysolde, the child, the old drunk, the town guard); and the hollow one, shade and wolf.
+
 ## Characters: [Quaternius](https://quaternius.com) (CC0)
 
 Every person in the game is a rigged, animated model from three free CC0

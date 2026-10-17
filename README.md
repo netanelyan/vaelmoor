@@ -25,6 +25,12 @@ Then open the printed URL. Any static server works; the game just can't be opene
 
 Vaelmoor is a first-person RPG in the old mould. Ten skills (One-Handed, Block, Archery, Destruction, Restoration, Sneak, Lockpicking, Speech, Alchemy and Smithing) rise as you use them, and your character level rises with them. Each level-up gives +10 to health, magicka or stamina and a perk point for that skill's constellation. Chests, barrels, sacks and bodies can be searched (take one with E, everything with R); locked ones need a lockpick and a steady hand. Merchants buy and sell at prices set by your Speech. Fights are light but physical: swings and power attacks, timed blocks that stagger, arrows that drop, Flames and Healing from either hand. Wolves roam the surface, Hollow Ones guard the barrow and shades drift through the Gloaming; each one notices you, gives chase, telegraphs its blows and sometimes flees. If you die, the screen fades and the last save loads. Items, loot tables, skills, perks and spells all live in `data/`.
 
+### Hero models (assets/hero)
+
+The main figures, buildings and monsters are hero models made with Meshy AI. `data/hero.json` sets each model's real-world size (by height, length or largest side), facing, idle style and material tweaks. A prop in the region data asks for one with `"hero": "<name>"`, plus optional `heroHeight`, `tint`, `dye` or `instance`; a prop whose model is missing falls back to its procedural version. Repeated static models (the rock spires) are drawn as one `InstancedMesh`.
+
+**The hero models are static and still need rigging.** Until then, characters breathe (about 1%) and sway, and turn to face whoever talks to them. Hero enemies (wolves, Hollow Ones, shades) slide with a gait bob or hover, rear back and lunge to attack, flinch when hit and topple (or sink, for shades) when they die. The rigged Quaternius figures (`src/world/humans.js`) remain for the knights not yet replaced, the player's first-person arms and the barrow's boss.
+
 ## Controls
 
 | Key | Action |

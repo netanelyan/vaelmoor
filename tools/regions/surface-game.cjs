@@ -4,6 +4,13 @@
 
 module.exports = function addGameplay(region) {
   const areaById = (id) => region.areas.find((a) => a.id === id);
+  /** give every prop of `type` in an area (or all areas) a hero model; `fields` may be a function of the prop */
+  const heroize = (areaId, type, fields, filter = () => true) => {
+    for (const a of region.areas) {
+      if (areaId && a.id !== areaId) continue;
+      for (const p of a.props || []) if (p.type === type && filter(p)) Object.assign(p, typeof fields === 'function' ? fields(p) : fields);
+    }
+  };
 
   // ---- Hollin Cottage: Ysolde's peddler camp by the road, a robbed traveller
   const cottage = areaById('cottage');
@@ -25,6 +32,25 @@ module.exports = function addGameplay(region) {
     { type: 'enemy', id: 'wolf_2', kind: 'wolf', at: [-60, 35], rot: 60, patrol: 8 },
     { type: 'enemy', id: 'wolf_3', kind: 'wolf', at: [-52, 37], rot: 120, patrol: 8 },
   );
+
+  // ---- hero models (assets/hero, Meshy AI) in place of the procedural versions
+  heroize('cottage', 'stone_cottage', { hero: 'cottage' });
+  heroize('campfire', 'campfire', { hero: 'campfire', fireScale: 0.9 });
+  heroize('campfire', 'knight', { hero: 'knight_campfire' });
+  const RED = /^#(4a06|5a0c|6a0a|4a0a)/i;
+  heroize(null, 'hooded', (p) => ({
+    hero: 'hooded_figure',
+    ...(RED.test(p.robe ?? '') ? { dye: { color: '#9a2420', gain: 2.2 } } : /^#8a1a5a/i.test(p.robe ?? '') ? { dye: { color: '#8a2a64', gain: 2.2 } } : {}),
+  }));
+  heroize('arch', 'horned_skull', { hero: 'skull_horned', heroSize: 3.4, y: -0.1 });
+  heroize('ruins', 'ruined_tower', { hero: 'ruined_tower', heroHeight: 16 });
+  heroize('canyon', 'ruined_tower', { hero: 'ruined_tower', heroHeight: 14 });
+  // jagged monoliths: one instanced rock-spire mesh per region
+  heroize(null, 'monolith_tower', (p) => ({ hero: 'rock_spire', instance: true, heroHeight: p.height }));
+  heroize('monolith', 'crag', (p) => ({ hero: 'rock_spire', instance: true, heroHeight: p.size[1] * 1.3 }), (p) => p.size[1] > 8);
+  heroize('mistsea', 'crag', (p) => ({ hero: 'rock_spire', instance: true, heroHeight: p.size[1] * 1.5, rot: (p.seed * 47) % 360 }));
+  heroize('barrow', 'barrow', { hero: 'barrow_entrance', heroSize: 9 });
+  heroize('cottage', 'person', { hero: 'ysolde_merchant' }, (p) => p.id === 'ysolde');
 
   // ---- the barrow door: Hollow Ones keep watch
   const barrow = areaById('barrow');
