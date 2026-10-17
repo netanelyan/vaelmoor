@@ -25,7 +25,8 @@ const page = await browser.newPage({ viewport: { width: W, height: H }, deviceSc
 const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
 page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
-await page.goto(`http://localhost:${server.address().port}/?nohud&play`);
+const REGION = arg('region', 'surface');
+await page.goto(`http://localhost:${server.address().port}/?nohud&play&region=${REGION}`);
 await page.waitForFunction(() => window.vaelmoor?.ready, null, { timeout: 60000 });
 await page.waitForTimeout(2000);
 

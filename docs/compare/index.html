@@ -5,49 +5,150 @@
   body { margin: 0; background: #07040f; color: #efe6ff; font-family: Georgia, serif; }
   main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }
   h1 { font-weight: normal; letter-spacing: .08em; }
-  p.note { color: #b9a8e0; max-width: 70ch; }
-  h2 { font-weight: normal; margin: 36px 0 10px; } h2 b { color: #9b6cff; } h2 small { color: #8a7ab0; font-size: .6em; margin-left: .6em; }
+  p.note { color: #b9a8e0; max-width: 75ch; }
+  h2 { font-weight: normal; margin: 40px 0 6px; } h2 b { color: #9b6cff; font-weight: normal; } h2 small { color: #8a7ab0; font-size: .6em; margin-left: .6em; }
+  .score { font-size: .7em; color: #e8e4da; border: 1px solid #6a5a8a; padding: 0 6px; margin-left: .5em; }
+  p.diff { color: #b9a8e0; margin: 0 0 10px; max-width: 95ch; line-height: 1.45; }
   .pair { display: flex; gap: 12px; }
   .pair img { flex: 1; min-width: 0; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 4px; display: block; }
   @media (max-width: 640px) { .pair { flex-direction: column; } }
 </style></head>
 <body><main>
-<h1>Vaelmoor · the Gloaming</h1>
-<p class="note">Left: the reference from <code>refs/</code> (letterboxing included here, trimmed in sheet.jpg). Right: the matching photo-mode camera, captured headless by <code>tools/shoot.mjs</code> at the references' portrait aspect. Regenerate with <code>npm run shots</code>.</p>
+<h1>Vaelmoor · reference vs photo mode</h1>
+<p class="note">Left: the reference (refs/dark for the painted surface, refs for the Gloaming). Right: the matching photo-mode camera, captured headless by <code>tools/shoot.mjs</code> at the references' portrait aspect. Scores are 1–10 closeness to the reference; the note says what still differs. Average: surface 4.4, Gloaming 4.8. Regenerate with <code>npm run shots</code>.</p>
 <section>
-    <h2><b>1</b> Crimsonreach Manor <small>ref_01</small></h2>
-    <div class="pair"><img src="../../refs/ref_01.jpg" alt="ref_01.jpg"><img src="shot_1.jpg" alt="photo mode 1"></div>
+    <h2><b>Vaelmoor</b> Hollin Cottage <small>dark_01 · photo mode Shift+1</small> <span class="score">6/10</span></h2>
+    <p class="diff">Composition matches (path from the foreground to the cottage, full moon, hooded figure on the path). Cottage is a clean box, not crumbling rubble masonry; the framing oaks are blobs; grass is too uniform and saturated; the ref's sky is a lighter, mistier blue.</p>
+    <div class="pair"><img src="../../refs/dark/dark_01.jpg" alt="dark_01.jpg"><img src="shot_surface_1.jpg" alt="photo mode surface_1"></div>
   </section>
 <section>
-    <h2><b>2</b> The Road to Vaelmoor Keep <small>ref_02</small></h2>
-    <div class="pair"><img src="../../refs/ref_02.jpg" alt="ref_02.jpg"><img src="shot_2.jpg" alt="photo mode 2"></div>
+    <h2><b>Vaelmoor</b> The Ember Watch <small>dark_03 · photo mode Shift+2</small> <span class="score">4/10</span></h2>
+    <p class="diff">Two seated knights in red-stained armour around a red fire. Knights read as mannequins with pink-lit armour; the fire cone is too saturated; the ref's dark forest with the teal sky window and distant tower is missing.</p>
+    <div class="pair"><img src="../../refs/dark/dark_03.jpg" alt="dark_03.jpg"><img src="shot_surface_2.jpg" alt="photo mode surface_2"></div>
   </section>
 <section>
-    <h2><b>3</b> The Hollow Pines <small>ref_03</small></h2>
-    <div class="pair"><img src="../../refs/ref_03.jpg" alt="ref_03.jpg"><img src="shot_3.jpg" alt="photo mode 3"></div>
+    <h2><b>Vaelmoor</b> Shrine of the Red Hoods <small>dark_09 · photo mode Shift+3</small> <span class="score">3/10</span></h2>
+    <p class="diff">Red hoods and a ruined arch are there, but the ref is a dense, overgrown painted ruin under gnarled trees and a grey sky; ours is a green field with a blocky arch and pines.</p>
+    <div class="pair"><img src="../../refs/dark/dark_09.jpg" alt="dark_09.jpg"><img src="shot_surface_3.jpg" alt="photo mode surface_3"></div>
   </section>
 <section>
-    <h2><b>4</b> The Conclave House <small>ref_04 / ref_05</small></h2>
-    <div class="pair"><img src="../../refs/ref_04.jpg" alt="ref_04.jpg"><img src="../../refs/ref_05.jpg" alt="ref_05.jpg"><img src="shot_4.jpg" alt="photo mode 4"></div>
+    <h2><b>Vaelmoor</b> Ashgate Alley <small>dark_02 / dark_12 · photo mode Shift+4</small> <span class="score">6/10</span></h2>
+    <p class="diff">Two hooded figures walking up a narrow alley into violet haze with a castle silhouette ahead: close in mood. Walls lack the ref's stone texture and cobbles; the castle silhouette is simpler.</p>
+    <div class="pair"><img src="../../refs/dark/dark_02.jpg" alt="dark_02.jpg"><img src="../../refs/dark/dark_12.jpg" alt="dark_12.jpg"><img src="shot_surface_4.jpg" alt="photo mode surface_4"></div>
   </section>
 <section>
-    <h2><b>5</b> Castle Ambermere <small>ref_06</small></h2>
-    <div class="pair"><img src="../../refs/ref_06.jpg" alt="ref_06.jpg"><img src="shot_5.jpg" alt="photo mode 5"></div>
+    <h2><b>Vaelmoor</b> The Rose Moon Gorge <small>dark_06 · photo mode Shift+5</small> <span class="score">5/10</span></h2>
+    <p class="diff">Pink moon over a blue night with rocky walls. The ruined tower and the magenta-robed figure drifted out of frame; the moon is too saturated and hard-edged.</p>
+    <div class="pair"><img src="../../refs/dark/dark_06.jpg" alt="dark_06.jpg"><img src="shot_surface_5.jpg" alt="photo mode surface_5"></div>
   </section>
 <section>
-    <h2><b>6</b> The Pale Shore <small>ref_07</small></h2>
-    <div class="pair"><img src="../../refs/ref_07.jpg" alt="ref_07.jpg"><img src="shot_6.jpg" alt="photo mode 6"></div>
+    <h2><b>Vaelmoor</b> The Crimson Shallows <small>dark_05 · photo mode Shift+6</small> <span class="score">5/10</span></h2>
+    <p class="diff">Crimson sky, black spires, distant spired castle, lone figure, purple mist sea. The mist reads as flat glossy liquid instead of billowing cloud; the sky is too bright red; the castle is too big and close.</p>
+    <div class="pair"><img src="../../refs/dark/dark_05.jpg" alt="dark_05.jpg"><img src="shot_surface_6.jpg" alt="photo mode surface_6"></div>
   </section>
 <section>
-    <h2><b>7</b> Glasswater <small>ref_08</small></h2>
-    <div class="pair"><img src="../../refs/ref_08.jpg" alt="ref_08.jpg"><img src="shot_7.jpg" alt="photo mode 7"></div>
+    <h2><b>Vaelmoor</b> The Green Needles <small>dark_07 · photo mode Shift+7</small> <span class="score">4/10</span></h2>
+    <p class="diff">Red-hooded figures with a torch among green spires. Fog is neon green, the robes are cartoon red, and the spires lack the pale weathered rock of the ref.</p>
+    <div class="pair"><img src="../../refs/dark/dark_07.jpg" alt="dark_07.jpg"><img src="shot_surface_7.jpg" alt="photo mode surface_7"></div>
   </section>
 <section>
-    <h2><b>8</b> Lanternholt <small>ref_09</small></h2>
-    <div class="pair"><img src="../../refs/ref_09.jpg" alt="ref_09.jpg"><img src="shot_8.jpg" alt="photo mode 8"></div>
+    <h2><b>Vaelmoor</b> Cathedral of the Far Stars <small>dark_10 · photo mode Shift+8</small> <span class="score">5/10</span></h2>
+    <p class="diff">Gothic cathedral under stars, nebula and planets, with kneeling red figures. The cathedral is blocky and salmon; the nebula is too red and strong; the rocky canyon walls lack detail.</p>
+    <div class="pair"><img src="../../refs/dark/dark_10.jpg" alt="dark_10.jpg"><img src="shot_surface_8.jpg" alt="photo mode surface_8"></div>
   </section>
 <section>
-    <h2><b>9</b> The Sentinel Oak <small>ref_10</small></h2>
-    <div class="pair"><img src="../../refs/ref_10.jpg" alt="ref_10.jpg"><img src="shot_9.jpg" alt="photo mode 9"></div>
+    <h2><b>Vaelmoor</b> The Black Tooth <small>dark_04 · photo mode Shift+9</small> <span class="score">5/10</span></h2>
+    <p class="diff">Red moon, black spires, ruined arch, snowy blue ground. Clouds too saturated red; the monolith tower is cropped at the right; the snow is smooth purple instead of rough blue drifts.</p>
+    <div class="pair"><img src="../../refs/dark/dark_04.jpg" alt="dark_04.jpg"><img src="shot_surface_9.jpg" alt="photo mode surface_9"></div>
+  </section>
+<section>
+    <h2><b>Vaelmoor</b> The Old Warden <small>dark_11 · photo mode Shift+10</small> <span class="score">2/10</span></h2>
+    <p class="diff">Knight resting under a huge tree: the shot is far too dark, the knight barely reads and the full moon is out of frame. Needs a full reframe.</p>
+    <div class="pair"><img src="../../refs/dark/dark_11.jpg" alt="dark_11.jpg"><img src="shot_surface_10.jpg" alt="photo mode surface_10"></div>
+  </section>
+<section>
+    <h2><b>Vaelmoor</b> The Broken Gate <small>dark_08 · photo mode Shift+11</small> <span class="score">3/10</span></h2>
+    <p class="diff">Broken arch framing a keep with a crescent and a hooded figure. Missing the red sunset light on the mountains and keep; the horned skull is out of frame; the palette is a flat blue.</p>
+    <div class="pair"><img src="../../refs/dark/dark_08.jpg" alt="dark_08.jpg"><img src="shot_surface_11.jpg" alt="photo mode surface_11"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> Crimsonreach Manor <small>ref_01 · photo mode 1</small> <span class="score">5/10</span></h2>
+    <p class="diff">Red moon, green windows and green light on the ground. The manor is a boxy symmetric block instead of a tall gothic house; the dead tree does not frame the left; the sky is still more orange than the ref's crimson-maroon.</p>
+    <div class="pair"><img src="../../refs/ref_01.jpg" alt="ref_01.jpg"><img src="shot_gloaming_1.jpg" alt="photo mode gloaming_1"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> The Road to Vaelmoor Keep <small>ref_02 · photo mode 2</small> <span class="score">4/10</span></h2>
+    <p class="diff">Spired castle with green windows at the end of a cobbled road. The ref's castle is massive and close above a raised flagstone causeway with stone curbs and water channels; ours is distant and spiky in pink haze. This rework was not finished.</p>
+    <div class="pair"><img src="../../refs/ref_02.jpg" alt="ref_02.jpg"><img src="shot_gloaming_2.jpg" alt="photo mode gloaming_2"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> The Hollow Pines <small>ref_03 · photo mode 3</small> <span class="score">3/10</span></h2>
+    <p class="diff">Aurora over dark pines with the skeleton and golden skull, but as a wide shot; the ref is a low close-up of the skeleton holding the golden skull.</p>
+    <div class="pair"><img src="../../refs/ref_03.jpg" alt="ref_03.jpg"><img src="shot_gloaming_3.jpg" alt="photo mode gloaming_3"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> The Conclave House <small>ref_04 / ref_05 · photo mode 4</small> <span class="score">3/10</span></h2>
+    <p class="diff">Robed wizards and the timber house are there, but seen from behind with the orange house dominating; the ref has huge-hatted wizards facing the camera in deep violet light.</p>
+    <div class="pair"><img src="../../refs/ref_04.jpg" alt="ref_04.jpg"><img src="../../refs/ref_05.jpg" alt="ref_05.jpg"><img src="shot_gloaming_4.jpg" alt="photo mode gloaming_4"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> Castle Ambermere <small>ref_06 · photo mode 5</small> <span class="score">6/10</span></h2>
+    <p class="diff">Sandstone round towers, starry sky, bright green hill. The purple path is mostly hidden; the pink horizon glow is weaker; the camera stands further back than the ref.</p>
+    <div class="pair"><img src="../../refs/ref_06.jpg" alt="ref_06.jpg"><img src="shot_gloaming_5.jpg" alt="photo mode gloaming_5"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> The Pale Shore <small>ref_07 · photo mode 6</small> <span class="score">5/10</span></h2>
+    <p class="diff">White wizard by dark water under a crescent. The wizard is small and glows blue; the ref's figure fills two thirds of the frame over choppy teal water.</p>
+    <div class="pair"><img src="../../refs/ref_07.jpg" alt="ref_07.jpg"><img src="shot_gloaming_6.jpg" alt="photo mode gloaming_6"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> Glasswater <small>ref_08 · photo mode 7</small> <span class="score">4/10</span></h2>
+    <p class="diff">Knight on a rock in a lake between pines. The knight is tiny, the moon glow blows out the sky, and the water is violet instead of clear teal-green.</p>
+    <div class="pair"><img src="../../refs/ref_08.jpg" alt="ref_08.jpg"><img src="shot_gloaming_7.jpg" alt="photo mode gloaming_7"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> Lanternholt <small>ref_09 · photo mode 8</small> <span class="score">4/10</span></h2>
+    <p class="diff">Lanterns, cottages and a purple sky. The ref is a close storybook lane with curled roofs, round stained glass, flowers and a lavender cobble path under a big canopy.</p>
+    <div class="pair"><img src="../../refs/ref_09.jpg" alt="ref_09.jpg"><img src="shot_gloaming_8.jpg" alt="photo mode gloaming_8"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> The Sentinel Oak <small>ref_10 · photo mode 9</small> <span class="score">3/10</span></h2>
+    <p class="diff">Huge tree and knight, but the canopy fills the sky and the knight is tiny; the ref shows the trunk at the right, open violet sky with a crescent, and the knight close in the foreground.</p>
+    <div class="pair"><img src="../../refs/ref_10.jpg" alt="ref_10.jpg"><img src="shot_gloaming_9.jpg" alt="photo mode gloaming_9"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> The Butterfly Pool <small>ref_11 · photo mode 10</small> <span class="score">6/10</span></h2>
+    <p class="diff">Lady in a red gown with long blond hair and a blue butterfly, huge pale green planet in an olive sky, glowing pool and walkway. The dark round tower is out of frame; the pool shape is crude; the camera is further back than the ref.</p>
+    <div class="pair"><img src="../../refs/ref_11.jpg" alt="ref_11.jpg"><img src="shot_gloaming_10.jpg" alt="photo mode gloaming_10"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> Gnome Strand <small>ref_12 · photo mode 11</small> <span class="score">6/10</span></h2>
+    <p class="diff">Orange-and-green cone tents, gnomes with green hats and blue packs walking toward a deep blue sea with black spires under a white moon. The nearest tent is too close; the left cliff and weeping trees are weaker; the moon is less blinding.</p>
+    <div class="pair"><img src="../../refs/ref_12.jpg" alt="ref_12.jpg"><img src="shot_gloaming_11.jpg" alt="photo mode gloaming_11"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> The Hermit Stack <small>ref_13 · photo mode 12</small> <span class="score">5/10</span></h2>
+    <p class="diff">Log cabin with two figures on a tall rock pillar under a blue moon. The pillar is bluish rock rather than streaked green moss; the cabin is small in frame; the ref's cloud-and-star sky is busier.</p>
+    <div class="pair"><img src="../../refs/ref_13.jpg" alt="ref_13.jpg"><img src="shot_gloaming_12.jpg" alt="photo mode gloaming_12"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> The Memory of the Sun <small>ref_14 · photo mode 13</small> <span class="score">6/10</span></h2>
+    <p class="diff">The only daylight place: turquoise lake, jagged snow-streaked peaks, white clouds, sun glare. The ref's vantage is higher over a bigger lake with the sun disc in frame and a visible glacier; our pines are tinted blue.</p>
+    <div class="pair"><img src="../../refs/ref_14.jpg" alt="ref_14.jpg"><img src="shot_gloaming_13.jpg" alt="photo mode gloaming_13"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> Rootwhistle <small>ref_15 · photo mode 14</small> <span class="score">6/10</span></h2>
+    <p class="diff">Tree houses built into giant trunks with cone roofs and round amber windows. The curving orange flagstone path and wooden rail are mostly out of frame; the ref is denser and darker.</p>
+    <div class="pair"><img src="../../refs/ref_15.jpg" alt="ref_15.jpg"><img src="shot_gloaming_14.jpg" alt="photo mode gloaming_14"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> Court of the Green King <small>ref_16 · photo mode 15</small> <span class="score">5/10</span></h2>
+    <p class="diff">Crowned king on a stone throne with a green-lit face and raised hand, dark towers and glowing vines. The vines are too bright neon; the king is small in frame; the ref's stone is darker and more detailed.</p>
+    <div class="pair"><img src="../../refs/ref_16.jpg" alt="ref_16.jpg"><img src="shot_gloaming_15.jpg" alt="photo mode gloaming_15"></div>
+  </section>
+<section>
+    <h2><b>Gloaming</b> Grumblereed Fen <small>ref_17 · photo mode 16</small> <span class="score">6/10</span></h2>
+    <p class="diff">Mossy green troll with pointed ears and one glowing yellow eye in a wooden boat on dark swamp water by a pale tree. The ref is a close-up; ours is mid-distance and the face over-glows.</p>
+    <div class="pair"><img src="../../refs/ref_17.jpg" alt="ref_17.jpg"><img src="shot_gloaming_16.jpg" alt="photo mode gloaming_16"></div>
   </section>
 </main></body></html>

@@ -1,4 +1,6 @@
-# Reference vs photo mode — difference log
+# Reference vs photo mode — round-0 difference log (Gloaming, refs 01-10)
+
+Current scores and remaining differences for every shot are in ratings.json and index.html.
 
 Each round: compare `pair_N.jpg` (ref left, ours right), list what differs, fix, re-shoot.
 Refs are portrait (576x818 with letterbox bars), so shots are captured at 720x960.

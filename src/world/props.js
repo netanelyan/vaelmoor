@@ -9,6 +9,7 @@ import { stylize } from '../render/materials.js';
 import { mulberry32 } from '../engine/noise.js';
 import { lakeWater } from './water.js';
 import { cloudSea } from './particles.js';
+import { lady, campGnome, tent, trollBoat, pillarCabin, treeHouse, throneKing, glowVines, stoneTower, walkway } from './gloaming2.js';
 
 // type -> async (ctx, propJson, {x, z, area}) => { object, colliders, lights, glows, update }
 // Builders work in local space; world.js places, rotates and scales them.
@@ -52,6 +53,16 @@ const glowOrb = (hex, intensity, r) => {
 };
 
 export const PROP_BUILDERS = {
+  lady: (ctx, p) => lady(ctx, p),
+  camp_gnome: (ctx, p) => campGnome(ctx, p),
+  tent: (ctx, p) => tent(ctx, p),
+  troll_boat: (ctx, p) => trollBoat(ctx, p),
+  pillar_cabin: (ctx, p) => pillarCabin(ctx, p),
+  tree_house: (ctx, p) => treeHouse(ctx, p),
+  throne_king: (ctx, p) => throneKing(ctx, p),
+  glow_vines: (ctx, p) => glowVines(ctx, p),
+  stone_tower: (ctx, p) => stoneTower(ctx, p),
+  walkway: (ctx, p) => walkway(ctx, p),
   cloud_sea: (ctx, p) => { const g = new THREE.Group(); g.add(cloudSea(p)); return { object: g }; },
   /** Flat paved rectangle (w x l metres, long axis along local Z). */
   paving: (ctx, p) => {

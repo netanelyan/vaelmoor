@@ -28,8 +28,30 @@ Downloaded at 1k through the Poly Haven API, then recompressed by `tools/optimiz
 | [bark_brown_02](https://polyhaven.com/a/bark_brown_02) | dead tree, great oak |
 | [velour_velvet](https://polyhaven.com/a/velour_velvet) (normal map only) | robe fabric weave |
 | [metal_plate](https://polyhaven.com/a/metal_plate) (normal + roughness) | knight armour |
+| [grey_stone_path](https://polyhaven.com/a/grey_stone_path) | flagstone paving, walkways |
+| [rock_tile_floor](https://polyhaven.com/a/rock_tile_floor) | the Green King's courtyard |
+| [cobblestone_floor_08](https://polyhaven.com/a/cobblestone_floor_08) | alley cobbles |
+| [rustic_stone_wall](https://polyhaven.com/a/rustic_stone_wall) | surface ruins, alley houses |
+| [stony_dirt_path](https://polyhaven.com/a/stony_dirt_path) | the surface road |
+| [snow_02](https://polyhaven.com/a/snow_02) | snow on the surface |
+| [mossy_rock](https://polyhaven.com/a/mossy_rock) | the stone cottage, barrow, pillar, troll skin |
 
 `assets/textures/waternormals.jpg` comes from the three.js examples (MIT).
+
+## Fonts (SIL Open Font License 1.1)
+
+Self-hosted from Google Fonts; licences beside the files in `assets/fonts/`.
+
+| Font | Used for |
+| --- | --- |
+| [Barlow Condensed](https://github.com/jpt/barlow) 300/400/500 | all UI text |
+| [Cormorant Garamond](https://github.com/CatharsisFonts/Cormorant) | titles, place names, journal text |
+
+## UI texture: [ambientCG](https://ambientcg.com) (CC0)
+
+| Texture | Used for |
+| --- | --- |
+| [Paper001](https://ambientcg.com/view?id=Paper001) | journal parchment (`assets/ui/paper.jpg`, resized) |
 
 ## Models: [Kenney](https://kenney.nl) (CC0)
 
@@ -44,10 +66,12 @@ Licences are kept beside the files.
 
 ## Built procedurally (original work)
 
-Everything else is generated in code: the sky, terrain, road, pines, crags,
+Everything else is generated in code: the sky (moons, planets, nebula), terrain (peaks, snow, trenches), road, pines, crags,
 the dark spired castle, the sandstone castle, the manor, the timber house,
-the storybook cottages, the dead tree and great oak, all characters (wizards,
-gnome, knights, skeleton, golden skull), grass, water placement, mist, smoke and
+the storybook cottages, the dead tree and great oak, every surface ruin, tower,
+cathedral, barrow and cottage, the tree houses, tents, pillar cabin and throne,
+and all characters (wizards, gnomes, knights, skeleton, hooded figures, the lady
+in red, the troll ferryman, the Green King, golden skull), grass, water placement, mist, smoke and
 fireflies.
 
 The CC0 character packs that were checked (Quaternius RPG / Knight, Kenney

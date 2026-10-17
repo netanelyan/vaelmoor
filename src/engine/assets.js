@@ -20,7 +20,7 @@ export class Assets {
   texture(path, { srgb = false } = {}) {
     let t = this.textures.get(path);
     if (!t) {
-      t = this.textureLoader.load(path);
+      t = this.textureLoader.load(path, undefined, undefined, () => { console.error('missing texture', path); t.userData.failed = true; });
       t.wrapS = t.wrapT = THREE.RepeatWrapping;
       t.anisotropy = this.anisotropy;
       if (srgb) t.colorSpace = THREE.SRGBColorSpace;
@@ -62,8 +62,7 @@ export class Assets {
   ready() {
     const textures = [...this.textures.values()];
     const texDone = Promise.all(textures.map((t) => new Promise((res) => {
-      if (t.image) return res();
-      const check = () => (t.image ? res() : setTimeout(check, 30));
+      const check = () => (t.image || t.userData.failed ? res() : setTimeout(check, 30));
       check();
     })));
     return Promise.all([texDone, ...this.pending]);

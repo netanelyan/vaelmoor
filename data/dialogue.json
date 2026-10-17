@@ -235,5 +235,50 @@
         ]
       }
     }
+  },
+  "lady": {
+    "name": "Lady Isolde",
+    "start": "greet",
+    "nodes": {
+      "greet": {
+        "line": "Hush. It only lands for those who stand very still. I have been standing still for a hundred years.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "ferryman": {
+    "name": "Grumm the Ferryman",
+    "start": "greet",
+    "nodes": {
+      "greet": {
+        "line": "Heh. Want across? Everyone wants across. Nobody ever says to where.",
+        "options": [
+          {
+            "text": "Not today.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "green_king": {
+    "name": "The Green King",
+    "start": "greet",
+    "nodes": {
+      "greet": {
+        "line": "Kneel or pass. The court has been in session since before your sun was lit.",
+        "options": [
+          {
+            "text": "Pass.",
+            "end": true
+          }
+        ]
+      }
+    }
   }
 }

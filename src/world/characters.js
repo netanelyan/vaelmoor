@@ -491,11 +491,11 @@ export function wizard(ctx, o = {}) {
 /** Small round gnome wizard (sits on a bench). */
 export function gnome(ctx, o = {}) {
   const rig = makeRig();
-  const mat = robeMaterial(ctx.assets, o.robe ?? '#2a5ad0', o.sheen ?? '#a0c8ff');
+  const mat = robeMaterial(ctx.assets, o.robe ?? '#2a5ad0', o.sheen ?? '#a0c8ff', 0.6);
   robe(rig, mat, { sitting: (o.pose ?? 'sit') === 'sit', seed: 9, hemR: 0.4 });
   head(rig, { beard: '#f4f2ff', beardLen: 0.38, hair: '#f4f2ff' });
   rig.head.scale.setScalar(1.35); // gnome: big head, short body
-  wizardHat(rig, robeMaterial(ctx.assets, o.hat ?? '#1e44b0', '#a0c8ff'), { height: 0.5, brim: 0.26, bend: 0.3 });
+  wizardHat(rig, robeMaterial(ctx.assets, o.hat ?? '#1e44b0', '#a0c8ff', 0.6), { height: o.hatHeight ?? 0.5, brim: 0.26, bend: 0.3 });
   hands(rig, skinMat());
   applyPose(rig, o.pose ?? 'sit');
   if (o.pipe !== false) {

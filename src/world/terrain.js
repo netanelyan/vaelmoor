@@ -104,6 +104,17 @@ export class Terrain {
           h -= f.depth * Math.min(1, Math.max(0, extend)) * inside;
           break;
         }
+        case 'peak': {
+          // jagged mountain: ridged noise on a steep cone, bare rock
+          const r = Math.hypot(dx, dz) / f.radius;
+          if (r >= 1) break;
+          const ridged = 1 - Math.abs(N.noise(x * 0.035 + f.at[0], z * 0.035) );
+          const fine = 1 - Math.abs(N.noise(x * 0.11, z * 0.11 + f.at[1]));
+          const k = Math.pow(1 - r, 1.5) * (0.55 + 0.35 * ridged + 0.15 * fine);
+          h += f.height * k;
+          rockBoost = Math.max(rockBoost, smoothstep(0.05, 0.25, k));
+          break;
+        }
         case 'mound': {
           const r = Math.hypot(dx, dz);
           const w = 1 - smoothstep(f.radius * 0.6, f.radius, r);

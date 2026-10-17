@@ -1,8 +1,15 @@
 # Vaelmoor
 
-A first-person fantasy RPG for the browser, built with Three.js. It uses ES modules and an import map, has no build step, and can be hosted as-is on GitHub Pages.
+A first-person fantasy RPG for the browser, built with Three.js. It uses ES modules and an import map with no build step, and is hostable as-is on GitHub Pages.
 
-This first milestone covers graphics only. **The Gloaming** is a hidden realm of nine walkable places, joined by one cobblestone road, in an "early-2000s fantasy RPG remembered in a dream" look. There are no quests or game systems yet.
+The world has two layers, each with its own look:
+
+| Layer | Region file | Look |
+| --- | --- | --- |
+| **Vaelmoor**, the surface | `data/regions/surface.json` | 80s dark-fantasy oil painting: matte, grainy, deep blue and black with blood-red accents, big pale moons, mist. Corrupted pockets turn purple, crimson and magenta. |
+| **The Gloaming**, the underworld | `data/regions/gloaming.json` | Early-2000s fantasy RPG remembered in a dream: glossy, saturated, glowing, with harsh HDR-style local contrast. |
+
+You go down into the Gloaming through the **barrow door** on the surface (follow the compass marker for *Beneath Vaelmoor*). The two looks crossfade over a few seconds, like waking into a dream. A recording is in [`docs/transition/barrow.webm`](docs/transition/barrow.webm).
 
 ![comparison sheet](docs/compare/sheet.jpg)
 
@@ -12,78 +19,92 @@ This first milestone covers graphics only. **The Gloaming** is a hidden realm of
 npx serve .
 ```
 
-Open the URL it prints (for example http://localhost:3000). Any static file server works; the game only needs to be served over http(s), not opened from `file://`.
+Then open the printed URL. Any static server works; the game just can't be opened from `file://`.
 
 ## Controls
 
 | Key | Action |
 | --- | --- |
-| Click | enter (locks the mouse pointer) |
-| W A S D / arrows | walk |
-| Mouse | look |
-| Shift | sprint |
-| Space | jump |
-| 1 to 9 | photo mode: jump to a reference shot |
-| 0 | leave photo mode |
-| Esc | release the mouse |
+| Any key / click | Leave the title screen |
+| W A S D, mouse | Move, look |
+| Shift | Sprint (uses stamina) |
+| Space | Jump |
+| E | Use what the crosshair is on: talk, take, open |
+| J or Tab | Journal |
+| Esc | Pause menu (resume, journal, save, load, settings, quit) |
+| F3 | FPS overlay |
+| F2 | Photo-mode menu: every reference shot in both layers |
+| 1–9 | Photo mode: Gloaming shots 1–9 |
+| Shift+1–9, Shift+0 | Photo mode: surface shots 1–10 |
+| 0 | Leave photo mode (moving also leaves it) |
 
-The whole road is about 1.1 km, roughly three minutes of walking with some sprinting.
+**Settings** (from the pause menu) has the **Low / Medium / High** quality presets, the FPS toggle, mouse sensitivity, field of view, head bob and invert look. Settings are saved in the browser. Resolution also adapts automatically to hold 60 fps within the preset's cap.
 
-## Photo mode
+**URL flags:**
+- `?region=gloaming` starts underground.
+- `?play` skips the title screen.
+- `?shot=surface:3` opens straight into a photo-mode shot.
+- `?nohud` hides the UI.
+- `?quality=1.25` pins the pixel ratio.
+- `?nopaint` turns off the painterly and sharpen passes (handy for before/after comparisons).
 
-Number keys 1 to 9 put the camera at the framing that matches each reference shot. Each shot's position, target and field of view live in `data/regions/gloaming.json` under `shot`. While a shot is active, the area's sky, fog and lighting are pinned to that area. Pressing any movement key drops you into normal play from that spot. `?shot=N` in the URL opens straight into a shot.
+## How the looks are made
 
-| Key | Place | Reference |
-| --- | --- | --- |
-| 1 | Crimsonreach Manor | ref_01 |
-| 2 | The Road to Vaelmoor Keep | ref_02 |
-| 3 | The Hollow Pines | ref_03 |
-| 4 | The Conclave House | ref_04 / ref_05 |
-| 5 | Castle Ambermere | ref_06 |
-| 6 | The Pale Shore | ref_07 |
-| 7 | Glasswater | ref_08 |
-| 8 | Lanternholt | ref_09 |
-| 9 | The Sentinel Oak | ref_10 |
+Each region names a **render profile** (`"renderProfile": { "kind": "painted" }`), and can override any field of it. The renderer blends profiles field by field and crossfades them, together with post settings and exposure, when a portal moves you between realms (`src/world/profiles.js`, `src/main.js`).
 
-URL flags: `?nohud` hides the HUD, `?quality=1.25` pins the pixel ratio (by default it adapts to hold 60 fps, capped at 1.5), and `?capture` keeps the drawing buffer for screenshots.
+- **Painted (surface):** a half-resolution structure tensor feeds an anisotropic Kuwahara filter for the brush strokes. The full-resolution composite then adds:
+  - canvas weave, soft posterize and dark brush contours;
+  - an oil-paint grade (shadows to indigo, highlights to cold moonlight, reds kept saturated);
+  - heavy grain and a strong vignette.
 
-## How it is built
+  Brush resolution and radius follow the quality preset (`src/render/painterly.js`).
+- **Dream (Gloaming):** a "dream sharpen" pass runs before bloom. It is a two-radius unsharp mask on HDR log-luminance, which gives the harsh local contrast. Then bloom, ACES tone mapping and a saturated grade (`src/render/sharpen.js`, `src/render/post.js`).
+- **Shared:** a painterly sky shader (domain-warped clouds, moons, planets, nebula, aurora), analytic height fog, a pooled point-light system, per-area palettes blended by distance, and every shader compiled at load so areas never hitch.
+
+## UI
+
+All UI is plain HTML/CSS in a quiet, shipped-RPG style: bone text on fading black, thin rules with a diamond, condensed caps and a serif for titles. There is no glow, blur or boxes. The kit lives in `src/ui/kit.css` and `src/ui/kit.js`, and every screen is built from it:
+- HUD (compass, vitals bars, crosshair, prompts, discovery popup)
+- dialogue
+- pause menu
+- parchment journal
+- settings
+- title screen
+- photo menu
+
+Quests and dialogue are data: `data/quests.json` and `data/dialogue.json`.
+
+## Project layout
 
 ```
-index.html              import map + canvas + overlays
-src/main.js             bootstrap, frame loop, atmosphere -> uniforms
-src/engine/             renderer, asset loading, input, noise
-src/render/             post FX (bloom, ACES, grade), height fog, light pool, material helpers
-src/shaders/            painterly sky dome, shared GLSL noise
-src/world/              terrain, road, vegetation, grass, water, buildings, characters, particles
-src/player/             first-person controller, photo mode
-data/regions/*.json     the world, as data
-tools/                  screenshot, perf, walk and compare-sheet scripts
+index.html               import map, canvas, UI root
+src/main.js              realms, game loop, profile crossfade, quality presets
+src/engine/              renderer, assets, input, noise
+src/render/              post chain, painterly + sharpen passes, height fog, light pool
+src/shaders/             sky dome, shared GLSL noise
+src/world/               realms, profiles, terrain, road, water, vegetation, buildings,
+                         surface.js (painted props), gloaming2.js (ref_11..17 props), characters
+src/player/              first-person controller, photo mode
+src/game/                quests, vitals, settings, interaction targets, storage
+src/ui/                  UI kit and screens
+data/regions/*.json      the worlds as data (surface.json is generated by tools/regions/surface.cjs)
+tools/                   screenshot, compare, perf, walk, UI-shot and transition-recording scripts
 ```
-
-The world is data-driven. `data/regions/gloaming.json` lists the terrain features, the road's control points and every area: its centre, palette (sky, fog, ambient, moonlight, rim, water, post grade), props, characters, lights, ground glows, fireflies, mist, scatter rules and photo-mode shot. Code builds the world from that file, so a new region is a new JSON file loaded with `?region=<name>`.
-
-Highlights:
-- **Sky:** a shader dome with domain-warped fbm clouds that self-shadow toward the moon, brush-stroke streaks, two star layers, a crescent or full moon with halo, aurora curtains and a distant mountain silhouette.
-- **Blending:** every palette value blends by distance between areas.
-- **Look:** HDR, then UnrealBloom, then ACES tone mapping, then a display-space grade (saturation and vibrance, S-curve, blacks sunk into a tinted deep blue or purple, split-toning, vignette, grain, slight lens fringe).
-- **Height fog:** analytic exponential fog, patched into three's fog chunks so every material gets it.
-- **Lights:** a moon directional light with a 2048 shadow map that follows the player, and a camera fill light. Unlimited window and lantern light anchors are served by a pool of 8 real point lights, with additive light pools on the ground.
-- **Road:** `MeshPhysicalMaterial` with clearcoat, physical iridescence and a stylized per-stone thin-film sheen (orange, pink, teal).
-- **Water:** three's planar-reflection `Water` with a reflection tint, so the lake keeps its own teal.
-- **Vegetation:** procedural pines with two LODs in chunked instanced meshes, triplanar crags and rocks, and a single-draw-call grass field that wraps around the camera (height and density baked to textures).
-- **Characters:** procedural, on a small rig with named poses, baked to one mesh per material.
 
 ## Tools
 
 ```sh
-npm install                 # playwright + sharp (dev only)
-node tools/shoot.mjs        # photo-mode screenshots -> docs/compare/shot_N.jpg (+ console check)
-node tools/compare.mjs      # comparison sheet -> docs/compare/index.html + sheet.jpg
-node tools/perf.mjs --size=1920x1080 --dpr=1.5   # fps sweep along the whole road
-node tools/walk.mjs         # checks the road is walkable end to end
+npm install                          # playwright + sharp (dev only)
+npm run shots                        # every photo-mode shot + docs/compare (ref vs shot, with ratings)
+node tools/shoot.mjs surface:3 gloaming:12
+node tools/ui-shots.mjs --region=surface      # every UI screen over a live scene -> docs/ui/
+node tools/record-transition.mjs     # walk down the barrow -> docs/transition/barrow.webm
+node tools/perf.mjs --size=1920x1080 --dpr=1.5 --region=gloaming
+node tools/walk.mjs --region=surface # road walkability check
+node tools/regions/surface.cjs       # regenerate the surface region
+node tools/regions/gloaming-extra.cjs  # (re)add the ref_11..17 Gloaming areas
 ```
 
-The tools run headless Chromium on the real GPU (ANGLE/D3D11); pass `--swiftshader` to `shoot.mjs` on machines without one. Drop the original reference images into `refs/` (`ref_01.png` … `ref_10.png`) and `compare.mjs` will put them side by side with the shots. Until then it shows the written brief for each one.
+The tools run headless Chromium on the real GPU (ANGLE/D3D11); pass `--swiftshader` to `shoot.mjs` on machines without one. References live in `refs/` (Gloaming) and `refs/dark/` (surface).
 
-Assets and licences: see [CREDITS.md](CREDITS.md).
+Asset licences: see [CREDITS.md](CREDITS.md).
