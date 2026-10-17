@@ -55,42 +55,50 @@ const feat = (f) => j.terrain.features.push({ ...f, extra: true });
 // ---------------------------------------------------------------- ref_12 gnome camp by the sea
 {
   const c = [260, -205];
-  lake('gnomesea', [c[0] + 45, c[1] - 45], [70, 55], { rot: 30, depth: 10, drop: 3 });
-  const cam = [-8, 6], tgt = [30, -32];
-  const dir = (a, s) => { const vx = tgt[0] - cam[0], vz = tgt[1] - cam[1], l = Math.hypot(vx, vz); return [r1(cam[0] + (vx / l) * a - (vz / l) * s), r1(cam[1] + (vz / l) * a + (vx / l) * s)]; };
-  const g1 = dir(6, 1.2), g2 = dir(9, 2.6);
+  // camera-relative layout: f = metres forward, r = metres right of the view line
+  const cam = [0, 0], view = [0.55, -0.83];
+  const right = [-view[1], view[0]];
+  const P = (fw, rt) => [r1(cam[0] + view[0] * fw + right[0] * rt), r1(cam[1] + view[1] * fw + right[1] * rt)];
+  const viewAz = r1((Math.atan2(view[0], -view[1]) * 180) / Math.PI);
+  const sea = P(42, 12);
+  lake('gnomesea', [c[0] + sea[0], c[1] + sea[1]], [26, 30], { depth: 10, drop: 2, rot: -34 });
+  j.terrain.features[j.terrain.features.length - 1].level = 18.6;
+  feat({ type: 'flatten', at: [c[0] + P(6, -1)[0], c[1] + P(6, -1)[1]], radius: 13, blend: 12, height: 19.3 });
+  feat({ type: 'peak', at: [c[0] + P(40, -26)[0], c[1] + P(40, -26)[1]], radius: 30, height: 46 });
+  feat({ type: 'peak', at: [c[0] + P(70, -30)[0], c[1] + P(70, -30)[1]], radius: 34, height: 60 });
+  const g1 = P(3.2, 0.5), g2 = P(6.2, -0.4);
+  const goal = P(40, -2);
   add({
     id: 'gnome_camp', name: 'Gnome Strand', ref: 'ref_12',
     description: 'A gnome camp on a dirt path by a deep blue sea at night: orange-and-green cone tents, small gnomes with tall green hats and blue backpacks walking away, jagged black spires rising from the water, a blinding white moon in swirling blue clouds, weeping trees.',
-    center: c, reach: 55,
-    ground: { tint: '#5a4428', grass: 0.15, grassTint: '#3a4a20' },
+    center: c, reach: 55, noFlatten: true,
+    ground: { tint: '#6a5030', grass: 0.12, grassTint: '#4a5a28' },
     atmosphere: {
       sky: {
-        zenith: '#020420', mid: '#0a1a7a', horizon: '#3a5ac0', glow: '#8aa0ff', glowStrength: 0.3,
-        cloudDark: '#060a40', cloudLight: '#5a6ad8', cloudRim: '#d0d8ff', cloudCover: 0.62, swirl: 2.4, stars: 0.3,
-        moonDir: [az(cam[0], cam[1], tgt[0], tgt[1]) - 4, 16], moonColor: '#ffffff', moonSize: 0.06, moonGlow: 0.9, moonBright: 3.2,
+        zenith: '#020420', mid: '#0a1a7a', horizon: '#3a5ac0', glow: '#8aa0ff', glowStrength: 0.25,
+        cloudDark: '#060a40', cloudLight: '#4a5ad0', cloudRim: '#d0d8ff', cloudCover: 0.6, swirl: 2.6, stars: 0.3,
+        moonDir: [viewAz - 3, 13], moonColor: '#ffffff', moonSize: 0.05, moonGlow: 0.7, moonBright: 3.4,
       },
-      fog: { color: '#0a1450', density: 0.005, falloff: 0.04 },
-      ambient: { sky: '#3a4aa0', ground: '#2a1a10', intensity: 0.9 },
-      moonLight: { color: '#c0d0ff', intensity: 1.1, dir: [az(cam[0], cam[1], tgt[0], tgt[1]) + 60, 30] },
-      fill: { color: '#ffb080', intensity: 0.6 },
-      rim: { color: '#c0d0ff', strength: 1.0 },
-      water: { color: '#030a5a', glint: '#ffffff', distortion: 2.2, tint: '#4a6aff' },
-      post: { exposure: 1.2 },
+      fog: { color: '#0a1450', density: 0.004, falloff: 0.04 },
+      ambient: { sky: '#3a4aa0', ground: '#2a1a10', intensity: 1.0 },
+      moonLight: { color: '#d0dcff', intensity: 1.6, dir: [viewAz + 40, 25] },
+      fill: { color: '#ffb080', intensity: 0.5 },
+      rim: { color: '#c0d0ff', strength: 0.7 },
+      water: { color: '#020640', glint: '#ffffff', distortion: 3.2, tint: '#2a3ac0' },
+      post: { exposure: 1.2, bloom: 0.25, bloomThreshold: 1.0 },
     },
     props: [
       { type: 'lake', lake: 'gnomesea' },
-      { type: 'tent', at: dir(5, -2.6), radius: 1.5, height: 2.3 },
-      { type: 'tent', at: dir(9, -3.4), radius: 1.3, height: 2.0 },
-      { type: 'camp_gnome', at: g1, rot: face(g1[0], g1[1], tgt[0], tgt[1]) },
-      { type: 'camp_gnome', at: g2, rot: face(g2[0], g2[1], tgt[0], tgt[1]) + 10, hat: '#238a23' },
-      ...[[34, -40, 3, 28], [44, -36, 2.5, 22], [52, -48, 3.5, 34], [40, -54, 2.2, 18], [60, -40, 2, 14]].map(([x, z, w, h], i) => ({ type: 'crag', at: [x, z], size: [w, h / 1.6, w], seed: 300 + i, color: '#0c0c14', viewDist: 1500, aboveWater: -2 })),
-      { type: 'crag', at: [-26, -20], size: [18, 30, 22], seed: 310, color: '#3a2a24', viewDist: 1000 },
-      { type: 'great_tree', at: [-14, -2], size: 0.6, seed: 311, leaves: '#2a4a2a' },
-      { type: 'dead_tree', at: [-6, -12], height: 8, radius: 0.4, seed: 312, color: '#3a3020' },
+      { type: 'tent', at: P(4.2, -2.0), radius: 1.3, height: 2.1 },
+      { type: 'tent', at: P(7.6, -2.9), radius: 1.1, height: 1.8 },
+      { type: 'camp_gnome', at: g1, rot: face(g1[0], g1[1], goal[0], goal[1]) },
+      { type: 'camp_gnome', at: g2, rot: face(g2[0], g2[1], goal[0], goal[1]) + 6, hat: '#238a23' },
+      ...[[58, 4, 1.8, 18], [62, 9, 1.5, 13], [66, 1, 2.0, 22], [64, 14, 1.4, 10], [70, 7, 1.7, 15], [44, 12, 1.2, 7]].map(([fw, rt, w, h], i) => ({ type: 'crag', at: P(fw, rt), size: [w, h / 1.6, w], seed: 300 + i, color: '#0a0a12', viewDist: 2000, aboveWater: -1.5 })),
+      { type: 'great_tree', at: P(10, 7), size: 0.5, seed: 311, leaves: '#1a2c1a' },
+      { type: 'dead_tree', at: P(12, -6), height: 8, radius: 0.4, seed: 312, color: '#3a3020' },
     ],
-    clearings: [[4, -6, 16]],
-    shot: { key: 11, at: cam, height: 1.3, target: [...tgt, 1.5], fov: 62 },
+    clearings: [[...P(5, 0), 9], [...P(18, 3), 12], [...P(35, 8), 20], [...P(60, 14), 28], [...P(20, 18), 14]],
+    shot: { key: 11, at: cam, height: 1.15, target: [...P(30, 1.5), 3.5], fov: 62 },
   });
 }
 

@@ -68,16 +68,6 @@
       {
         "type": "flatten",
         "at": [
-          260,
-          -205
-        ],
-        "radius": 34,
-        "blend": 22,
-        "extra": true
-      },
-      {
-        "type": "flatten",
-        "at": [
           -250,
           300
         ],
@@ -179,16 +169,48 @@
         "type": "lake",
         "id": "gnomesea",
         "at": [
-          305,
-          -250
+          293.1,
+          -233.3
         ],
         "radii": [
-          70,
-          55
+          26,
+          30
         ],
-        "rotation": 30,
+        "rotation": -34,
         "depth": 10,
-        "drop": 3
+        "drop": 2,
+        "level": 18.6
+      },
+      {
+        "type": "flatten",
+        "at": [
+          262.5,
+          -210.5
+        ],
+        "radius": 13,
+        "blend": 12,
+        "height": 19.3,
+        "extra": true
+      },
+      {
+        "type": "peak",
+        "at": [
+          260.4,
+          -252.5
+        ],
+        "radius": 30,
+        "height": 46,
+        "extra": true
+      },
+      {
+        "type": "peak",
+        "at": [
+          273.6,
+          -279.6
+        ],
+        "radius": 34,
+        "height": 60,
+        "extra": true
       },
       {
         "type": "lake",
@@ -2760,10 +2782,11 @@
         -205
       ],
       "reach": 55,
+      "noFlatten": true,
       "ground": {
-        "tint": "#5a4428",
-        "grass": 0.15,
-        "grassTint": "#3a4a20"
+        "tint": "#6a5030",
+        "grass": 0.12,
+        "grassTint": "#4a5a28"
       },
       "atmosphere": {
         "sky": {
@@ -2771,56 +2794,58 @@
           "mid": "#0a1a7a",
           "horizon": "#3a5ac0",
           "glow": "#8aa0ff",
-          "glowStrength": 0.3,
+          "glowStrength": 0.25,
           "cloudDark": "#060a40",
-          "cloudLight": "#5a6ad8",
+          "cloudLight": "#4a5ad0",
           "cloudRim": "#d0d8ff",
-          "cloudCover": 0.62,
-          "swirl": 2.4,
+          "cloudCover": 0.6,
+          "swirl": 2.6,
           "stars": 0.3,
           "moonDir": [
-            41,
-            16
+            30.5,
+            13
           ],
           "moonColor": "#ffffff",
-          "moonSize": 0.06,
-          "moonGlow": 0.9,
-          "moonBright": 3.2
+          "moonSize": 0.05,
+          "moonGlow": 0.7,
+          "moonBright": 3.4
         },
         "fog": {
           "color": "#0a1450",
-          "density": 0.005,
+          "density": 0.004,
           "falloff": 0.04
         },
         "ambient": {
           "sky": "#3a4aa0",
           "ground": "#2a1a10",
-          "intensity": 0.9
+          "intensity": 1
         },
         "moonLight": {
-          "color": "#c0d0ff",
-          "intensity": 1.1,
+          "color": "#d0dcff",
+          "intensity": 1.6,
           "dir": [
-            105,
-            30
+            73.5,
+            25
           ]
         },
         "fill": {
           "color": "#ffb080",
-          "intensity": 0.6
+          "intensity": 0.5
         },
         "rim": {
           "color": "#c0d0ff",
-          "strength": 1
+          "strength": 0.7
         },
         "water": {
-          "color": "#030a5a",
+          "color": "#020640",
           "glint": "#ffffff",
-          "distortion": 2.2,
-          "tint": "#4a6aff"
+          "distortion": 3.2,
+          "tint": "#2a3ac0"
         },
         "post": {
-          "exposure": 1.2
+          "exposure": 1.2,
+          "bloom": 0.25,
+          "bloomThreshold": 1
         }
       },
       "props": [
@@ -2831,148 +2856,149 @@
         {
           "type": "tent",
           "at": [
-            -6.3,
-            0.6
+            0.7,
+            -4.6
           ],
-          "radius": 1.5,
-          "height": 2.3
+          "radius": 1.3,
+          "height": 2.1
         },
         {
           "type": "tent",
           "at": [
-            -4,
-            -2.8
+            1.8,
+            -7.9
           ],
-          "radius": 1.3,
-          "height": 2
+          "radius": 1.1,
+          "height": 1.8
         },
         {
           "type": "camp_gnome",
           "at": [
-            -2.9,
-            2.6
+            2.2,
+            -2.4
           ],
-          "rot": 136.4
+          "rot": 150.4
         },
         {
           "type": "camp_gnome",
           "at": [
-            0.2,
-            1.5
+            3.1,
+            -5.4
           ],
-          "rot": 148.3,
+          "rot": 155.2,
           "hat": "#238a23"
         },
         {
           "type": "crag",
           "at": [
-            34,
-            -40
+            35.2,
+            -45.9
           ],
           "size": [
-            3,
-            17.5,
-            3
+            1.8,
+            11.25,
+            1.8
           ],
           "seed": 300,
-          "color": "#0c0c14",
-          "viewDist": 1500,
-          "aboveWater": -2
+          "color": "#0a0a12",
+          "viewDist": 2000,
+          "aboveWater": -1.5
         },
         {
           "type": "crag",
           "at": [
-            44,
-            -36
+            41.6,
+            -46.5
           ],
           "size": [
-            2.5,
-            13.75,
-            2.5
+            1.5,
+            8.125,
+            1.5
           ],
           "seed": 301,
-          "color": "#0c0c14",
-          "viewDist": 1500,
-          "aboveWater": -2
+          "color": "#0a0a12",
+          "viewDist": 2000,
+          "aboveWater": -1.5
         },
         {
           "type": "crag",
           "at": [
-            52,
-            -48
-          ],
-          "size": [
-            3.5,
-            21.25,
-            3.5
-          ],
-          "seed": 302,
-          "color": "#0c0c14",
-          "viewDist": 1500,
-          "aboveWater": -2
-        },
-        {
-          "type": "crag",
-          "at": [
-            40,
-            -54
-          ],
-          "size": [
-            2.2,
-            11.25,
-            2.2
-          ],
-          "seed": 303,
-          "color": "#0c0c14",
-          "viewDist": 1500,
-          "aboveWater": -2
-        },
-        {
-          "type": "crag",
-          "at": [
-            60,
-            -40
+            37.1,
+            -54.2
           ],
           "size": [
             2,
-            8.75,
+            13.75,
             2
           ],
-          "seed": 304,
-          "color": "#0c0c14",
-          "viewDist": 1500,
-          "aboveWater": -2
+          "seed": 302,
+          "color": "#0a0a12",
+          "viewDist": 2000,
+          "aboveWater": -1.5
         },
         {
           "type": "crag",
           "at": [
-            -26,
-            -20
+            46.8,
+            -45.4
           ],
           "size": [
-            18,
-            30,
-            22
+            1.4,
+            6.25,
+            1.4
           ],
-          "seed": 310,
-          "color": "#3a2a24",
-          "viewDist": 1000
+          "seed": 303,
+          "color": "#0a0a12",
+          "viewDist": 2000,
+          "aboveWater": -1.5
+        },
+        {
+          "type": "crag",
+          "at": [
+            44.3,
+            -54.2
+          ],
+          "size": [
+            1.7,
+            9.375,
+            1.7
+          ],
+          "seed": 304,
+          "color": "#0a0a12",
+          "viewDist": 2000,
+          "aboveWater": -1.5
+        },
+        {
+          "type": "crag",
+          "at": [
+            34.2,
+            -29.9
+          ],
+          "size": [
+            1.2,
+            4.375,
+            1.2
+          ],
+          "seed": 305,
+          "color": "#0a0a12",
+          "viewDist": 2000,
+          "aboveWater": -1.5
         },
         {
           "type": "great_tree",
           "at": [
-            -14,
-            -2
+            11.3,
+            -4.4
           ],
-          "size": 0.6,
+          "size": 0.5,
           "seed": 311,
-          "leaves": "#2a4a2a"
+          "leaves": "#1a2c1a"
         },
         {
           "type": "dead_tree",
           "at": [
-            -6,
-            -12
+            1.6,
+            -13.3
           ],
           "height": 8,
           "radius": 0.4,
@@ -2982,22 +3008,42 @@
       ],
       "clearings": [
         [
-          4,
-          -6,
-          16
+          2.8,
+          -4.1,
+          9
+        ],
+        [
+          12.4,
+          -13.3,
+          12
+        ],
+        [
+          25.9,
+          -24.6,
+          20
+        ],
+        [
+          44.6,
+          -42.1,
+          28
+        ],
+        [
+          25.9,
+          -6.7,
+          14
         ]
       ],
       "shot": {
         "key": 11,
         "at": [
-          -8,
-          6
+          0,
+          0
         ],
-        "height": 1.3,
+        "height": 1.15,
         "target": [
-          30,
-          -32,
-          1.5
+          17.7,
+          -24.1,
+          3.5
         ],
         "fov": 62
       }
