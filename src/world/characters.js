@@ -29,7 +29,13 @@ export function robeMaterial(assets, color, sheen = '#ffffff', rim = 1.4) {
   });
 }
 
-export function armorMaterial(assets, color = 0xb4aed0) {
+export function armorMaterial(assets, color = 0xb4aed0, dull = false) {
+  if (dull) {
+    return cached(`armorDull:${color}`, () => {
+      const t = assets.pbr('metal_plate', [2, 2], { color: false });
+      return stylize(new THREE.MeshStandardMaterial({ color, metalness: 0.3, roughness: 0.6, roughnessMap: t.roughnessMap, normalMap: t.normalMap, normalScale: new THREE.Vector2(0.5, 0.5), envMapIntensity: 0.45 }), { rim: 0.35, rimPower: 3 });
+    });
+  }
   return cached(`armor:${color}`, () => {
     const t = assets.pbr('metal_plate', [2, 2], { color: false });
     const m = new THREE.MeshPhysicalMaterial({
@@ -507,7 +513,7 @@ export function gnome(ctx, o = {}) {
 /** Knight in full, very shiny plate armour with a cape. */
 export function knight(ctx, o = {}) {
   const rig = makeRig();
-  const A = armorMaterial(ctx.assets, o.armor ? new THREE.Color(o.armor).getHex() : 0xb4aed0);
+  const A = armorMaterial(ctx.assets, o.armor ? new THREE.Color(o.armor).getHex() : 0xb4aed0, !!o.dull);
   const under = leatherMat(0x1c1420);
   // breastplate + backplate
   const breast = lathe([[0.16, -0.36], [0.2, -0.28], [0.24, -0.1], [0.26, 0.04], [0.245, 0.14], [0.15, 0.21], [0.07, 0.25]], 26,
@@ -739,14 +745,14 @@ export function hooded(ctx, o = {}) {
   if (o.torch) {
     const t = new THREE.Group();
     t.add(mesh(new THREE.CylinderGeometry(0.02, 0.025, 0.7, 6), woodMat()).translateY(0.15));
-    const flame = mesh(new THREE.ConeGeometry(0.06, 0.22, 8), glowMat(o.torch, 9), false);
+    const flame = mesh(new THREE.ConeGeometry(0.06, 0.22, 8), glowMat(o.torch, 3), false);
     flame.position.y = 0.6;
     t.add(flame);
     t.position.set(0, -0.06, 0.03);
     rig.handR.add(t);
     rig.root.updateMatrixWorld(true);
     t.quaternion.copy(rig.handR.getWorldQuaternion(new THREE.Quaternion()).invert());
-    lights.push({ x: 0.25, y: 2.3, z: 0.3, color: o.torch, intensity: o.torchLight ?? 14, distance: 14, flicker: 0.25 });
+    lights.push({ x: 0.25, y: 2.3, z: 0.3, color: o.torch, intensity: o.torchLight ?? 5, distance: 9, flicker: 0.25 });
   }
   return finish(rig, { scale: o.height ? o.height / 1.85 : 1.0, lights });
 }

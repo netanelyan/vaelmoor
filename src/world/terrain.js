@@ -56,7 +56,7 @@ export class Terrain {
     let rockBoost = 0;
 
     for (const f of this.features) {
-      const dx = x - f.at[0], dz = z - f.at[1];
+      const dx = f.at ? x - f.at[0] : 0, dz = f.at ? z - f.at[1] : 0;
       switch (f.type) {
         case 'flatten': {
           const r = Math.hypot(dx, dz);
@@ -120,7 +120,7 @@ export class Terrain {
   waterLevel(x, z) {
     for (const f of this.features) {
       if (f.type !== 'lake') continue;
-      const dx = x - f.at[0], dz = z - f.at[1];
+      const dx = f.at ? x - f.at[0] : 0, dz = f.at ? z - f.at[1] : 0;
       const lx = (dx * f.cosR + dz * f.sinR) / f.radii[0];
       const lz = (-dx * f.sinR + dz * f.cosR) / f.radii[1];
       if (Math.hypot(lx, lz) < 1.3) return f.level;

@@ -58,6 +58,14 @@ export class Realm {
     this.atmosphere = new Atmosphere(this.region);
   }
 
+  /** Compile every material up front (incl. distance-culled props) so areas never hitch on first sight. */
+  async warmUp(camera) {
+    const hidden = [];
+    this.scene.traverse((o) => { if (!o.visible) { hidden.push(o); o.visible = true; } });
+    try { await this.renderer.compileAsync(this.scene, camera); } catch { this.renderer.compile(this.scene, camera); }
+    for (const o of hidden) o.visible = false;
+  }
+
   setShadowSize(size) {
     const m = this.moon;
     m.castShadow = size > 0;

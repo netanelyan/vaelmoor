@@ -20,7 +20,8 @@ const browser = await chromium.launch({ headless: true, args: ['--use-angle=d3d1
 const page = await browser.newPage({ viewport: { width: 800, height: 450 } });
 const errors = [];
 page.on('pageerror', (e) => errors.push(e.message));
-await page.goto(`http://localhost:${server.address().port}/?nohud&play&quality=0.75`);
+const REGION = (process.argv.find((a) => a.startsWith('--region=')) || '--region=surface').split('=')[1];
+await page.goto(`http://localhost:${server.address().port}/?nohud&play&quality=0.75&region=${REGION}`);
 await page.waitForFunction(() => window.vaelmoor?.ready, null, { timeout: 60000 });
 await page.waitForTimeout(1500);
 
@@ -31,6 +32,7 @@ for (let i = 5; i < n - 15; i += 20) {
   const start = await page.evaluate((k) => {
     const v = window.vaelmoor, r = v.world.road;
     v.player.teleport(r.x[k], r.z[k], Math.atan2(-r.tx[k], -r.tz[k]), 0);
+    v.vitals.stamina = 1; // the check is about the road, not the player's lungs
     return [v.player.pos.x, v.player.pos.z];
   }, i);
   await page.keyboard.down('ShiftLeft');

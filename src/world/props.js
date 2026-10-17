@@ -8,6 +8,7 @@ import { cragGeometry, rockMaterial, rockGeometry } from './vegetation.js';
 import { stylize } from '../render/materials.js';
 import { mulberry32 } from '../engine/noise.js';
 import { lakeWater } from './water.js';
+import { cloudSea } from './particles.js';
 
 // type -> async (ctx, propJson, {x, z, area}) => { object, colliders, lights, glows, update }
 // Builders work in local space; world.js places, rotates and scales them.
@@ -51,6 +52,22 @@ const glowOrb = (hex, intensity, r) => {
 };
 
 export const PROP_BUILDERS = {
+  cloud_sea: (ctx, p) => { const g = new THREE.Group(); g.add(cloudSea(p)); return { object: g }; },
+  /** Flat paved rectangle (w x l metres, long axis along local Z). */
+  paving: (ctx, p) => {
+    const [w, l] = p.size ?? [4, 20];
+    const t = ctx.assets.pbr(p.texture ?? 'cobblestone_floor_08', [w / (p.tile ?? 3), l / (p.tile ?? 3)]);
+    const mat = stylize(new THREE.MeshStandardMaterial({ ...t, color: p.color ?? '#ffffff', roughness: p.roughness ?? 1, envMapIntensity: 0.3 }), { rim: 0.05 });
+    const geo = new THREE.PlaneGeometry(w, l, 1, 1);
+    geo.rotateX(-Math.PI / 2);
+    const m = new THREE.Mesh(geo, mat);
+    m.receiveShadow = true;
+    m.position.y = 0.04;
+    const g = new THREE.Group();
+    g.add(m);
+    return { object: g };
+  },
+
   manor: (ctx, p) => manor(ctx, p),
   hooded: (ctx, p) => hooded(ctx, p),
   stone_cottage: (ctx, p) => stoneCottage(ctx, p),

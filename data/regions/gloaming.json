@@ -250,17 +250,33 @@
       "moonColor": "#e8e0ff",
       "moonSize": 0.06,
       "moonPhase": 0,
-      "moonGlow": 0.6,
+      "moonGlow": 0.36,
       "moonBright": 2.6,
       "aurora": 0,
       "auroraA": "#30ff9a",
       "auroraB": "#40c0ff",
       "mountain": "#1a1238",
-      "mountainHeight": 0.035
+      "mountainHeight": 0.035,
+      "planetAColor": "#c08060",
+      "planetBColor": "#6080c0",
+      "nebulaA": "#ff3a8a",
+      "nebulaB": "#6a4aff",
+      "planetADir": [
+        30,
+        60
+      ],
+      "planetBDir": [
+        60,
+        50
+      ],
+      "planetASize": 0,
+      "planetBSize": 0,
+      "nebula": 0,
+      "sparkle": 0
     },
     "fog": {
       "color": "#3a2468",
-      "density": 0.012,
+      "density": 0.0072,
       "falloff": 0.045
     },
     "ambient": {
@@ -280,9 +296,9 @@
       "intensity": 1
     },
     "post": {
-      "bloom": 0.85,
-      "bloomRadius": 0.32,
-      "bloomThreshold": 0.7,
+      "bloom": 0.55,
+      "bloomRadius": 0.22,
+      "bloomThreshold": 0.88,
       "saturation": 1.45,
       "vibrance": 0.3,
       "contrast": 1.2,
@@ -339,11 +355,11 @@
           "cloudDark": "#22145a",
           "cloudLight": "#8a60d0",
           "moonSize": 0.055,
-          "moonGlow": 0.35
+          "moonGlow": 0.21
         },
         "fog": {
           "color": "#3c2470",
-          "density": 0.012
+          "density": 0.0072
         },
         "rim": {
           "color": "#ffb070",
@@ -511,6 +527,21 @@
           "rot": 20,
           "scale": 1.4,
           "tint": "#a08070"
+        },
+        {
+          "type": "ruined_arch",
+          "at": [
+            22,
+            49.8
+          ],
+          "rot": 200,
+          "span": 2.4,
+          "height": 3.6,
+          "thick": 1.2,
+          "pillar": 1,
+          "stone": "#8a7aa0",
+          "texture": "rustic_stone_wall",
+          "doorName": "The Way Up"
         }
       ],
       "scatter": [
@@ -569,7 +600,32 @@
           3.2
         ],
         "fov": 58
-      }
+      },
+      "lights": [
+        {
+          "tag": "upway",
+          "at": [
+            22,
+            49
+          ],
+          "y": 1.6,
+          "color": "#a0c0ff",
+          "intensity": 12,
+          "distance": 10
+        }
+      ],
+      "glows": [
+        {
+          "tag": "upway",
+          "at": [
+            22,
+            49
+          ],
+          "radius": 3,
+          "color": "#a0c0ff",
+          "intensity": 0.5
+        }
+      ]
     },
     {
       "id": "wizards",
@@ -597,11 +653,11 @@
             30
           ],
           "moonPhase": 0.5,
-          "moonGlow": 0.5
+          "moonGlow": 0.3
         },
         "fog": {
           "color": "#3a2a5a",
-          "density": 0.014
+          "density": 0.0084
         },
         "rim": {
           "color": "#ffc890",
@@ -823,7 +879,7 @@
           "glowStrength": 1.1,
           "cloudCover": 0.12,
           "stars": 2.4,
-          "moonGlow": 0.15,
+          "moonGlow": 0.09,
           "moonDir": [
             60,
             40
@@ -832,7 +888,7 @@
         },
         "fog": {
           "color": "#6a4a98",
-          "density": 0.005,
+          "density": 0.003,
           "falloff": 0.04
         },
         "rim": {
@@ -967,11 +1023,11 @@
           "moonPhase": 0.68,
           "moonSize": 0.075,
           "cloudCover": 0.4,
-          "moonGlow": 0.55
+          "moonGlow": 0.33
         },
         "fog": {
           "color": "#4a2a80",
-          "density": 0.012
+          "density": 0.0072
         },
         "fill": {
           "color": "#a8a0ff",
@@ -1080,11 +1136,11 @@
           ],
           "moonPhase": 0,
           "moonSize": 0.055,
-          "moonGlow": 0.6
+          "moonGlow": 0.36
         },
         "fog": {
           "color": "#2c2470",
-          "density": 0.01,
+          "density": 0.006,
           "falloff": 0.05
         },
         "rim": {
@@ -1208,12 +1264,12 @@
           ],
           "moonPhase": 0.72,
           "moonSize": 0.065,
-          "moonGlow": 0.5,
+          "moonGlow": 0.3,
           "moonBright": 1.9
         },
         "fog": {
           "color": "#1a2050",
-          "density": 0.012
+          "density": 0.0072
         },
         "rim": {
           "color": "#a0c0ff",
@@ -1326,7 +1382,7 @@
         },
         "fog": {
           "color": "#06222a",
-          "density": 0.008,
+          "density": 0.0048,
           "falloff": 0.05
         },
         "ambient": {
@@ -1471,7 +1527,7 @@
           "cloudRim": "#ff8060",
           "moonColor": "#ff2a14",
           "moonSize": 0.17,
-          "moonGlow": 0.8,
+          "moonGlow": 0.48,
           "moonBright": 1.35,
           "moonDir": [
             247,
@@ -1483,7 +1539,7 @@
         },
         "fog": {
           "color": "#4a0a14",
-          "density": 0.012
+          "density": 0.0072
         },
         "ambient": {
           "sky": "#a02030",
@@ -1498,7 +1554,7 @@
           "strength": 1
         },
         "post": {
-          "bloom": 0.65
+          "bloom": 0.42250000000000004
         },
         "fill": {
           "color": "#ff8070",
@@ -1781,12 +1837,12 @@
           "moonSize": 0.07,
           "cloudScale": 0.9,
           "cloudSharp": 0.07,
-          "moonGlow": 0.45,
+          "moonGlow": 0.27,
           "moonBright": 2.4
         },
         "fog": {
           "color": "#4a2070",
-          "density": 0.009,
+          "density": 0.0054,
           "falloff": 0.04
         },
         "ambient": {
@@ -1991,5 +2047,24 @@
         ]
       }
     ]
-  }
+  },
+  "renderProfile": {
+    "kind": "dream"
+  },
+  "portals": [
+    {
+      "id": "barrow",
+      "at": [
+        22,
+        284
+      ],
+      "radius": 1.4,
+      "to": "surface:barrow",
+      "exit": [
+        16,
+        262
+      ],
+      "exitYaw": 30
+    }
+  ]
 }

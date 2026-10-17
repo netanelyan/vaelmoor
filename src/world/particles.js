@@ -223,3 +223,39 @@ export function groundGlow({ x, z, radius = 6, color = '#5dff8a', intensity = 1.
   m.name = 'groundGlow';
   return m;
 }
+
+/**
+ * A sea of mist seen from above (dark_05): a large soft plane whose tops are
+ * lit and troughs sink into shadow, slowly churning, fading at the edges.
+ */
+export function cloudSea({ size = [260, 260], top = '#ff5a9a', mid = '#5a4aa0', low = '#2a0a3a', opacity = 0.95, noiseScale = 0.05, seed = 1 }) {
+  const geo = new THREE.PlaneGeometry(size[0], size[1], 1, 1);
+  geo.rotateX(-Math.PI / 2);
+  const mat = new THREE.ShaderMaterial({
+    uniforms: { uTime: shared.time, uTop: { value: new THREE.Color(top) }, uMid: { value: new THREE.Color(mid) }, uLow: { value: new THREE.Color(low) }, uOpacity: { value: opacity }, uScale: { value: noiseScale }, uSeed: { value: seed * 13.1 } },
+    vertexShader: /* glsl */`
+      varying vec3 vW; varying vec2 vUv;
+      void main() { vUv = uv; vec4 w = modelMatrix * vec4(position, 1.0); vW = w.xyz; gl_Position = projectionMatrix * viewMatrix * w; }`,
+    fragmentShader: /* glsl */`
+      uniform vec3 uTop, uMid, uLow; uniform float uTime, uOpacity, uScale, uSeed;
+      varying vec3 vW; varying vec2 vUv;
+      ${NOISE_GLSL}
+      void main() {
+        vec2 p = vW.xz * uScale + uSeed;
+        vec2 w = vec2(fbm3(p * 0.7 + uTime * 0.01), fbm3(p * 0.7 + 5.2 - uTime * 0.012));
+        float n = fbm(p + w * 1.8 + uTime * 0.008);
+        // billows: bright rounded tops, dark creases between them
+        float bill = smoothstep(0.35, 0.8, n);
+        float crease = smoothstep(0.0, 0.08, abs(fbm3(p * 2.3 + w) - 0.5));
+        vec3 c = mix(mix(uLow, uMid, smoothstep(0.0, 0.55, bill)), uTop, smoothstep(0.55, 1.0, bill)) * (0.55 + 0.45 * crease);
+        float edge = smoothstep(0.0, 0.18, vUv.x) * (1.0 - smoothstep(0.82, 1.0, vUv.x)) * smoothstep(0.0, 0.18, vUv.y) * (1.0 - smoothstep(0.82, 1.0, vUv.y));
+        gl_FragColor = vec4(c, uOpacity * edge * (0.75 + 0.25 * bill));
+      }`,
+    transparent: true,
+    depthWrite: false,
+  });
+  const m = new THREE.Mesh(geo, mat);
+  m.renderOrder = 1;
+  m.name = 'cloudSea';
+  return m;
+}

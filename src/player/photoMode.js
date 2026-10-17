@@ -17,7 +17,8 @@ export class PhotoMode {
         if (!a.shot) continue;
         const s = a.shot;
         const [x, z] = [a.center[0] + s.at[0], a.center[1] + s.at[1]];
-        const y = (s.absY ?? world.groundAt(x, z)) + (s.height ?? 1.7);
+        const yAt = s.yAt ? [a.center[0] + s.yAt[0], a.center[1] + s.yAt[1]] : [x, z];
+        const y = (s.absY ?? world.groundAt(yAt[0], yAt[1])) + (s.height ?? 1.7);
         const [tx, tz] = [a.center[0] + s.target[0], a.center[1] + s.target[1]];
         const ty = (s.targetAbsY ?? world.groundAt(tx, tz)) + (s.target[2] ?? 0);
         const id = `${realm.id}:${s.key}`;

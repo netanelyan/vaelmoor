@@ -37,6 +37,65 @@
         ],
         "radius": 30,
         "height": 6
+      },
+      {
+        "type": "trench",
+        "from": [
+          20,
+          -146
+        ],
+        "to": [
+          20,
+          -158
+        ],
+        "width": 2.6,
+        "depth": 3.6
+      },
+      {
+        "type": "flatten",
+        "at": [
+          139.8,
+          -274.1
+        ],
+        "radius": 24,
+        "blend": 12
+      },
+      {
+        "type": "flatten",
+        "at": [
+          415.9,
+          -44.5
+        ],
+        "radius": 90,
+        "blend": 18,
+        "raise": -28
+      },
+      {
+        "type": "snow",
+        "at": [
+          -77,
+          204
+        ],
+        "radius": 70,
+        "blend": 30
+      },
+      {
+        "type": "snow",
+        "at": [
+          -211.2,
+          129.9
+        ],
+        "radius": 75,
+        "blend": 30
+      },
+      {
+        "type": "hill",
+        "at": [
+          -280.9,
+          169.4
+        ],
+        "radius": 45,
+        "height": 12
       }
     ]
   },
@@ -51,8 +110,8 @@
     },
     "points": [
       [
-        -6,
-        -12
+        3,
+        5
       ],
       [
         8,
@@ -75,8 +134,12 @@
         -110
       ],
       [
-        -200,
-        -170
+        -192,
+        -160
+      ],
+      [
+        -182,
+        -200
       ],
       [
         -150,
@@ -200,7 +263,23 @@
       "auroraA": "#30ff9a",
       "auroraB": "#40c0ff",
       "mountain": "#0a0c20",
-      "mountainHeight": 0.03
+      "mountainHeight": 0.03,
+      "planetAColor": "#c08060",
+      "planetBColor": "#6080c0",
+      "nebulaA": "#ff3a8a",
+      "nebulaB": "#6a4aff",
+      "planetADir": [
+        30,
+        60
+      ],
+      "planetBDir": [
+        60,
+        50
+      ],
+      "planetASize": 0,
+      "planetBSize": 0,
+      "nebula": 0,
+      "sparkle": 0
     },
     "fog": {
       "color": "#141c48",
@@ -494,13 +573,250 @@
         -120,
         -40
       ],
-      "reach": 55,
+      "reach": 50,
       "ground": {
-        "tint": "#3a4a3a",
-        "grass": 0.5,
-        "grassTint": "#304a30"
+        "tint": "#2a201c",
+        "grass": 0.15,
+        "grassTint": "#2a3020"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#010604",
+          "mid": "#06201c",
+          "horizon": "#14443a",
+          "glow": "#2a6a5a",
+          "glowStrength": 0.3,
+          "cloudDark": "#031210",
+          "cloudLight": "#2a6a58",
+          "cloudRim": "#5aa090",
+          "cloudCover": 0.55,
+          "stars": 0.6,
+          "moonDir": [
+            -74.4,
+            26
+          ],
+          "moonColor": "#c8e8d8",
+          "moonSize": 0.045,
+          "moonGlow": 0.5,
+          "moonBright": 1.4
+        },
+        "fog": {
+          "color": "#0a1e1a",
+          "density": 0.016,
+          "falloff": 0.05
+        },
+        "ambient": {
+          "sky": "#2a4a44",
+          "ground": "#140a08",
+          "intensity": 0.9
+        },
+        "moonLight": {
+          "color": "#90b8b0",
+          "intensity": 1.4,
+          "dir": [
+            63.6,
+            35
+          ]
+        },
+        "fill": {
+          "color": "#c8b8b0",
+          "intensity": 1.3
+        },
+        "rim": {
+          "color": "#ff4020",
+          "strength": 0.25
+        },
+        "post": {
+          "exposure": 1.4
+        }
+      },
+      "props": [
+        {
+          "type": "campfire",
+          "at": [
+            -14.6,
+            -0.9
+          ],
+          "color": "#ff3a18",
+          "light": 1.4,
+          "scale": 0.7
+        },
+        {
+          "type": "crag",
+          "at": [
+            -15.6,
+            -0.2
+          ],
+          "size": [
+            0.9,
+            0.3,
+            0.8
+          ],
+          "seed": 21,
+          "color": "#3a3438",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            -15.7,
+            -1.7
+          ],
+          "size": [
+            0.9,
+            0.3,
+            0.8
+          ],
+          "seed": 22,
+          "color": "#3a3438",
+          "matte": true
+        },
+        {
+          "type": "knight",
+          "at": [
+            -15.6,
+            -0.2
+          ],
+          "rot": 105.5,
+          "pose": "sitSword",
+          "dull": true,
+          "armor": "#7a7680",
+          "cape": "#5a0a0c",
+          "y": 0.02
+        },
+        {
+          "type": "knight",
+          "at": [
+            -15.7,
+            -1.7
+          ],
+          "rot": 70.7,
+          "pose": "sit",
+          "dull": true,
+          "armor": "#7a7680",
+          "cape": "#6a0c10",
+          "y": 0.02
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            -19.3,
+            4.8
+          ],
+          "size": 0.8,
+          "seed": 90,
+          "leaves": "#14261c"
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            -17.6,
+            -7.6
+          ],
+          "size": 0.75,
+          "seed": 91,
+          "leaves": "#16281e"
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            -11.3,
+            3.8
+          ],
+          "size": 0.55,
+          "seed": 92,
+          "leaves": "#10201a"
+        },
+        {
+          "type": "monolith_tower",
+          "at": [
+            -98.6,
+            -10.2
+          ],
+          "width": 9,
+          "height": 70,
+          "tiers": 5,
+          "stone": "#141c1a",
+          "viewDist": 2000
+        }
+      ],
+      "clearings": [
+        [
+          -14.5,
+          -0.9,
+          5
+        ],
+        [
+          -9,
+          -0.6,
+          3
+        ]
+      ],
+      "scatter": [
+        {
+          "kind": "pine",
+          "count": 50,
+          "at": [
+            -28.9,
+            -1.8
+          ],
+          "radius": 30,
+          "minR": 8,
+          "minRoad": 6,
+          "scale": [
+            14,
+            22
+          ],
+          "seed": "cfp"
+        },
+        {
+          "kind": "rock",
+          "count": 16,
+          "at": [
+            -14.5,
+            -0.9
+          ],
+          "radius": 6,
+          "minR": 2.2,
+          "minRoad": 3,
+          "scale": [
+            0.4,
+            0.9
+          ],
+          "seed": "cfr"
+        }
+      ],
+      "fireflies": [
+        {
+          "at": [
+            -14.5,
+            -0.9
+          ],
+          "radius": 3,
+          "count": 30,
+          "color": "#ff4a1a",
+          "intensity": 8,
+          "height": [
+            0.4,
+            3
+          ],
+          "size": 0.06
+        }
+      ],
+      "shot": {
+        "key": 2,
+        "at": [
+          -12,
+          -0.7
+        ],
+        "height": 1.1,
+        "target": [
+          -16,
+          -1,
+          1
+        ],
+        "fov": 56
+      }
     },
     {
       "id": "ruins",
@@ -510,13 +826,278 @@
         -200,
         -170
       ],
-      "reach": 55,
+      "reach": 50,
       "ground": {
-        "tint": "#3a4a3a",
+        "tint": "#3a6a30",
         "grass": 0.5,
-        "grassTint": "#304a30"
+        "grassTint": "#3e7a30"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#0a0e18",
+          "mid": "#283044",
+          "horizon": "#4a5268",
+          "glow": "#8090a8",
+          "glowStrength": 0.2,
+          "cloudDark": "#141824",
+          "cloudLight": "#6a7288",
+          "cloudRim": "#b0b8d0",
+          "cloudCover": 0.7,
+          "stars": 0.3,
+          "moonDir": [
+            -67.7,
+            30
+          ],
+          "moonColor": "#e0e4ea",
+          "moonSize": 0.06,
+          "moonGlow": 0.45,
+          "moonBright": 1.3
+        },
+        "fog": {
+          "color": "#3a4458",
+          "density": 0.01,
+          "falloff": 0.05
+        },
+        "ambient": {
+          "sky": "#6a7490",
+          "ground": "#1a2414",
+          "intensity": 1.5
+        },
+        "moonLight": {
+          "color": "#c8d0e0",
+          "intensity": 3.2,
+          "dir": [
+            100.3,
+            40
+          ]
+        },
+        "rim": {
+          "color": "#c0c8e0",
+          "strength": 0.2
+        },
+        "post": {
+          "exposure": 1.4
+        }
+      },
+      "props": [
+        {
+          "type": "ruined_arch",
+          "at": [
+            -24,
+            -16.3
+          ],
+          "rot": 53.9,
+          "span": 3.2,
+          "height": 6.5,
+          "thick": 1.6,
+          "pillar": 1.4,
+          "texture": "mossy_rock",
+          "stone": "#6a7064",
+          "clear": 5
+        },
+        {
+          "type": "ruined_tower",
+          "at": [
+            -33,
+            -8.9
+          ],
+          "radius": 3.6,
+          "height": 18,
+          "broken": 7,
+          "texture": "mossy_rock",
+          "stone": "#5a6058"
+        },
+        {
+          "type": "ruined_arch",
+          "at": [
+            -26.6,
+            -4
+          ],
+          "rot": 121.5,
+          "span": 2.5,
+          "height": 4,
+          "broken": true,
+          "texture": "mossy_rock",
+          "stone": "#5a6058"
+        },
+        {
+          "type": "hooded",
+          "at": [
+            -13.7,
+            -4.3
+          ],
+          "rot": 246.89999999999998,
+          "pose": "kneel",
+          "robe": "#4a0608",
+          "rim": 0.2,
+          "seed": 40
+        },
+        {
+          "type": "hooded",
+          "at": [
+            -13.3,
+            -9.9
+          ],
+          "rot": 255.5,
+          "pose": "walk",
+          "robe": "#4a0608",
+          "rim": 0.2,
+          "seed": 41
+        },
+        {
+          "type": "hooded",
+          "at": [
+            -17.2,
+            -8.2
+          ],
+          "rot": 223.5,
+          "pose": "walk",
+          "robe": "#4a0608",
+          "rim": 0.2,
+          "seed": 42
+        },
+        {
+          "type": "hooded",
+          "at": [
+            -13.4,
+            -12.7
+          ],
+          "rot": 244.3,
+          "pose": "bowed",
+          "robe": "#4a0608",
+          "rim": 0.2,
+          "seed": 43
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            -16.2,
+            -19.9
+          ],
+          "size": 0.75,
+          "seed": 93,
+          "leaves": "#1e4024"
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            -15.8,
+            1.2
+          ],
+          "size": 0.65,
+          "seed": 94,
+          "leaves": "#1e4024"
+        },
+        {
+          "type": "dead_tree",
+          "at": [
+            -27.2,
+            -22.8
+          ],
+          "height": 9,
+          "radius": 0.5,
+          "seed": 77
+        },
+        {
+          "type": "paving",
+          "at": [
+            -18.1,
+            -10.6
+          ],
+          "rot": -120.3,
+          "size": [
+            3.4,
+            16
+          ],
+          "texture": "grey_stone_path",
+          "color": "#9aa890",
+          "tile": 2.5
+        }
+      ],
+      "lights": [
+        {
+          "at": [
+            -24,
+            -16.3
+          ],
+          "y": 1.6,
+          "color": "#ff1010",
+          "intensity": 30,
+          "distance": 12
+        }
+      ],
+      "glows": [
+        {
+          "at": [
+            -24,
+            -16.3
+          ],
+          "radius": 4,
+          "color": "#ff1a10",
+          "intensity": 0.7
+        }
+      ],
+      "fireflies": [
+        {
+          "at": [
+            -14.7,
+            -8.6
+          ],
+          "radius": 7,
+          "count": 22,
+          "color": "#ffd060",
+          "intensity": 6,
+          "height": [
+            0.8,
+            2.4
+          ],
+          "size": 0.08
+        }
+      ],
+      "clearings": [
+        [
+          -16.4,
+          -9.6,
+          10
+        ],
+        [
+          -24,
+          -16.3,
+          6
+        ]
+      ],
+      "scatter": [
+        {
+          "kind": "rock",
+          "count": 20,
+          "at": [
+            -16.4,
+            -9.6
+          ],
+          "radius": 12,
+          "minR": 3,
+          "minRoad": 4,
+          "scale": [
+            0.4,
+            1.2
+          ],
+          "seed": "rr"
+        }
+      ],
+      "shot": {
+        "key": 3,
+        "at": [
+          -5.2,
+          -3
+        ],
+        "height": 3.2,
+        "target": [
+          -21.1,
+          -13.5,
+          2.6
+        ],
+        "fov": 62
+      }
     },
     {
       "id": "oak",
@@ -526,13 +1107,119 @@
         -90,
         -230
       ],
-      "reach": 55,
+      "reach": 45,
       "ground": {
-        "tint": "#3a4a3a",
-        "grass": 0.5,
-        "grassTint": "#304a30"
+        "tint": "#2a3a24",
+        "grass": 0.35,
+        "grassTint": "#3a4a2c"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#020818",
+          "mid": "#0a2050",
+          "horizon": "#1a3a70",
+          "glow": "#3a5aa0",
+          "glowStrength": 0.2,
+          "cloudDark": "#061030",
+          "cloudLight": "#2a4a8a",
+          "cloudRim": "#8aa0d0",
+          "cloudCover": 0.35,
+          "stars": 2.2,
+          "sparkle": 0.6,
+          "moonDir": [
+            -55,
+            30
+          ],
+          "moonColor": "#f4e8c8",
+          "moonSize": 0.07,
+          "moonGlow": 0.5,
+          "moonBright": 1.5,
+          "moonPhase": 0
+        },
+        "fog": {
+          "color": "#0a1a3a",
+          "density": 0.012,
+          "falloff": 0.05
+        },
+        "ambient": {
+          "sky": "#3a5490",
+          "ground": "#141a14",
+          "intensity": 1.1
+        },
+        "moonLight": {
+          "color": "#d8e0ff",
+          "intensity": 2.6,
+          "dir": [
+            -73,
+            32
+          ]
+        },
+        "fill": {
+          "color": "#8a9ad0",
+          "intensity": 0.7
+        },
+        "rim": {
+          "color": "#a0b4ff",
+          "strength": 0.3
+        },
+        "post": {
+          "exposure": 1.4
+        }
+      },
+      "props": [
+        {
+          "type": "great_tree",
+          "at": [
+            -4.7,
+            -13.4
+          ],
+          "size": 1,
+          "seed": 81,
+          "leaves": "#1a301c",
+          "clear": 3
+        },
+        {
+          "type": "knight",
+          "at": [
+            -5.8,
+            -10.6
+          ],
+          "rot": -18.8,
+          "pose": "rest",
+          "dull": true,
+          "armor": "#8a90a0",
+          "y": 0.05,
+          "npc": "oak_knight",
+          "name": "Ser Hollis",
+          "talkY": 0.6
+        }
+      ],
+      "clearings": [
+        [
+          -6,
+          -9.2,
+          9
+        ],
+        [
+          -23.7,
+          -14.4,
+          22
+        ]
+      ],
+      "shot": {
+        "key": 10,
+        "at": [
+          -5.9,
+          -6.2
+        ],
+        "height": 1.5,
+        "target": [
+          -6.9,
+          -11,
+          2.6
+        ],
+        "fov": 70
+      }
     },
     {
       "id": "barrow",
@@ -542,13 +1229,156 @@
         20,
         -150
       ],
-      "reach": 55,
+      "reach": 40,
       "ground": {
-        "tint": "#3a4a3a",
+        "tint": "#34442e",
         "grass": 0.5,
-        "grassTint": "#304a30"
+        "grassTint": "#3a5030"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "moonDir": [
+            180,
+            30
+          ],
+          "moonSize": 0.08
+        }
+      },
+      "props": [
+        {
+          "type": "barrow",
+          "at": [
+            0,
+            -10
+          ],
+          "rot": 0,
+          "yAt": [
+            0,
+            10
+          ],
+          "y": -0.3,
+          "clear": 9
+        },
+        {
+          "type": "crag",
+          "at": [
+            -7,
+            1
+          ],
+          "size": [
+            1,
+            1.5,
+            0.8
+          ],
+          "seed": 60,
+          "color": "#6a7080",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            6,
+            3
+          ],
+          "size": [
+            1,
+            1.5,
+            0.8
+          ],
+          "seed": 61,
+          "color": "#6a7080",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            -9,
+            -6
+          ],
+          "size": [
+            1,
+            1.5,
+            0.8
+          ],
+          "seed": 62,
+          "color": "#6a7080",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            9,
+            -8
+          ],
+          "size": [
+            1,
+            1.5,
+            0.8
+          ],
+          "seed": 63,
+          "color": "#6a7080",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            -4,
+            6
+          ],
+          "size": [
+            1,
+            1.5,
+            0.8
+          ],
+          "seed": 64,
+          "color": "#6a7080",
+          "matte": true
+        }
+      ],
+      "clearings": [
+        [
+          0,
+          -6,
+          14
+        ]
+      ],
+      "lights": [
+        {
+          "at": [
+            0,
+            -5
+          ],
+          "y": -0.5,
+          "color": "#7a5aff",
+          "intensity": 10,
+          "distance": 8
+        }
+      ],
+      "glows": [
+        {
+          "at": [
+            0,
+            -3
+          ],
+          "radius": 3,
+          "color": "#7a5aff",
+          "intensity": 0.5
+        }
+      ],
+      "shot": {
+        "key": 12,
+        "at": [
+          0,
+          14
+        ],
+        "height": 1.7,
+        "target": [
+          0,
+          -4,
+          0.5
+        ],
+        "fov": 60
+      }
     },
     {
       "id": "alley",
@@ -558,13 +1388,186 @@
         130,
         -250
       ],
-      "reach": 55,
+      "reach": 45,
       "ground": {
-        "tint": "#3a4a3a",
-        "grass": 0.5,
-        "grassTint": "#304a30"
+        "tint": "#2a1a34",
+        "grass": 0,
+        "grassTint": "#201828",
+        "road": "#9a7ab0"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#0c0420",
+          "mid": "#3a1070",
+          "horizon": "#c02a7a",
+          "glow": "#ff3a8a",
+          "glowStrength": 0.6,
+          "cloudDark": "#1a0838",
+          "cloudLight": "#6a2aa0",
+          "cloudRim": "#c06ad0",
+          "cloudCover": 0.3,
+          "stars": 0.3,
+          "moonDir": [
+            180,
+            40
+          ],
+          "moonSize": 0.0001,
+          "moonGlow": 0
+        },
+        "fog": {
+          "color": "#5a2a9a",
+          "density": 0.012,
+          "falloff": 0.02
+        },
+        "ambient": {
+          "sky": "#6a40b0",
+          "ground": "#2a1430",
+          "intensity": 1.6
+        },
+        "moonLight": {
+          "color": "#b080ff",
+          "intensity": 1.8,
+          "dir": [
+            52.2,
+            50
+          ]
+        },
+        "rim": {
+          "color": "#c080ff",
+          "strength": 0.35
+        },
+        "post": {
+          "exposure": 1.35
+        }
+      },
+      "props": [
+        {
+          "type": "alley_row",
+          "at": [
+            0.1,
+            -8.6
+          ],
+          "rot": 337.8,
+          "length": 46,
+          "seed": 31,
+          "stone": "#6a4a7a"
+        },
+        {
+          "type": "alley_row",
+          "at": [
+            23.4,
+            -48.8
+          ],
+          "rot": 157.8,
+          "length": 46,
+          "seed": 32,
+          "stone": "#5a4070"
+        },
+        {
+          "type": "paving",
+          "at": [
+            9.8,
+            -24.1
+          ],
+          "rot": 157.8,
+          "size": [
+            6.4,
+            48
+          ],
+          "texture": "cobblestone_floor_08",
+          "color": "#a080c0",
+          "tile": 2.2
+        },
+        {
+          "type": "hooded",
+          "at": [
+            3.9,
+            -11.9
+          ],
+          "rot": 157.8,
+          "pose": "walk",
+          "robe": "#120a1a",
+          "height": 1.95,
+          "seed": 51
+        },
+        {
+          "type": "hooded",
+          "at": [
+            6.2,
+            -12.6
+          ],
+          "rot": 157.8,
+          "pose": "walk",
+          "robe": "#120a1a",
+          "height": 1.9,
+          "seed": 52
+        },
+        {
+          "type": "hooded",
+          "at": [
+            8.5,
+            -20.3
+          ],
+          "rot": 157.8,
+          "pose": "walk",
+          "robe": "#1a0e26",
+          "height": 1.85,
+          "seed": 53
+        },
+        {
+          "type": "castle_dark",
+          "at": [
+            59.1,
+            -144.4
+          ],
+          "rot": 337.8,
+          "viewDist": 3000,
+          "windowColor": "#8a50ff",
+          "windowIntensity": 0.4,
+          "stoneColor": "#3a2a60",
+          "roofColor": "#2a1a50"
+        }
+      ],
+      "clearings": [
+        [
+          9.8,
+          -24.1,
+          26
+        ],
+        [
+          59.1,
+          -144.4,
+          70
+        ]
+      ],
+      "mist": [
+        {
+          "at": [
+            11.4,
+            -27.8
+          ],
+          "radius": 14,
+          "count": 26,
+          "color": "#7a40c0",
+          "opacity": 0.2,
+          "size": 12,
+          "lift": 0.6
+        }
+      ],
+      "shot": {
+        "key": 4,
+        "at": [
+          3.4,
+          -8.3
+        ],
+        "height": 1.5,
+        "target": [
+          17.4,
+          -42.6,
+          9
+        ],
+        "fov": 60
+      }
     },
     {
       "id": "canyon",
@@ -576,11 +1579,238 @@
       ],
       "reach": 55,
       "ground": {
-        "tint": "#3a4a3a",
-        "grass": 0.5,
-        "grassTint": "#304a30"
+        "tint": "#3a3440",
+        "grass": 0,
+        "grassTint": "#2a2830"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#04122a",
+          "mid": "#0e4a6a",
+          "horizon": "#3a8098",
+          "glow": "#6aa0c0",
+          "glowStrength": 0.3,
+          "cloudDark": "#062038",
+          "cloudLight": "#3a7aa0",
+          "cloudRim": "#a0d0f0",
+          "cloudCover": 0.32,
+          "stars": 1.6,
+          "sparkle": 1,
+          "moonDir": [
+            49,
+            36
+          ],
+          "moonColor": "#e83a7a",
+          "moonSize": 0.15,
+          "moonGlow": 0.18,
+          "moonBright": 1,
+          "moonPhase": 0
+        },
+        "fog": {
+          "color": "#1a3a5a",
+          "density": 0.012,
+          "falloff": 0.04
+        },
+        "ambient": {
+          "sky": "#3a6a90",
+          "ground": "#1a1418",
+          "intensity": 1.2
+        },
+        "moonLight": {
+          "color": "#ffa0c8",
+          "intensity": 2.2,
+          "dir": [
+            205,
+            30
+          ]
+        },
+        "rim": {
+          "color": "#ff70b0",
+          "strength": 0.35
+        },
+        "post": {
+          "exposure": 1.35
+        }
+      },
+      "props": [
+        {
+          "type": "ruined_tower",
+          "at": [
+            56.9,
+            -25.2
+          ],
+          "radius": 4.2,
+          "height": 32,
+          "broken": 6,
+          "stone": "#6a6470",
+          "viewDist": 1500
+        },
+        {
+          "type": "hooded",
+          "at": [
+            10.8,
+            -9
+          ],
+          "rot": 109.4,
+          "pose": "staff",
+          "staff": true,
+          "robe": "#8a1a5a",
+          "rim": 0.4,
+          "height": 1.9,
+          "seed": 61
+        },
+        {
+          "type": "crag",
+          "at": [
+            11.9,
+            -26.6
+          ],
+          "size": [
+            8,
+            12.5,
+            6.4
+          ],
+          "seed": 70,
+          "color": "#6a6874",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            17.2,
+            -36.5
+          ],
+          "size": [
+            10,
+            17.5,
+            8
+          ],
+          "seed": 71,
+          "color": "#6a6874",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            31.3,
+            -2.4
+          ],
+          "size": [
+            7,
+            10,
+            5.6000000000000005
+          ],
+          "seed": 72,
+          "color": "#6a6874",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            33.3,
+            -37.9
+          ],
+          "size": [
+            9,
+            15,
+            7.2
+          ],
+          "seed": 73,
+          "color": "#6a6874",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            54.9,
+            -14
+          ],
+          "size": [
+            10,
+            16.25,
+            8
+          ],
+          "seed": 74,
+          "color": "#6a6874",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            7.1,
+            -16
+          ],
+          "size": [
+            3,
+            3.125,
+            2.4000000000000004
+          ],
+          "seed": 75,
+          "color": "#6a6874",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            19.1,
+            -2.4
+          ],
+          "size": [
+            3,
+            2.5,
+            2.4000000000000004
+          ],
+          "seed": 76,
+          "color": "#6a6874",
+          "matte": true,
+          "viewDist": 1500
+        }
+      ],
+      "clearings": [
+        [
+          19.7,
+          -13.8,
+          22
+        ]
+      ],
+      "scatter": [
+        {
+          "kind": "rock",
+          "count": 40,
+          "at": [
+            15.6,
+            -10.9
+          ],
+          "radius": 14,
+          "minR": 2,
+          "minRoad": 3,
+          "scale": [
+            0.4,
+            1.4
+          ],
+          "seed": "cnr"
+        }
+      ],
+      "shot": {
+        "key": 5,
+        "at": [
+          7.4,
+          -5.2
+        ],
+        "height": 1.7,
+        "target": [
+          33.1,
+          -20.7,
+          16
+        ],
+        "fov": 64
+      }
     },
     {
       "id": "mistsea",
@@ -590,13 +1820,282 @@
         300,
         -40
       ],
-      "reach": 55,
+      "reach": 60,
       "ground": {
-        "tint": "#3a4a3a",
-        "grass": 0.5,
-        "grassTint": "#304a30"
+        "tint": "#2a1420",
+        "grass": 0,
+        "grassTint": "#201018"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#06020a",
+          "mid": "#2a0414",
+          "horizon": "#c81a1a",
+          "glow": "#ff3010",
+          "glowStrength": 0.6,
+          "cloudDark": "#0c0208",
+          "cloudLight": "#5a0a18",
+          "cloudRim": "#e03a30",
+          "cloudCover": 0.62,
+          "cloudScale": 1.4,
+          "swirl": 1.2,
+          "stars": 0.1,
+          "moonDir": [
+            0,
+            40
+          ],
+          "moonSize": 0.0001,
+          "moonGlow": 0,
+          "mountainHeight": 0
+        },
+        "fog": {
+          "color": "#5a1a3a",
+          "density": 0.006,
+          "falloff": 0.05
+        },
+        "ambient": {
+          "sky": "#6a2a70",
+          "ground": "#1a0a20",
+          "intensity": 1
+        },
+        "moonLight": {
+          "color": "#ff6040",
+          "intensity": 1.2,
+          "dir": [
+            87.8,
+            22
+          ]
+        },
+        "rim": {
+          "color": "#ff3020",
+          "strength": 0.4
+        },
+        "post": {
+          "exposure": 1.3
+        }
+      },
+      "props": [
+        {
+          "type": "cloud_sea",
+          "at": [
+            115.9,
+            -4.5
+          ],
+          "yAt": [
+            2,
+            -0.1
+          ],
+          "y": -2.5,
+          "size": [
+            360,
+            300
+          ],
+          "top": "#d85a98",
+          "mid": "#4e46a8",
+          "low": "#161040",
+          "noiseScale": 0.15,
+          "viewDist": 3000
+        },
+        {
+          "type": "hooded",
+          "at": [
+            26,
+            -0.4
+          ],
+          "rot": 92.2,
+          "pose": "walk",
+          "robe": "#0a0608",
+          "height": 1.9,
+          "seed": 71,
+          "yAt": [
+            2,
+            -0.1
+          ],
+          "y": -2.7
+        },
+        {
+          "type": "castle_dark",
+          "at": [
+            246.2,
+            0.5
+          ],
+          "rot": -90.2,
+          "viewDist": 3000,
+          "windowColor": "#ff3a10",
+          "windowIntensity": 0.2,
+          "stoneColor": "#1a0c10",
+          "roofColor": "#140a0c",
+          "scale": 0.8
+        },
+        {
+          "type": "crag",
+          "at": [
+            21.6,
+            -9.8
+          ],
+          "size": [
+            3,
+            10.625,
+            2.0999999999999996
+          ],
+          "seed": 80,
+          "color": "#141016",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            28.2,
+            5.9
+          ],
+          "size": [
+            2.5,
+            9.375,
+            1.75
+          ],
+          "seed": 81,
+          "color": "#141016",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            39.4,
+            -17.5
+          ],
+          "size": [
+            4,
+            12.5,
+            2.8
+          ],
+          "seed": 82,
+          "color": "#141016",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            52.3,
+            8
+          ],
+          "size": [
+            3,
+            10,
+            2.0999999999999996
+          ],
+          "seed": 83,
+          "color": "#141016",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            65.8,
+            -5.5
+          ],
+          "size": [
+            3.5,
+            11.25,
+            2.4499999999999997
+          ],
+          "seed": 84,
+          "color": "#141016",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            86.7,
+            16.7
+          ],
+          "size": [
+            4,
+            10.625,
+            2.8
+          ],
+          "seed": 85,
+          "color": "#141016",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            34.9,
+            22.7
+          ],
+          "size": [
+            3,
+            8.75,
+            2.0999999999999996
+          ],
+          "seed": 86,
+          "color": "#141016",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            105.2,
+            -24.1
+          ],
+          "size": [
+            5,
+            12.5,
+            3.5
+          ],
+          "seed": 87,
+          "color": "#141016",
+          "matte": true,
+          "viewDist": 2000
+        }
+      ],
+      "mist": [
+        {
+          "at": [
+            36,
+            -1.4
+          ],
+          "radius": 20,
+          "count": 14,
+          "color": "#7a3a8a",
+          "opacity": 0.12,
+          "size": 12,
+          "lift": 2
+        }
+      ],
+      "clearings": [
+        [
+          75.9,
+          -2.9,
+          75
+        ]
+      ],
+      "shot": {
+        "key": 6,
+        "at": [
+          18,
+          -0.7
+        ],
+        "yAt": [
+          2,
+          -0.1
+        ],
+        "height": 0.9,
+        "target": [
+          76,
+          -0.9,
+          2
+        ],
+        "targetAbsY": null,
+        "fov": 62
+      }
     },
     {
       "id": "spires",
@@ -606,13 +2105,248 @@
         220,
         80
       ],
-      "reach": 55,
+      "reach": 50,
       "ground": {
-        "tint": "#3a4a3a",
-        "grass": 0.5,
-        "grassTint": "#304a30"
+        "tint": "#1a2a24",
+        "grass": 0,
+        "grassTint": "#1a2a20"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#08141c",
+          "mid": "#1e3a44",
+          "horizon": "#3a6a68",
+          "glow": "#5a9a90",
+          "glowStrength": 0.3,
+          "cloudDark": "#0a1a1c",
+          "cloudLight": "#3a6a6a",
+          "cloudRim": "#80b0a0",
+          "cloudCover": 0.35,
+          "stars": 0.5,
+          "moonDir": [
+            125.4,
+            44
+          ],
+          "moonColor": "#ff9a3a",
+          "moonSize": 0.07,
+          "moonGlow": 0.6,
+          "moonBright": 1.2,
+          "planetADir": [
+            109.4,
+            40
+          ],
+          "planetASize": 0.06,
+          "planetAColor": "#3a6aa0"
+        },
+        "fog": {
+          "color": "#3a5a5c",
+          "density": 0.014,
+          "falloff": 0.03
+        },
+        "ambient": {
+          "sky": "#4a6a6a",
+          "ground": "#101818",
+          "intensity": 1.2
+        },
+        "post": {
+          "exposure": 1.35
+        },
+        "moonLight": {
+          "color": "#80d0a0",
+          "intensity": 1.2
+        },
+        "rim": {
+          "color": "#60ffa0",
+          "strength": 0.35
+        }
+      },
+      "props": [
+        {
+          "type": "hooded",
+          "at": [
+            10.9,
+            5.6
+          ],
+          "rot": -39.4,
+          "pose": "walk",
+          "robe": "#4a0a0c",
+          "height": 1.95,
+          "seed": 91
+        },
+        {
+          "type": "hooded",
+          "at": [
+            10.3,
+            7.3
+          ],
+          "rot": 180.6,
+          "pose": "torch",
+          "torch": "#ff7a20",
+          "torchLight": 18,
+          "robe": "#5a0c10",
+          "height": 1.9,
+          "seed": 92
+        },
+        {
+          "type": "crag",
+          "at": [
+            22.4,
+            5.5
+          ],
+          "size": [
+            5,
+            25,
+            4
+          ],
+          "seed": 100,
+          "color": "#8aa898",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            20.8,
+            19.7
+          ],
+          "size": [
+            6,
+            32.5,
+            4.800000000000001
+          ],
+          "seed": 101,
+          "color": "#8aa898",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            35.2,
+            19.2
+          ],
+          "size": [
+            7,
+            40,
+            5.6000000000000005
+          ],
+          "seed": 102,
+          "color": "#8aa898",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            36.8,
+            4.9
+          ],
+          "size": [
+            5,
+            27.5,
+            4
+          ],
+          "seed": 103,
+          "color": "#8aa898",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            34.7,
+            35.3
+          ],
+          "size": [
+            7,
+            36.25,
+            5.6000000000000005
+          ],
+          "seed": 104,
+          "color": "#8aa898",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            10.7,
+            17.1
+          ],
+          "size": [
+            4,
+            16.25,
+            3.2
+          ],
+          "seed": 105,
+          "color": "#8aa898",
+          "matte": true,
+          "viewDist": 1500
+        },
+        {
+          "type": "crag",
+          "at": [
+            18.9,
+            -0.2
+          ],
+          "size": [
+            4,
+            13.75,
+            3.2
+          ],
+          "seed": 106,
+          "color": "#8aa898",
+          "matte": true,
+          "viewDist": 1500
+        }
+      ],
+      "lights": [
+        {
+          "at": [
+            25.6,
+            15.6
+          ],
+          "y": 6,
+          "color": "#40ff90",
+          "intensity": 12,
+          "distance": 40
+        }
+      ],
+      "mist": [
+        {
+          "at": [
+            20.5,
+            12.5
+          ],
+          "radius": 18,
+          "count": 30,
+          "color": "#4a9a7a",
+          "opacity": 0.25,
+          "size": 14,
+          "lift": 1.5
+        }
+      ],
+      "clearings": [
+        [
+          15.4,
+          9.4,
+          12
+        ]
+      ],
+      "shot": {
+        "key": 7,
+        "at": [
+          6.8,
+          4.2
+        ],
+        "height": 1.6,
+        "target": [
+          15.4,
+          9.4,
+          3.4
+        ],
+        "fov": 64
+      }
     },
     {
       "id": "cathedral",
@@ -622,13 +2356,239 @@
         120,
         180
       ],
-      "reach": 55,
+      "reach": 60,
       "ground": {
-        "tint": "#3a4a3a",
-        "grass": 0.5,
-        "grassTint": "#304a30"
+        "tint": "#3a2a24",
+        "grass": 0,
+        "grassTint": "#2a2018"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#010004",
+          "mid": "#0a0418",
+          "horizon": "#3a0a3a",
+          "glow": "#ff3a8a",
+          "glowStrength": 0.3,
+          "cloudCover": 0,
+          "stars": 3,
+          "sparkle": 1.5,
+          "nebula": 0.3,
+          "nebulaA": "#c0206a",
+          "nebulaB": "#4a2ab0",
+          "moonDir": [
+            153.1,
+            50
+          ],
+          "moonColor": "#ffb070",
+          "moonSize": 0.02,
+          "moonGlow": 0.35,
+          "moonBright": 1.2,
+          "planetADir": [
+            141.1,
+            36
+          ],
+          "planetASize": 0.05,
+          "planetAColor": "#8a8aa0",
+          "planetBDir": [
+            175.1,
+            46
+          ],
+          "planetBSize": 0.02,
+          "planetBColor": "#c06a4a",
+          "mountainHeight": 0
+        },
+        "fog": {
+          "color": "#1a0a24",
+          "density": 0.006,
+          "falloff": 0.04
+        },
+        "ambient": {
+          "sky": "#6a3a6a",
+          "ground": "#1a100c",
+          "intensity": 1.1
+        },
+        "moonLight": {
+          "color": "#e0c0b0",
+          "intensity": 3,
+          "dir": [
+            324.1,
+            35
+          ]
+        },
+        "rim": {
+          "color": "#ff80c0",
+          "strength": 0.3
+        },
+        "post": {
+          "exposure": 1.35
+        }
+      },
+      "props": [
+        {
+          "type": "crag",
+          "at": [
+            35.5,
+            121.3
+          ],
+          "size": [
+            40,
+            12,
+            34
+          ],
+          "seed": 111,
+          "color": "#5a4a44",
+          "matte": true,
+          "viewDist": 3000
+        },
+        {
+          "type": "cathedral",
+          "at": [
+            36.2,
+            123.2
+          ],
+          "rot": -163.9,
+          "y": 12,
+          "viewDist": 3000,
+          "stone": "#7a6050"
+        },
+        {
+          "type": "crag",
+          "at": [
+            30.3,
+            29.1
+          ],
+          "size": [
+            10,
+            17.5,
+            8
+          ],
+          "seed": 120,
+          "color": "#4a3c38",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            -3.5,
+            52.7
+          ],
+          "size": [
+            12,
+            21.25,
+            9.600000000000001
+          ],
+          "seed": 121,
+          "color": "#4a3c38",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            20,
+            24.5
+          ],
+          "size": [
+            6,
+            8.75,
+            4.800000000000001
+          ],
+          "seed": 122,
+          "color": "#4a3c38",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            -1,
+            36.8
+          ],
+          "size": [
+            7,
+            10,
+            5.6000000000000005
+          ],
+          "seed": 123,
+          "color": "#4a3c38",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "crag",
+          "at": [
+            44.9,
+            44.9
+          ],
+          "size": [
+            10,
+            25,
+            8
+          ],
+          "seed": 124,
+          "color": "#4a3c38",
+          "matte": true,
+          "viewDist": 2000
+        },
+        {
+          "type": "hooded",
+          "at": [
+            5.9,
+            12.7
+          ],
+          "rot": -9.100000000000001,
+          "pose": "bowed",
+          "robe": "#6a0a10",
+          "height": 1.8,
+          "seed": 130
+        },
+        {
+          "type": "hooded",
+          "at": [
+            4.2,
+            14.4
+          ],
+          "rot": 20.9,
+          "pose": "bowed",
+          "robe": "#6a0a10",
+          "height": 1.8,
+          "seed": 131
+        },
+        {
+          "type": "hooded",
+          "at": [
+            6.2,
+            15.3
+          ],
+          "rot": 50.9,
+          "pose": "kneel",
+          "robe": "#6a0a10",
+          "height": 1.8,
+          "seed": 132
+        }
+      ],
+      "clearings": [
+        [
+          17.1,
+          44.9,
+          50
+        ]
+      ],
+      "shot": {
+        "key": 8,
+        "at": [
+          2.8,
+          7.5
+        ],
+        "height": 2.6,
+        "target": [
+          36.2,
+          123.2,
+          34
+        ],
+        "fov": 64
+      }
     },
     {
       "id": "monolith",
@@ -638,13 +2598,264 @@
         -60,
         170
       ],
-      "reach": 55,
+      "reach": 60,
       "ground": {
-        "tint": "#3a4a3a",
-        "grass": 0.5,
-        "grassTint": "#304a30"
+        "tint": "#2a3050",
+        "grass": 0,
+        "grassTint": "#20283a"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#06040e",
+          "mid": "#2a0a2a",
+          "horizon": "#a01818",
+          "glow": "#ff2a1a",
+          "glowStrength": 0.5,
+          "cloudDark": "#1a0618",
+          "cloudLight": "#5a1430",
+          "cloudRim": "#b03a3a",
+          "cloudCover": 0.38,
+          "stars": 0.3,
+          "moonDir": [
+            -169.4,
+            36
+          ],
+          "moonColor": "#ff3a1a",
+          "moonSize": 0.11,
+          "moonGlow": 0.7,
+          "moonBright": 1.3
+        },
+        "fog": {
+          "color": "#2a1a4a",
+          "density": 0.014,
+          "falloff": 0.05
+        },
+        "ambient": {
+          "sky": "#5a4aa0",
+          "ground": "#1a1a3a",
+          "intensity": 1.2
+        },
+        "moonLight": {
+          "color": "#c0b0ff",
+          "intensity": 2,
+          "dir": [
+            -3.4,
+            30
+          ]
+        },
+        "rim": {
+          "color": "#ff4030",
+          "strength": 0.3
+        },
+        "post": {
+          "exposure": 1.3
+        }
+      },
+      "props": [
+        {
+          "type": "monolith_tower",
+          "at": [
+            -34,
+            36.7
+          ],
+          "width": 12,
+          "height": 64,
+          "tiers": 6,
+          "stone": "#141018",
+          "viewDist": 3000
+        },
+        {
+          "type": "ruined_arch",
+          "at": [
+            -17.9,
+            22.4
+          ],
+          "rot": 116.69999999999999,
+          "span": 2.6,
+          "height": 4.2,
+          "thick": 1.4,
+          "pillar": 1.3,
+          "stone": "#2a2630"
+        },
+        {
+          "type": "crag",
+          "at": [
+            -18.8,
+            77.8
+          ],
+          "size": [
+            8,
+            31.25,
+            6.4
+          ],
+          "seed": 140,
+          "color": "#1a1820",
+          "matte": true,
+          "viewDist": 3000
+        },
+        {
+          "type": "crag",
+          "at": [
+            -36.7,
+            91.2
+          ],
+          "size": [
+            7,
+            26.25,
+            5.6000000000000005
+          ],
+          "seed": 141,
+          "color": "#1a1820",
+          "matte": true,
+          "viewDist": 3000
+        },
+        {
+          "type": "crag",
+          "at": [
+            -3.6,
+            74.2
+          ],
+          "size": [
+            5,
+            18.75,
+            4
+          ],
+          "seed": 142,
+          "color": "#1a1820",
+          "matte": true,
+          "viewDist": 3000
+        },
+        {
+          "type": "crag",
+          "at": [
+            -56.3,
+            103.8
+          ],
+          "size": [
+            6,
+            22.5,
+            4.800000000000001
+          ],
+          "seed": 143,
+          "color": "#1a1820",
+          "matte": true,
+          "viewDist": 3000
+        },
+        {
+          "type": "crag",
+          "at": [
+            -25,
+            108.2
+          ],
+          "size": [
+            4,
+            15,
+            3.2
+          ],
+          "seed": 144,
+          "color": "#1a1820",
+          "matte": true,
+          "viewDist": 3000
+        },
+        {
+          "type": "crag",
+          "at": [
+            -3.6,
+            12.7
+          ],
+          "size": [
+            2.2,
+            1,
+            1.7600000000000002
+          ],
+          "seed": 150,
+          "color": "#2a2834",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            -10.3,
+            13.9
+          ],
+          "size": [
+            1.8,
+            0.7499999999999999,
+            1.4400000000000002
+          ],
+          "seed": 151,
+          "color": "#2a2834",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            -4.5,
+            22.4
+          ],
+          "size": [
+            2.6,
+            1.25,
+            2.08
+          ],
+          "seed": 152,
+          "color": "#2a2834",
+          "matte": true
+        }
+      ],
+      "mist": [
+        {
+          "at": [
+            -17,
+            56.3
+          ],
+          "radius": 40,
+          "count": 30,
+          "color": "#4a3a7a",
+          "opacity": 0.18,
+          "size": 20,
+          "lift": 1
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "rock",
+          "count": 30,
+          "at": [
+            -9.8,
+            19.7
+          ],
+          "radius": 16,
+          "minR": 3,
+          "minRoad": 4,
+          "scale": [
+            0.5,
+            1.6
+          ],
+          "seed": "mnr"
+        }
+      ],
+      "clearings": [
+        [
+          -17,
+          34,
+          40
+        ]
+      ],
+      "shot": {
+        "key": 9,
+        "at": [
+          -3.6,
+          7.2
+        ],
+        "height": 1.6,
+        "target": [
+          -21.5,
+          42.9,
+          14
+        ],
+        "fov": 64
+      }
     },
     {
       "id": "arch",
@@ -656,11 +2867,149 @@
       ],
       "reach": 55,
       "ground": {
-        "tint": "#3a4a3a",
-        "grass": 0.5,
-        "grassTint": "#304a30"
+        "tint": "#2a3060",
+        "grass": 0,
+        "grassTint": "#20284a"
       },
-      "atmosphere": {}
+      "atmosphere": {
+        "sky": {
+          "zenith": "#020418",
+          "mid": "#0a1a7a",
+          "horizon": "#5a2a8a",
+          "glow": "#ff3a3a",
+          "glowStrength": 0.7,
+          "cloudCover": 0.12,
+          "stars": 0.6,
+          "moonDir": [
+            -118.5,
+            26
+          ],
+          "moonColor": "#e0e8ff",
+          "moonSize": 0.05,
+          "moonPhase": 0.72,
+          "moonGlow": 0.2,
+          "moonBright": 1.6,
+          "mountain": "#3a1a40",
+          "mountainHeight": 0.05
+        },
+        "fog": {
+          "color": "#3a1a5a",
+          "density": 0.012,
+          "falloff": 0.05
+        },
+        "ambient": {
+          "sky": "#4a5ac0",
+          "ground": "#2a2a5a",
+          "intensity": 1.2
+        },
+        "moonLight": {
+          "color": "#ff7060",
+          "intensity": 2,
+          "dir": [
+            -192.5,
+            12
+          ]
+        },
+        "fill": {
+          "color": "#8090ff",
+          "intensity": 0.5
+        },
+        "rim": {
+          "color": "#ff5050",
+          "strength": 0.3
+        },
+        "post": {
+          "exposure": 1.35
+        }
+      },
+      "props": [
+        {
+          "type": "ruined_arch",
+          "at": [
+            -8.4,
+            5.4
+          ],
+          "rot": 122.6,
+          "span": 4.4,
+          "height": 6.5,
+          "thick": 2.4,
+          "pillar": 2.2,
+          "stone": "#2a2028",
+          "clear": 3
+        },
+        {
+          "type": "horned_skull",
+          "at": [
+            -10.6,
+            4.8
+          ],
+          "rot": 62,
+          "color": "#5a6080",
+          "y": -0.25
+        },
+        {
+          "type": "hooded",
+          "at": [
+            -13.9,
+            9.8
+          ],
+          "rot": -42.5,
+          "pose": "staff",
+          "staff": true,
+          "robe": "#0a0810",
+          "height": 1.9,
+          "seed": 161
+        },
+        {
+          "type": "dark_keep",
+          "at": [
+            -100.9,
+            59.4
+          ],
+          "rot": 145.3,
+          "height": 30,
+          "stone": "#8a5048",
+          "viewDist": 3000,
+          "y": 4
+        }
+      ],
+      "clearings": [
+        [
+          -31.2,
+          19.9,
+          40
+        ]
+      ],
+      "shot": {
+        "key": 11,
+        "at": [
+          -4.6,
+          3
+        ],
+        "height": 1.5,
+        "target": [
+          -22.8,
+          14.5,
+          5
+        ],
+        "fov": 66
+      }
+    }
+  ],
+  "portals": [
+    {
+      "id": "barrow",
+      "at": [
+        20,
+        -156.6
+      ],
+      "radius": 1.3,
+      "to": "gloaming:barrow",
+      "exit": [
+        20,
+        -138
+      ],
+      "exitYaw": 180
     }
   ],
   "title": {

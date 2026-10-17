@@ -259,8 +259,8 @@ export function campfire(ctx, o = {}) {
   }
   const flames = [];
   for (let i = 0; i < 3; i++) {
-    const m = new THREE.MeshBasicMaterial({ color: color.clone().multiplyScalar(3 + i * 2), transparent: true, opacity: 0.85, blending: THREE.AdditiveBlending, depthWrite: false });
-    const f = new THREE.Mesh(new THREE.ConeGeometry(0.28 - i * 0.07, 0.9 - i * 0.18, 7, 1, true), m);
+    const m = new THREE.MeshBasicMaterial({ color: color.clone().multiplyScalar(0.7 + i * 0.35), transparent: true, opacity: 0.7, blending: THREE.AdditiveBlending, depthWrite: false });
+    const f = new THREE.Mesh(new THREE.ConeGeometry(0.2 - i * 0.05, 0.6 - i * 0.12, 7, 1, true), m);
     f.position.y = 0.45;
     g.add(f);
     flames.push(f);
@@ -268,8 +268,8 @@ export function campfire(ctx, o = {}) {
   return {
     object: g,
     colliders: [{ x: 0, z: 0, r: 0.7 }],
-    lights: [{ x: 0, y: 0.8, z: 0, color: o.color ?? '#ff3a1a', intensity: o.light ?? 30, distance: 16, flicker: 0.35 }],
-    glows: [{ x: 0, z: 0, radius: 3.4, color: o.color ?? '#ff3a1a', intensity: 0.8 }],
+    lights: [{ x: 0, y: 0.9, z: 0, color: o.color ?? '#ff3a1a', intensity: o.light ?? 7, distance: 9, flicker: 0.3 }],
+    glows: [{ x: 0, z: 0, radius: 2.2, color: o.color ?? '#ff3a1a', intensity: 0.12 }],
     update: (dt, t) => {
       flames.forEach((f, i) => {
         const k = 1 + 0.18 * Math.sin(t * (9 + i * 3) + i) + 0.1 * Math.sin(t * 23 + i * 2);

@@ -107,6 +107,7 @@ async function main() {
   resize();
 
   await assets.ready();
+  for (const r of Object.values(realms)) await r.warmUp(camera);
 
   // --- UI + game flow
   ui = new GameUI({ input, canvas, camera, player, realm, quests, vitals, dialogues, photo });

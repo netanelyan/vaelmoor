@@ -27,7 +27,7 @@ function parse(obj) {
   const out = {};
   for (const [k, v] of Object.entries(obj)) {
     if (typeof v === 'string' && v.startsWith('#')) out[k] = new THREE.Color(v);
-    else if (k === 'moonDir' || k === 'dir') out[k] = dirFromAzEl(v[0], v[1]);
+    else if (k === 'dir' || k.endsWith('Dir')) out[k] = dirFromAzEl(v[0], v[1]);
     else if (isPlainObject(v)) out[k] = parse(v);
     else out[k] = v;
   }
@@ -44,7 +44,7 @@ function blendInto(target, sources, weights) {
     } else if (v instanceof THREE.Vector3) {
       const d = (target[k] ||= new THREE.Vector3()).set(0, 0, 0);
       sources.forEach((s, i) => s[k] && d.addScaledVector(s[k], weights[i]));
-      if (k === 'moonDir' || k === 'dir') d.normalize();
+      if (k === 'dir' || k.endsWith('Dir')) d.normalize();
     } else if (typeof v === 'number') {
       let n = 0;
       sources.forEach((s, i) => { n += (s[k] ?? v) * weights[i]; });
