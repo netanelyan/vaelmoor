@@ -166,7 +166,7 @@ const clear = (p, r) => [p[0], p[1], r];
   const hoods = [F.P(5, -3.2), F.P(7.5, 1.8), F.P(10, -1.6), F.P(9, 4.2)];
   area({
     id: 'ruins', name: 'Shrine of the Red Hoods', ref: 'dark_09', center: c, reach: 50,
-    ground: { tint: '#3a6a30', grass: 0.5, grassTint: '#3e7a30' },
+    ground: { tint: '#2a3e26', grass: 0.35, grassTint: '#2e4a2a' },
     atmosphere: {
       sky: {
         zenith: '#0a0e18', mid: '#283044', horizon: '#4a5268', glow: '#8090a8', glowStrength: 0.2,
@@ -189,12 +189,12 @@ const clear = (p, r) => [p[0], p[1], r];
       { type: 'dead_tree', at: F.P(26, 6), height: 9, radius: 0.5, seed: 77 },
       { type: 'paving', at: F.P(12, 0), rot: F.faceAway(F.P(12, 0)), size: [3.4, 16], texture: 'grey_stone_path', color: '#9aa890', tile: 2.5 },
     ],
-    lights: [{ at: gate, y: 1.6, color: '#ff1010', intensity: 30, distance: 12 }],
-    glows: [{ at: gate, radius: 4, color: '#ff1a10', intensity: 0.7 }],
+    lights: [{ at: gate, y: 1.6, color: '#ff1010', intensity: 6, distance: 8 }],
+    glows: [{ at: gate, radius: 3, color: '#ff1a10', intensity: 0.2 }],
     fireflies: [{ at: F.P(8, 0), radius: 7, count: 22, color: '#ffd060', intensity: 6, height: [0.8, 2.4], size: 0.08 }],
     clearings: [clear(F.P(10, 0), 10), clear(gate, 6)],
     scatter: [{ kind: 'rock', count: 20, at: F.P(10, 0), radius: 12, minR: 3, minRoad: 4, scale: [0.4, 1.2], seed: 'rr' }],
-    shot: { key: 3, at: F.P(-3, 0), height: 3.2, target: [...F.P(16, 1), 2.6], fov: 62 },
+    shot: { key: 3, at: F.P(-6, -1), height: 2.6, target: [...F.P(16, 0), 3.6], fov: 60 },
   });
 }
 
@@ -215,7 +215,7 @@ const clear = (p, r) => [p[0], p[1], r];
       },
       fog: { color: '#0a1a3a', density: 0.012, falloff: 0.05 },
       ambient: { sky: '#3a5490', ground: '#141a14', intensity: 1.1 },
-      moonLight: { color: '#d8e0ff', intensity: 2.6, dir: F.dir(-140, 34) },
+      moonLight: { color: '#d8e0ff', intensity: 2.6, dir: F.dir(-85, 58) },
       fill: { color: '#a0aad8', intensity: 1.3 },
       rim: { color: '#a0b4ff', strength: 0.3 },
       post: { exposure: 1.6 },
@@ -480,7 +480,7 @@ const clear = (p, r) => [p[0], p[1], r];
   const c = [-180, 110];
   const F = frame(c, { offset: 7 });
   const gate = F.P(3, 0);
-  const skull = F.P(4.5, 1.6);
+  const skull = F.P(1.2, 1.0);
   area({
     id: 'arch', name: 'The Broken Gate', ref: 'dark_08', center: c, reach: 55,
     ground: { tint: '#2a3060', grass: 0.0, grassTint: '#20284a' },
@@ -488,7 +488,7 @@ const clear = (p, r) => [p[0], p[1], r];
       sky: {
         zenith: '#020418', mid: '#0a1a7a', horizon: '#5a2a8a', glow: '#ff3a3a', glowStrength: 0.7,
         cloudCover: 0.12, stars: 0.6,
-        moonDir: F.dir(4, 26), moonColor: '#e0e8ff', moonSize: 0.05, moonPhase: 0.72, moonGlow: 0.2, moonBright: 1.6,
+        moonDir: F.dir(-4, 40), moonColor: '#e0e8ff', moonSize: 0.05, moonPhase: 0.72, moonGlow: 0.2, moonBright: 1.6,
         mountain: '#3a1a40', mountainHeight: 0.05,
       },
       fog: { color: '#3a1a5a', density: 0.012, falloff: 0.05 },
@@ -505,7 +505,7 @@ const clear = (p, r) => [p[0], p[1], r];
       { type: 'dark_keep', at: F.P(110, 4), rot: F.faceCam(F.P(110, 4)) + 25, height: 30, stone: '#8a5048', viewDist: 3000, y: 4 },
     ],
     clearings: [clear(F.P(30, 0), 40)],
-    shot: { key: 11, at: F.P(-1.5, 0), height: 1.5, target: [...F.P(20, 0), 5], fov: 66 },
+    shot: { key: 11, at: F.P(-3.4, 0), height: 1.4, target: [...F.P(20, 0), 6.5], fov: 62 },
   });
   const snow = F.P(30, 0);
   region.terrain.features.push({ type: 'snow', at: [c[0] + snow[0], c[1] + snow[1]], radius: 75, blend: 30 });

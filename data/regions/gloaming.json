@@ -981,13 +981,13 @@
           "strength": 0.6
         },
         "fill": {
-          "color": "#ffc890",
-          "intensity": 0.3
+          "color": "#a080ff",
+          "intensity": 0.5
         },
         "ambient": {
           "sky": "#4a3a90",
           "ground": "#140c1c",
-          "intensity": 0.55
+          "intensity": 0.6
         }
       },
       "props": [
@@ -1011,7 +1011,7 @@
             -1.6,
             13.6
           ],
-          "rot": 54,
+          "rot": -6.6,
           "robe": "#4a1c80",
           "hat": "#32125a",
           "seed": 30,
@@ -1027,7 +1027,7 @@
             2.9,
             13.2
           ],
-          "rot": -49,
+          "rot": -31.4,
           "robe": "#5a5a6c",
           "hat": "#44444f",
           "seed": 31,
@@ -1043,7 +1043,7 @@
             3.4,
             16.6
           ],
-          "rot": -116.6,
+          "rot": -47,
           "robe": "#5c2a9a",
           "hat": "#3e1a70",
           "seed": 32,
@@ -1059,7 +1059,7 @@
             -1.9,
             17.2
           ],
-          "rot": 128.7,
+          "rot": -8,
           "robe": "#6a6a7c",
           "hat": "#50505e",
           "seed": 33,
@@ -1075,7 +1075,7 @@
             0.4,
             18.6
           ],
-          "rot": 176.6,
+          "rot": -39.8,
           "robe": "#3e1c6a",
           "hat": "#2a1248",
           "seed": 34,
@@ -1159,16 +1159,16 @@
       "shot": {
         "key": 4,
         "at": [
-          5.2,
-          8.6
+          -2.4,
+          21.6
         ],
         "height": 1.7,
         "target": [
-          0.2,
-          16,
-          1.9
+          0.8,
+          15.6,
+          1.6
         ],
-        "fov": 52
+        "fov": 68
       }
     },
     {
@@ -1334,8 +1334,8 @@
           "mid": "#45208e",
           "horizon": "#b070d0",
           "moonDir": [
-            266,
-            38
+            -75.7,
+            30
           ],
           "moonPhase": 0.68,
           "moonSize": 0.075,
@@ -1349,6 +1349,14 @@
         "fill": {
           "color": "#a8a0ff",
           "intensity": 0.45
+        },
+        "moonLight": {
+          "color": "#c0c8ff",
+          "intensity": 2.2,
+          "dir": [
+            28.299999999999997,
+            58
+          ]
         }
       },
       "props": [
@@ -1358,10 +1366,11 @@
             -15,
             -2
           ],
-          "size": 1.15,
+          "size": 1,
           "seed": 81,
           "clear": 14,
-          "leaves": "#173d30"
+          "leaves": "#173d30",
+          "canopy": 0.45
         },
         {
           "type": "knight",
@@ -1369,9 +1378,9 @@
             -12.6,
             -1.2
           ],
-          "rot": 72,
+          "rot": 11.700000000000003,
           "pose": "rest",
-          "armor": "#b8b2d8",
+          "armor": "#9a9cb0",
           "npc": "oak_knight",
           "name": "Ser Hollis",
           "talkY": 0.6
@@ -1391,36 +1400,20 @@
           "seed": "gt"
         }
       ],
-      "fireflies": [
-        {
-          "at": [
-            -10,
-            -2
-          ],
-          "radius": 12,
-          "count": 40,
-          "color": "#c8ff8a",
-          "intensity": 4,
-          "height": [
-            0.5,
-            3.5
-          ],
-          "size": 0.1
-        }
-      ],
+      "fireflies": [],
       "shot": {
         "key": 9,
         "at": [
-          -8.5,
-          2.2
+          -11,
+          1
         ],
-        "height": 1.3,
+        "height": 1.1,
         "target": [
-          -13.5,
-          -1.8,
-          2.8
+          -13.3,
+          -1.3,
+          0.9
         ],
-        "fov": 70
+        "fov": 66
       }
     },
     {
@@ -1481,8 +1474,8 @@
           "color": "#f0f0ff",
           "intensity": 2.4,
           "dir": [
-            100,
-            45
+            160,
+            60
           ]
         },
         "fill": {
@@ -1849,7 +1842,8 @@
           "strength": 0.45
         },
         "post": {
-          "shadowTint": "#04101a"
+          "bloom": 0.25,
+          "bloomThreshold": 1
         },
         "fill": {
           "color": "#80ffd0",
@@ -1863,7 +1857,7 @@
             -8,
             5
           ],
-          "rot": 124.7,
+          "rot": 135,
           "pose": "reach",
           "npc": "keeper",
           "name": "The Hollow Keeper"
@@ -1871,12 +1865,14 @@
         {
           "type": "golden_skull",
           "at": [
-            -5.8,
-            3.5
+            -7.85,
+            4.3
           ],
           "rot": 144.7,
           "item": "golden_skull",
-          "name": "Golden Skull"
+          "name": "Golden Skull",
+          "y": 0.7,
+          "size": 1.6
         }
       ],
       "scatter": [
@@ -1903,6 +1899,11 @@
           1,
           -4,
           15
+        ],
+        [
+          -6,
+          3,
+          5
         ]
       ],
       "mist": [
@@ -1939,16 +1940,16 @@
       "shot": {
         "key": 3,
         "at": [
-          1,
-          -4
+          -6.2,
+          3.2
         ],
-        "height": 1.5,
+        "height": 0.9,
         "target": [
           -8,
           5,
-          4.6
+          1.45
         ],
-        "fov": 64
+        "fov": 58
       }
     },
     {

@@ -39,7 +39,7 @@ export function armorMaterial(assets, color = 0xb4aed0, dull = false) {
   return cached(`armor:${color}`, () => {
     const t = assets.pbr('metal_plate', [2, 2], { color: false });
     const m = new THREE.MeshPhysicalMaterial({
-      color, metalness: 0.55, roughness: 0.32, roughnessMap: t.roughnessMap, normalMap: t.normalMap,
+      color, metalness: 0.55, roughness: 0.42, roughnessMap: t.roughnessMap, normalMap: t.normalMap,
       normalScale: new THREE.Vector2(0.25, 0.25), clearcoat: 0.3, clearcoatRoughness: 0.2, envMapIntensity: 0.55,
     });
     return stylize(m, { rim: 0.55, rimPower: 3.0 });

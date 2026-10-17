@@ -77,7 +77,15 @@ export class Realm {
   }
 
   refreshEnv() {
+    // capture the sky without the moon disc: its tiny, very bright spot turns
+    // into hard white hot-spots on every metal surface (armour, wet stone)
+    const u = this.sky.uniforms;
+    const mb = u.moonBright.value, mg = u.moonGlow.value;
+    u.moonBright.value = Math.min(mb, 0.3);
+    u.moonGlow.value = mg * 0.3;
     const rt = this.pmrem.fromScene(this.envScene, 0, 0.1, 1000);
+    u.moonBright.value = mb;
+    u.moonGlow.value = mg;
     this.scene.environment = rt.texture;
     this.envRT?.dispose();
     this.envRT = rt;
@@ -128,7 +136,8 @@ export class Realm {
 
     this.sky.position.copy(p);
     this.fill.target.position.copy(p);
-    this.fill.position.set(-2, 3, 4).applyQuaternion(camera.quaternion).add(p);
+    // off-axis (upper left) so its specular highlight never sits dead-centre on round armour
+    this.fill.position.set(-6, 5, 1.5).applyQuaternion(camera.quaternion).add(p);
     this.world.update(dt, time, p);
     this.lightPool.update(p, time);
 

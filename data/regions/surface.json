@@ -942,9 +942,9 @@
       ],
       "reach": 50,
       "ground": {
-        "tint": "#3a6a30",
-        "grass": 0.5,
-        "grassTint": "#3e7a30"
+        "tint": "#2a3e26",
+        "grass": 0.35,
+        "grassTint": "#2e4a2a"
       },
       "atmosphere": {
         "sky": {
@@ -1136,8 +1136,8 @@
           ],
           "y": 1.6,
           "color": "#ff1010",
-          "intensity": 30,
-          "distance": 12
+          "intensity": 6,
+          "distance": 8
         }
       ],
       "glows": [
@@ -1146,9 +1146,9 @@
             -24,
             -16.3
           ],
-          "radius": 4,
+          "radius": 3,
           "color": "#ff1a10",
-          "intensity": 0.7
+          "intensity": 0.2
         }
       ],
       "fireflies": [
@@ -1201,16 +1201,16 @@
       "shot": {
         "key": 3,
         "at": [
-          -5.2,
-          -3
+          -3.1,
+          -0.6
         ],
-        "height": 3.2,
+        "height": 2.6,
         "target": [
-          -21.1,
-          -13.5,
-          2.6
+          -21.6,
+          -12.6,
+          3.6
         ],
-        "fov": 62
+        "fov": 60
       }
     },
     {
@@ -1264,8 +1264,8 @@
           "color": "#d8e0ff",
           "intensity": 2.6,
           "dir": [
-            -173,
-            34
+            -118,
+            58
           ]
         },
         "fill": {
@@ -3017,8 +3017,8 @@
           "cloudCover": 0.12,
           "stars": 0.6,
           "moonDir": [
-            -118.5,
-            26
+            -126.5,
+            40
           ],
           "moonColor": "#e0e8ff",
           "moonSize": 0.05,
@@ -3076,10 +3076,10 @@
         {
           "type": "horned_skull",
           "at": [
-            -10.6,
-            4.8
+            -7.5,
+            3.6
           ],
-          "rot": 62,
+          "rot": 42.900000000000006,
           "color": "#5a6080",
           "y": -0.25
         },
@@ -3119,16 +3119,16 @@
       "shot": {
         "key": 11,
         "at": [
-          -4.6,
-          3
+          -3,
+          1.9
         ],
-        "height": 1.5,
+        "height": 1.4,
         "target": [
           -22.8,
           14.5,
-          5
+          6.5
         ],
-        "fov": 66
+        "fov": 62
       }
     }
   ],
