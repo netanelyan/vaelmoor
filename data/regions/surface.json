@@ -100,22 +100,35 @@
     ]
   },
   "road": {
-    "width": 2.5,
+    "width": 1.9,
     "tint": "#e8c4a0",
     "material": {
       "texture": "stony_dirt_path",
       "matte": true,
-      "color": 11047034,
-      "uvScale": 2.6
+      "color": 13152400,
+      "uvScale": 2.2,
+      "boost": 4.6
     },
     "points": [
       [
+        1,
+        0
+      ],
+      [
         3,
-        5
+        8
+      ],
+      [
+        6,
+        16
+      ],
+      [
+        4,
+        24
       ],
       [
         8,
-        22
+        34
       ],
       [
         -30,
@@ -341,34 +354,52 @@
       "reach": 55,
       "description": "Stone cottage on a grassy path, pale blue moon.",
       "ground": {
-        "tint": "#4a7a3a",
-        "grass": 0.38,
-        "grassTint": "#4e8a3a"
+        "tint": "#5e7040",
+        "grass": 0.34,
+        "grassTint": "#6e8a44",
+        "road": "#c8beb0"
       },
       "atmosphere": {
         "moonLight": {
           "color": "#c8d6ff",
-          "intensity": 4.2,
+          "intensity": 3.6,
           "dir": [
-            160,
-            34
+            140.92652282619667,
+            38
           ]
         },
+        "fill": {
+          "color": "#7a8ad0",
+          "intensity": 0.6
+        },
+        "ambient": {
+          "sky": "#5a6ac0",
+          "ground": "#1a2018",
+          "intensity": 1.8
+        },
         "post": {
-          "exposure": 1.5
+          "exposure": 1.85
+        },
+        "fog": {
+          "color": "#2a3a78",
+          "density": 0.014,
+          "falloff": 0.05
         },
         "sky": {
           "moonDir": [
-            0,
-            22
+            -7.073477173803315,
+            33
           ],
-          "moonSize": 0.085,
-          "moonGlow": 0.32,
-          "moonBright": 1.35,
-          "cloudCover": 0.6,
-          "zenith": "#03081e",
-          "mid": "#0e1c5a",
-          "horizon": "#2a3a88"
+          "moonSize": 0.065,
+          "moonGlow": 0.22,
+          "moonBright": 2.2,
+          "cloudCover": 0.48,
+          "zenith": "#060e2e",
+          "mid": "#1a2c6a",
+          "horizon": "#4a5a9a",
+          "cloudDark": "#101a48",
+          "cloudLight": "#6070b8",
+          "cloudRim": "#c0c8ff"
         }
       },
       "props": [
@@ -378,16 +409,23 @@
             -2,
             -6
           ],
-          "rot": 40.6,
+          "rot": 31.1,
+          "stone": 10396340,
+          "roof": 3817042,
+          "w": 6.5,
+          "d": 5.5,
+          "h": 3.4,
+          "roofH": 5.2,
+          "chimney": 7.5,
           "clear": 9
         },
         {
           "type": "hooded",
           "at": [
-            5,
-            6
+            2.6,
+            1
           ],
-          "rot": -164.1,
+          "rot": 33.30000000000001,
           "pose": "walk",
           "robe": "#0c0a10",
           "height": 1.9,
@@ -397,138 +435,214 @@
         {
           "type": "great_tree",
           "at": [
-            -9,
-            18
+            -8.5,
+            19
           ],
-          "size": 0.6,
+          "size": 0.75,
           "seed": 85,
-          "leaves": "#2c5040",
+          "leaves": "#2a4434",
+          "clear": 3
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            12,
+            8
+          ],
+          "size": 0.7,
+          "seed": 86,
+          "leaves": "#2a4434",
           "clear": 5
         },
         {
           "type": "great_tree",
           "at": [
-            16,
-            6
+            -13,
+            -10
           ],
-          "size": 0.65,
-          "seed": 86,
-          "leaves": "#2a4c3c",
-          "clear": 5
+          "size": 0.6,
+          "seed": 87,
+          "leaves": "#1c3024",
+          "clear": 6
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            9,
+            -16
+          ],
+          "size": 0.55,
+          "seed": 88,
+          "leaves": "#1c3024",
+          "clear": 6
         },
         {
           "type": "crag",
           "at": [
-            6.5,
-            15.5
+            8.9,
+            20.4
           ],
           "size": [
-            1.6,
-            0.55,
-            1.3
+            2.0999999999999996,
+            0.675,
+            1.6500000000000001
           ],
           "seed": 3,
-          "color": "#a0a8bc",
-          "matte": true,
-          "clear": 2
+          "color": "#8a90a8",
+          "matte": true
         },
         {
           "type": "crag",
           "at": [
-            12.5,
-            15
+            3.4,
+            19.2
+          ],
+          "size": [
+            1.54,
+            0.49500000000000005,
+            1.2100000000000002
+          ],
+          "seed": 4,
+          "color": "#8a90a8",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            10.2,
+            18
           ],
           "size": [
             1.4,
-            0.5,
+            0.45,
             1.1
           ],
-          "seed": 4,
-          "color": "#a0a8bc",
-          "matte": true,
-          "clear": 2
-        },
-        {
-          "type": "crag",
-          "at": [
-            4,
-            9
-          ],
-          "size": [
-            1.2,
-            0.45,
-            1
-          ],
           "seed": 5,
-          "color": "#a0a8bc",
+          "color": "#8a90a8",
           "matte": true
         },
         {
           "type": "crag",
           "at": [
-            11,
+            2.4,
+            21
+          ],
+          "size": [
+            1.26,
+            0.405,
+            0.9900000000000001
+          ],
+          "seed": 6,
+          "color": "#8a90a8",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            2.8,
+            15
+          ],
+          "size": [
+            0.84,
+            0.27,
+            0.66
+          ],
+          "seed": 7,
+          "color": "#8a90a8",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            7.8,
+            14
+          ],
+          "size": [
+            1.1199999999999999,
+            0.36000000000000004,
+            0.8800000000000001
+          ],
+          "seed": 8,
+          "color": "#8a90a8",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            1.2,
+            10
+          ],
+          "size": [
+            0.7,
+            0.225,
+            0.55
+          ],
+          "seed": 9,
+          "color": "#8a90a8",
+          "matte": true
+        },
+        {
+          "type": "crag",
+          "at": [
+            5.2,
             8
           ],
           "size": [
-            1,
-            0.4,
-            0.9
+            0.84,
+            0.27,
+            0.66
           ],
-          "seed": 6,
-          "color": "#a0a8bc",
+          "seed": 10,
+          "color": "#8a90a8",
           "matte": true
         },
         {
-          "type": "great_tree",
+          "type": "crag",
           "at": [
-            -18,
-            -14
+            3.4,
+            26
           ],
-          "size": 0.7,
-          "seed": 87,
-          "leaves": "#18301e",
-          "clear": 6
+          "size": [
+            1.54,
+            0.49500000000000005,
+            1.2100000000000002
+          ],
+          "seed": 11,
+          "color": "#8a90a8",
+          "matte": true
         },
         {
-          "type": "great_tree",
+          "type": "crag",
           "at": [
-            14,
-            -16
+            6.8,
+            27
           ],
-          "size": 0.6,
-          "seed": 88,
-          "leaves": "#18301e",
-          "clear": 6
+          "size": [
+            1.1199999999999999,
+            0.36000000000000004,
+            0.8800000000000001
+          ],
+          "seed": 12,
+          "color": "#8a90a8",
+          "matte": true
         }
       ],
       "scatter": [
         {
           "kind": "rock",
-          "count": 18,
+          "count": 50,
           "at": [
-            8,
-            12
+            5,
+            16
           ],
-          "radius": 9,
-          "minRoad": 2,
-          "maxRoad": 9,
+          "radius": 14,
+          "minRoad": 1.3,
+          "maxRoad": 5,
           "scale": [
-            0.5,
-            1.2
+            0.25,
+            0.7
           ],
           "seed": "cf"
-        },
-        {
-          "kind": "rock",
-          "count": 40,
-          "radius": 30,
-          "minRoad": 2.4,
-          "maxRoad": 14,
-          "scale": [
-            0.4,
-            1.4
-          ],
-          "seed": "cr"
         },
         {
           "kind": "pine",
@@ -553,16 +667,16 @@
       "shot": {
         "key": 1,
         "at": [
-          10,
-          19
+          8.2,
+          23.5
         ],
-        "height": 1.25,
+        "height": 1.15,
         "target": [
           -1,
           -6,
-          4.6
+          3.4
         ],
-        "fov": 64
+        "fov": 58
       }
     },
     {

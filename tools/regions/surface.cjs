@@ -17,11 +17,11 @@ const region = {
     features: [{ type: 'hill', at: [-4, -10], radius: 30, height: 6 }],
   },
   road: {
-    width: 2.5,
+    width: 1.9,
     tint: '#e8c4a0',
-    material: { texture: 'stony_dirt_path', matte: true, color: 0xa8907a, uvScale: 2.6 },
+    material: { texture: 'stony_dirt_path', matte: true, color: 0xc8b090, uvScale: 2.2, boost: 4.6 },
     points: [
-      [3, 5], [8, 22], [-30, 40], [-80, 20], [-120, -40], [-170, -110], [-192, -160], [-182, -200], [-150, -215], [-90, -230],
+      [1, 0], [3, 8], [6, 16], [4, 24], [8, 34], [-30, 40], [-80, 20], [-120, -40], [-170, -110], [-192, -160], [-182, -200], [-150, -215], [-90, -230],
       [-30, -190], [20, -150], [70, -200], [130, -250], [190, -230], [240, -170], [290, -100], [300, -40],
       [270, 30], [220, 80], [170, 140], [120, 180], [40, 200], [-60, 170], [-130, 150], [-180, 110], [-150, 60], [-70, 40],
     ],
@@ -58,37 +58,38 @@ const area = (o) => { region.areas.push(o); return o; };
 // ---------------------------------------------------------------- dark_01 cottage
 {
   const c = [0, 0];
-  const cam = [10, 19]; // right of the path, looking up it to the cottage
+  // camera low on the path, looking up it; cottage small in the upper third
+  const cam = [8.2, 23.5];
+  const cot = [-2, -6];
+  const az = (Math.atan2(cot[0] - cam[0], -(cot[1] - cam[1])) * 180) / Math.PI;
   area({
     id: 'cottage', name: 'Hollin Cottage', ref: 'dark_01', center: c, reach: 55,
     description: 'Stone cottage on a grassy path, pale blue moon.',
-    ground: { tint: '#4a7a3a', grass: 0.38, grassTint: '#4e8a3a' },
+    ground: { tint: '#5e7040', grass: 0.34, grassTint: '#6e8a44', road: '#c8beb0' },
     atmosphere: {
-      moonLight: { color: '#c8d6ff', intensity: 4.2, dir: [160, 34] },
-      post: { exposure: 1.5 },
-      sky: { moonDir: [0, 22], moonSize: 0.085, moonGlow: 0.32, moonBright: 1.35, cloudCover: 0.6, zenith: '#03081e', mid: '#0e1c5a', horizon: '#2a3a88' },
+      moonLight: { color: '#c8d6ff', intensity: 3.6, dir: [az + 160, 38] },
+      fill: { color: '#7a8ad0', intensity: 0.6 },
+      ambient: { sky: '#5a6ac0', ground: '#1a2018', intensity: 1.8 },
+      post: { exposure: 1.85 },
+      fog: { color: '#2a3a78', density: 0.014, falloff: 0.05 },
+      sky: { moonDir: [az + 12, 33], moonSize: 0.065, moonGlow: 0.22, moonBright: 2.2, cloudCover: 0.48,
+        zenith: '#060e2e', mid: '#1a2c6a', horizon: '#4a5a9a', cloudDark: '#101a48', cloudLight: '#6070b8', cloudRim: '#c0c8ff' },
     },
     props: [
-      { type: 'stone_cottage', at: [-2, -6], rot: face(-2, -6, cam[0], cam[1]) + 15, clear: 9 },
-      { type: 'hooded', at: [5, 6], rot: face(8, 6, 4, -8), pose: 'walk', robe: '#0c0a10', height: 1.9, npc: 'wanderer', name: 'Hooded Wanderer' },
-      { type: 'great_tree', at: [-9, 18], size: 0.6, seed: 85, leaves: '#2c5040', clear: 5 },
-      { type: 'great_tree', at: [16, 6], size: 0.65, seed: 86, leaves: '#2a4c3c', clear: 5 },
-      { type: 'crag', at: [6.5, 15.5], size: [1.6, 0.55, 1.3], seed: 3, color: '#a0a8bc', matte: true, clear: 2 },
-      { type: 'crag', at: [12.5, 15], size: [1.4, 0.5, 1.1], seed: 4, color: '#a0a8bc', matte: true, clear: 2 },
-      { type: 'crag', at: [4, 9], size: [1.2, 0.45, 1.0], seed: 5, color: '#a0a8bc', matte: true },
-      { type: 'crag', at: [11, 8], size: [1.0, 0.4, 0.9], seed: 6, color: '#a0a8bc', matte: true },
-      { type: 'great_tree', at: [-18, -14], size: 0.7, seed: 87, leaves: '#18301e', clear: 6 },
-      { type: 'great_tree', at: [14, -16], size: 0.6, seed: 88, leaves: '#18301e', clear: 6 },
+      { type: 'stone_cottage', at: cot, rot: face(cot[0], cot[1], cam[0], cam[1]) + 12, stone: 0x9ea2b4, roof: 0x3a3e52, w: 6.5, d: 5.5, h: 3.4, roofH: 5.2, chimney: 7.5, clear: 9 },
+      { type: 'hooded', at: [2.6, 1.0], rot: face(2.6, 1.0, cot[0], cot[1]) + 180, pose: 'walk', robe: '#0c0a10', height: 1.9, npc: 'wanderer', name: 'Hooded Wanderer' },
+      { type: 'great_tree', at: [-8.5, 19], size: 0.75, seed: 85, leaves: '#2a4434', clear: 3 },
+      { type: 'great_tree', at: [12, 8], size: 0.7, seed: 86, leaves: '#2a4434', clear: 5 },
+      { type: 'great_tree', at: [-13, -10], size: 0.6, seed: 87, leaves: '#1c3024', clear: 6 },
+      { type: 'great_tree', at: [9, -16], size: 0.55, seed: 88, leaves: '#1c3024', clear: 6 },
+      ...[[8.9, 20.4, 1.5], [3.4, 19.2, 1.1], [10.2, 18, 1.0], [2.4, 21, 0.9], [2.8, 15, 0.6], [7.8, 14, 0.8], [1.2, 10, 0.5], [5.2, 8, 0.6], [3.4, 26, 1.1], [6.8, 27, 0.8]].map(([x, z, w], i) => ({ type: 'crag', at: [x, z], size: [w * 1.4, w * 0.45, w * 1.1], seed: 3 + i, color: '#8a90a8', matte: true })),
     ],
     scatter: [
-      { kind: 'rock', count: 18, at: [8, 12], radius: 9, minRoad: 2.0, maxRoad: 9, scale: [0.5, 1.2], seed: 'cf' },
-      { kind: 'rock', count: 40, radius: 30, minRoad: 2.4, maxRoad: 14, scale: [0.4, 1.4], seed: 'cr' },
+      { kind: 'rock', count: 50, at: [5, 16], radius: 14, minRoad: 1.3, maxRoad: 5, scale: [0.25, 0.7], seed: 'cf' },
       { kind: 'pine', count: 30, radius: 70, minR: 32, minRoad: 8, scale: [12, 20], seed: 'cp' },
     ],
     clearings: [[0, 0, 26]],
-    // the cottage front is moonlit in the ref: key light comes from behind the camera
-    
-    shot: { key: 1, at: cam, height: 1.25, target: [-1, -6, 4.6], fov: 64 },
+    shot: { key: 1, at: cam, height: 1.15, target: [cot[0] + 1, cot[1], 3.4], fov: 58 },
   });
 }
 

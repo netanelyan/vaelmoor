@@ -43,10 +43,10 @@ function breakTop(geo, h, rand, depth) {
 /** Squat stone cottage: steep slate roof, tall chimney, deep arched doorway. */
 export function stoneCottage(ctx, o = {}) {
   const b = new Builder();
-  const W = 8, D = 5.5, H = 3.2;
-  block(b, 'stone', W, H, D, 0, 0, 0, 0, 3.6);
-  b.add('stone', boxUV(gableRoofGeometry(W, D, 3.6, 0).applyMatrix4(b.m(0, H, 0)), 3.6));
-  b.add('roof', boxUV(gableRoofGeometry(W + 0.6, D + 0.8, 4.1, 0.35).applyMatrix4(b.m(0, H - 0.25, 0)), 1.6));
+  const W = o.w ?? 8, D = o.d ?? 5.5, H = o.h ?? 3.2, RH = o.roofH ?? 3.6, CH = o.chimney ?? 6.4;
+  block(b, 'stone', W, H, D, 0, 0, 0, 0, 1.8);
+  b.add('stone', boxUV(gableRoofGeometry(W, D, RH, 0).applyMatrix4(b.m(0, H, 0)), 1.8));
+  b.add('roof', boxUV(gableRoofGeometry(W + 0.6, D + 0.8, RH + 0.5, 0.35).applyMatrix4(b.m(0, H - 0.25, 0)), 1.6));
   // gabled porch with the arched door on the right end
   block(b, 'stone', 3.4, H + 0.8, 3.2, W / 2 + 1.2, 0, 0.6, 0, 2);
   b.add('stone', boxUV(gableRoofGeometry(3.2, 3.4, 2.4, 0).applyMatrix4(b.m(W / 2 + 1.2, H + 0.8, 0.6, Math.PI / 2)), 2));
@@ -56,13 +56,13 @@ export function stoneCottage(ctx, o = {}) {
   b.add('stone', cylUV(ring), b.m(W / 2 + 1.2, 1.85, 2.25));
   for (const sx of [-1, 1]) block(b, 'stone', 0.5, 1.9, 0.5, W / 2 + 1.2 + sx * 0.95, 0, 2.25, 0, 1.2);
   // tall chimney on the left gable
-  block(b, 'stone', 1.6, H + 6.4, 1.6, -W / 2 - 0.2, 0, -0.3, 0, 1.6);
-  block(b, 'stone', 1.9, 0.5, 1.9, -W / 2 - 0.2, H + 6.4, -0.3, 0, 1.6);
+  block(b, 'stone', 1.6, H + CH, 1.6, -W / 2 - 0.2, 0, -0.3, 0, 1.6);
+  block(b, 'stone', 1.9, 0.5, 1.9, -W / 2 - 0.2, H + CH, -0.3, 0, 1.6);
   // a small dark window
   b.add('void', archGeometry(0.7, 0.9, false), b.m(-1.2, 1.3, D / 2 + 0.03));
   const mats = {
     ...baseMaterials(ctx.assets),
-    stone: matte(ctx, 'mossy_rock', o.stone ?? 0xa8b0c0, { normalScale: 2 }),
+    stone: matte(ctx, 'rock_wall_10', o.stone ?? 0xd0d4e0, { normalScale: 2.6 }),
     roof: matte(ctx, 'roof_slates_02', o.roof ?? 0x6a6e80, { rim: 0.2 }),
     void: darkGlass(),
   };
