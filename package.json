@@ -1,0 +1,17 @@
+{
+  "name": "vaelmoor",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Vaelmoor - a first-person fantasy RPG for the browser (Three.js, no build step)",
+  "scripts": {
+    "serve": "npx serve -l 5173 .",
+    "shots": "node tools/shoot.mjs",
+    "vendor": "node tools/vendor-three.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1",
+    "sharp": "^0.35.5",
+    "three": "^0.186.1"
+  }
+}

@@ -1,0 +1,40 @@
+// Keyboard + pointer-lock mouse input.
+export class Input {
+  constructor(element) {
+    this.element = element;
+    this.keys = new Set();
+    this.mouseDX = 0;
+    this.mouseDY = 0;
+    this.locked = false;
+    this.listeners = { keydown: [], lock: [] };
+
+    addEventListener('keydown', (e) => {
+      if (e.repeat) return;
+      this.keys.add(e.code);
+      for (const fn of this.listeners.keydown) fn(e);
+    });
+    addEventListener('keyup', (e) => this.keys.delete(e.code));
+    addEventListener('blur', () => this.keys.clear());
+    addEventListener('mousemove', (e) => {
+      if (!this.locked) return;
+      this.mouseDX += e.movementX;
+      this.mouseDY += e.movementY;
+    });
+    document.addEventListener('pointerlockchange', () => {
+      this.locked = document.pointerLockElement === this.element;
+      for (const fn of this.listeners.lock) fn(this.locked);
+    });
+  }
+
+  on(type, fn) { this.listeners[type].push(fn); }
+
+  requestLock() { this.element.requestPointerLock?.(); }
+
+  down(...codes) { return codes.some((c) => this.keys.has(c)); }
+
+  consumeMouse() {
+    const d = [this.mouseDX, this.mouseDY];
+    this.mouseDX = this.mouseDY = 0;
+    return d;
+  }
+}

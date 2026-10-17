@@ -1,0 +1,722 @@
+{
+  "id": "gloaming",
+  "name": "The Gloaming",
+  "spawn": {
+    "at": [
+      0,
+      228
+    ],
+    "yaw": 160
+  },
+  "terrain": {
+    "center": [
+      0,
+      70
+    ],
+    "size": 760,
+    "cell": 2.5,
+    "seed": 7,
+    "baseAmp": 8,
+    "detailAmp": 1.4,
+    "valleyWidth": 14,
+    "valleyRise": 90,
+    "ridgeAmp": 26,
+    "groundTexture": "forest_ground_04",
+    "rockTexture": "rock_face",
+    "groundTint": "#2c3a2c",
+    "features": [
+      {
+        "type": "cliffs",
+        "at": [
+          180,
+          180
+        ],
+        "radius": 62,
+        "gap": 12,
+        "steep": 10,
+        "height": 24
+      },
+      {
+        "type": "flatten",
+        "at": [
+          180,
+          292
+        ],
+        "radius": 48,
+        "blend": 26,
+        "raise": 5
+      }
+    ]
+  },
+  "road": {
+    "width": 6.5,
+    "tint": "#ffffff",
+    "points": [
+      [
+        20,
+        275
+      ],
+      [
+        0,
+        238
+      ],
+      [
+        -40,
+        205
+      ],
+      [
+        -95,
+        182
+      ],
+      [
+        -140,
+        150
+      ],
+      [
+        -172,
+        110
+      ],
+      [
+        -182,
+        82
+      ],
+      [
+        -168,
+        52
+      ],
+      [
+        -140,
+        14
+      ],
+      [
+        -112,
+        -24
+      ],
+      [
+        -74,
+        -54
+      ],
+      [
+        -30,
+        -82
+      ],
+      [
+        18,
+        -110
+      ],
+      [
+        60,
+        -112
+      ],
+      [
+        98,
+        -86
+      ],
+      [
+        124,
+        -54
+      ],
+      [
+        150,
+        -12
+      ],
+      [
+        168,
+        28
+      ],
+      [
+        178,
+        70
+      ],
+      [
+        180,
+        110
+      ],
+      [
+        180,
+        160
+      ],
+      [
+        180,
+        210
+      ],
+      [
+        180,
+        262
+      ]
+    ]
+  },
+  "forest": {
+    "spacing": 6.5,
+    "density": 0.95,
+    "clearRoad": 7,
+    "scale": [
+      11,
+      21
+    ],
+    "seed": 99
+  },
+  "atmosphereDefaults": {
+    "sky": {
+      "zenith": "#0d0830",
+      "mid": "#2a1a6a",
+      "horizon": "#6a3a9a",
+      "glow": "#ff6ab0",
+      "glowStrength": 0.25,
+      "cloudDark": "#24164e",
+      "cloudLight": "#8a5ad0",
+      "cloudRim": "#d8a0ff",
+      "cloudCover": 0.55,
+      "cloudScale": 0.8,
+      "cloudSharp": 0.18,
+      "cloudBright": 1,
+      "cloudHeight": 0.18,
+      "swirl": 1.8,
+      "stars": 1,
+      "moonDir": [
+        0,
+        28
+      ],
+      "moonColor": "#e8e0ff",
+      "moonSize": 0.06,
+      "moonPhase": 0,
+      "moonGlow": 0.6,
+      "moonBright": 4,
+      "aurora": 0,
+      "auroraA": "#30ff9a",
+      "auroraB": "#40c0ff",
+      "mountain": "#1a1238",
+      "mountainHeight": 0.035
+    },
+    "fog": {
+      "color": "#3a2468",
+      "density": 0.012,
+      "falloff": 0.045
+    },
+    "ambient": {
+      "sky": "#5a4aa8",
+      "ground": "#140c24",
+      "intensity": 0.9
+    },
+    "moonLight": {
+      "color": "#b8a8ff",
+      "intensity": 1.4
+    },
+    "rim": {
+      "color": "#a080ff",
+      "strength": 0.8
+    },
+    "env": {
+      "intensity": 1
+    },
+    "post": {
+      "bloom": 0.85,
+      "bloomRadius": 0.7,
+      "bloomThreshold": 0.62,
+      "saturation": 1.45,
+      "vibrance": 0.3,
+      "contrast": 1.2,
+      "blackCrush": 0.65,
+      "vignette": 0.45,
+      "shadowTint": "#140830",
+      "highlightTint": "#fff2e6",
+      "exposure": 1.2
+    },
+    "road": {
+      "sheen": 1.1
+    }
+  },
+  "areas": [
+    {
+      "id": "village",
+      "name": "Lanternholt",
+      "ref": "ref_09",
+      "center": [
+        0,
+        235
+      ],
+      "reach": 70,
+      "ground": {
+        "tint": "#24341f"
+      },
+      "atmosphere": {
+        "sky": {
+          "zenith": "#120a3c",
+          "mid": "#3a1f80",
+          "horizon": "#8a4ab0",
+          "stars": 1.6,
+          "cloudCover": 0.35,
+          "moonDir": [
+            200,
+            35
+          ],
+          "moonPhase": 0.55
+        },
+        "fog": {
+          "color": "#3c2470",
+          "density": 0.012
+        },
+        "rim": {
+          "color": "#ffb070",
+          "strength": 0.6
+        }
+      }
+    },
+    {
+      "id": "wizards",
+      "name": "The Conclave House",
+      "ref": "ref_04 / ref_05",
+      "center": [
+        -100,
+        175
+      ],
+      "reach": 60,
+      "ground": {
+        "tint": "#2c3a24"
+      },
+      "atmosphere": {
+        "sky": {
+          "zenith": "#0f0a34",
+          "mid": "#33206a",
+          "horizon": "#7a4a90",
+          "cloudCover": 0.6,
+          "moonDir": [
+            250,
+            30
+          ]
+        },
+        "fog": {
+          "color": "#3a2a5a",
+          "density": 0.014
+        },
+        "rim": {
+          "color": "#ffc080",
+          "strength": 0.7
+        }
+      }
+    },
+    {
+      "id": "sandstone",
+      "name": "Castle Ambermere",
+      "ref": "ref_06",
+      "center": [
+        -185,
+        80
+      ],
+      "reach": 75,
+      "ground": {
+        "tint": "#4c8a2a",
+        "road": "#d0a0ff"
+      },
+      "atmosphere": {
+        "sky": {
+          "zenith": "#060828",
+          "mid": "#1a1a5a",
+          "horizon": "#e070a0",
+          "glow": "#ff8ab0",
+          "glowStrength": 0.9,
+          "cloudCover": 0.15,
+          "stars": 2,
+          "moonGlow": 0.2
+        },
+        "fog": {
+          "color": "#6a3a80",
+          "density": 0.008
+        },
+        "rim": {
+          "color": "#ffa0c0",
+          "strength": 0.6
+        }
+      }
+    },
+    {
+      "id": "greattree",
+      "name": "The Sentinel Oak",
+      "ref": "ref_10",
+      "center": [
+        -135,
+        5
+      ],
+      "reach": 60,
+      "ground": {
+        "tint": "#2a3c2a"
+      },
+      "atmosphere": {
+        "sky": {
+          "zenith": "#140a40",
+          "mid": "#4a2490",
+          "horizon": "#a060c0",
+          "moonDir": [
+            330,
+            32
+          ],
+          "moonPhase": 0.7,
+          "moonSize": 0.07
+        },
+        "fog": {
+          "color": "#4a2a80",
+          "density": 0.012
+        }
+      }
+    },
+    {
+      "id": "lake",
+      "name": "Glasswater",
+      "ref": "ref_08",
+      "center": [
+        -50,
+        -75
+      ],
+      "reach": 60,
+      "ground": {
+        "tint": "#20322a"
+      },
+      "atmosphere": {
+        "sky": {
+          "zenith": "#120a40",
+          "mid": "#4020a0",
+          "horizon": "#9a60d0",
+          "cloudCover": 0.45
+        },
+        "fog": {
+          "color": "#3a3080",
+          "density": 0.01
+        },
+        "rim": {
+          "color": "#c0a0ff",
+          "strength": 1
+        }
+      }
+    },
+    {
+      "id": "whitewizard",
+      "name": "The Pale Shore",
+      "ref": "ref_07",
+      "center": [
+        40,
+        -135
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#1c2630"
+      },
+      "atmosphere": {
+        "sky": {
+          "zenith": "#060a30",
+          "mid": "#1a2070",
+          "horizon": "#5a3a9a",
+          "cloudDark": "#101a50",
+          "cloudLight": "#5a50c0",
+          "cloudCover": 0.65,
+          "moonDir": [
+            120,
+            30
+          ],
+          "moonPhase": 0.75,
+          "moonSize": 0.065,
+          "moonGlow": 0.9
+        },
+        "fog": {
+          "color": "#1a2050",
+          "density": 0.012
+        },
+        "rim": {
+          "color": "#a0c0ff",
+          "strength": 1
+        }
+      }
+    },
+    {
+      "id": "aurora",
+      "name": "The Hollow Pines",
+      "ref": "ref_03",
+      "center": [
+        125,
+        -45
+      ],
+      "reach": 60,
+      "ground": {
+        "tint": "#1a3028"
+      },
+      "atmosphere": {
+        "sky": {
+          "zenith": "#02101a",
+          "mid": "#06303a",
+          "horizon": "#108070",
+          "cloudCover": 0.2,
+          "aurora": 1.4,
+          "stars": 1.5,
+          "moonGlow": 0.1
+        },
+        "fog": {
+          "color": "#0a3038",
+          "density": 0.012
+        },
+        "ambient": {
+          "sky": "#2a8a80",
+          "ground": "#04140f"
+        },
+        "moonLight": {
+          "color": "#80ffd0",
+          "intensity": 1
+        },
+        "rim": {
+          "color": "#60ffc0",
+          "strength": 0.9
+        },
+        "post": {
+          "shadowTint": "#04101a"
+        }
+      }
+    },
+    {
+      "id": "manor",
+      "name": "Crimsonreach Manor",
+      "ref": "ref_01",
+      "center": [
+        175,
+        35
+      ],
+      "reach": 55,
+      "ground": {
+        "tint": "#2a1c1c"
+      },
+      "atmosphere": {
+        "sky": {
+          "zenith": "#1a0208",
+          "mid": "#600818",
+          "horizon": "#d02020",
+          "glow": "#ff4020",
+          "cloudDark": "#300410",
+          "cloudLight": "#c02030",
+          "cloudRim": "#ff8060",
+          "moonColor": "#ff3018",
+          "moonSize": 0.17,
+          "moonGlow": 1.2,
+          "moonBright": 3,
+          "moonDir": [
+            300,
+            22
+          ],
+          "stars": 0.5
+        },
+        "fog": {
+          "color": "#4a0a14",
+          "density": 0.012
+        },
+        "ambient": {
+          "sky": "#a02030",
+          "ground": "#100406"
+        },
+        "moonLight": {
+          "color": "#ff5040",
+          "intensity": 1.6
+        },
+        "rim": {
+          "color": "#ff5040",
+          "strength": 1
+        },
+        "post": {
+          "shadowTint": "#1a0410"
+        }
+      }
+    },
+    {
+      "id": "castle_road",
+      "name": "The Road to Vaelmoor Keep",
+      "ref": "ref_02",
+      "center": [
+        180,
+        170
+      ],
+      "reach": 65,
+      "ground": {
+        "tint": "#26302a"
+      },
+      "atmosphere": {
+        "sky": {
+          "zenith": "#06021e",
+          "mid": "#2a0e62",
+          "horizon": "#c03c98",
+          "glow": "#ff5ab0",
+          "glowStrength": 0.5,
+          "cloudDark": "#2a0a5a",
+          "cloudLight": "#ff6ad8",
+          "cloudRim": "#ffc0f0",
+          "cloudCover": 0.48,
+          "swirl": 2,
+          "moonDir": [
+            170,
+            24
+          ],
+          "moonPhase": 0.6,
+          "moonSize": 0.07,
+          "cloudScale": 0.9,
+          "cloudSharp": 0.07,
+          "moonGlow": 0.7
+        },
+        "fog": {
+          "color": "#4a2070",
+          "density": 0.009,
+          "falloff": 0.04
+        },
+        "ambient": {
+          "sky": "#5a40a0",
+          "ground": "#140a20",
+          "intensity": 0.55
+        },
+        "moonLight": {
+          "color": "#d0a0ff",
+          "intensity": 1.3,
+          "dir": [
+            160,
+            35
+          ]
+        },
+        "rim": {
+          "color": "#c080ff",
+          "strength": 0.9
+        },
+        "road": {
+          "sheen": 2
+        }
+      },
+      "props": [
+        {
+          "type": "castle_dark",
+          "at": [
+            0,
+            98
+          ],
+          "rot": 180,
+          "clear": 70,
+          "y": -0.5
+        },
+        {
+          "type": "crag",
+          "at": [
+            -24,
+            20
+          ],
+          "size": [
+            9,
+            22,
+            10
+          ],
+          "seed": 3
+        },
+        {
+          "type": "crag",
+          "at": [
+            25,
+            14
+          ],
+          "size": [
+            10,
+            26,
+            9
+          ],
+          "seed": 5
+        },
+        {
+          "type": "crag",
+          "at": [
+            -22,
+            64
+          ],
+          "size": [
+            7,
+            14,
+            8
+          ],
+          "seed": 12
+        },
+        {
+          "type": "crag",
+          "at": [
+            23,
+            60
+          ],
+          "size": [
+            8,
+            16,
+            7
+          ],
+          "seed": 13
+        }
+      ],
+      "glows": [
+        {
+          "at": [
+            0,
+            88
+          ],
+          "radius": 12,
+          "color": "#5dff8a",
+          "intensity": 0.9,
+          "stretch": 0.8
+        },
+        {
+          "at": [
+            0,
+            74
+          ],
+          "radius": 9,
+          "color": "#5dff8a",
+          "intensity": 0.35
+        }
+      ],
+      "scatter": [
+        {
+          "kind": "crag",
+          "count": 34,
+          "radius": 85,
+          "minRoad": 13,
+          "maxRoad": 26,
+          "scale": [
+            4,
+            9
+          ],
+          "seed": "c1"
+        },
+        {
+          "kind": "crag",
+          "count": 26,
+          "radius": 90,
+          "minRoad": 26,
+          "maxRoad": 50,
+          "scale": [
+            8,
+            15
+          ],
+          "seed": "c2"
+        },
+        {
+          "kind": "rock",
+          "count": 50,
+          "radius": 70,
+          "minRoad": 4.2,
+          "maxRoad": 13,
+          "scale": [
+            0.4,
+            2
+          ]
+        }
+      ],
+      "shot": {
+        "key": 2,
+        "at": [
+          0,
+          -45
+        ],
+        "height": 1.6,
+        "target": [
+          0,
+          98,
+          26
+        ],
+        "fov": 52
+      }
+    }
+  ]
+}

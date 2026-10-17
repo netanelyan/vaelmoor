@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vaelmoor</title>
+  <link rel="stylesheet" href="src/style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three/build/three.module.js",
+        "three/addons/": "./vendor/three/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="view"></canvas>
+
+  <div id="loading">
+    <div class="title">Vaelmoor</div>
+    <div class="sub">the Gloaming</div>
+    <div class="bar"><div id="loading-fill"></div></div>
+  </div>
+
+  <div id="start" class="hidden">
+    <div class="title">Vaelmoor</div>
+    <div class="sub">the Gloaming</div>
+    <div class="hint">click to enter</div>
+    <div class="keys">
+      <span><b>WASD</b> walk</span><span><b>Shift</b> sprint</span><span><b>Space</b> jump</span>
+      <span><b>Mouse</b> look</span><span><b>1&ndash;9</b> photo mode</span><span><b>0</b> leave photo mode</span>
+    </div>
+  </div>
+
+  <div id="hud" class="hidden">
+    <div id="area-name"></div>
+    <div id="photo-label"></div>
+    <div id="fps"></div>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+</html>
