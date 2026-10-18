@@ -91,6 +91,10 @@ export class Sfx {
       case 'shout': this.hiss(1.2, { freq: 260, q: 0.6, gain: 0.5 * v, slide: 0.5, attack: 0.05 }); this.tone(110, 1.2, { type: 'sawtooth', gain: 0.1 * v, slide: 0.7 }); break;
       case 'stone': this.hiss(0.6, { freq: 220, q: 1.5, gain: 0.45 * v, type: 'lowpass', slide: 0.8 }); this.tone(55, 0.6, { type: 'triangle', gain: 0.25 * v }); break;
       case 'trap': this.tone(2400, 0.06, { type: 'square', gain: 0.05 * v }); this.hiss(0.2, { freq: 2600, gain: 0.3 * v, delay: 0.05 }); break;
+      case 'bell': // a struck bell: inharmonic partials with long, staggered decays
+        [[0.5, 5.5, 0.05], [1, 4.5, 0.07], [1.19, 3.5, 0.04], [1.5, 3, 0.03], [2, 2.5, 0.035], [2.51, 1.8, 0.02], [3.01, 1.4, 0.015]]
+          .forEach(([r, d, gn]) => [0, 2.2].forEach((dl) => this.tone(196 * r, d, { gain: gn * v * (dl ? 0.6 : 1), delay: dl })));
+        this.hiss(0.05, { freq: 3000, gain: 0.15 * v }); break;
       case 'detected': this.tone(220, 0.3, { type: 'triangle', gain: 0.08 * v }); break;
       default: break;
     }

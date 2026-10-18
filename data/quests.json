@@ -30,6 +30,73 @@
       ]
     },
     {
+      "id": "forgetting",
+      "title": "The Forgetting",
+      "hidden": true,
+      "summary": "Hollowford is forgetting itself, and its chapel bell has gone quiet.",
+      "description": [
+        "Since the moon stopped, the people of Hollowford have been losing things that cannot be dropped: names, faces, the way to their own front doors. Sir Aldric, who kept the town for thirty years, no longer knows his own house.",
+        "The chapel bell was rung every night to call the sleeping back. Its clapper was carried off the night the moon stopped, and nobody has rung it since."
+      ],
+      "objectives": [
+        {
+          "id": "cass",
+          "text": "Speak with Brother Cass at the chapel",
+          "type": "talk",
+          "target": "cass"
+        },
+        {
+          "id": "clapper",
+          "text": "Recover the bell clapper from the barrow door",
+          "type": "take",
+          "target": "bell_clapper"
+        },
+        {
+          "id": "return",
+          "text": "Bring the clapper to Brother Cass",
+          "type": "talk",
+          "target": "cass",
+          "requires": "bell_clapper"
+        },
+        {
+          "id": "ring",
+          "text": "Ring the chapel bell",
+          "type": "use",
+          "target": "bell_rope"
+        },
+        {
+          "id": "aldric",
+          "text": "Speak with Sir Aldric by the well",
+          "type": "talk",
+          "target": "aldric"
+        }
+      ]
+    },
+    {
+      "id": "bram",
+      "title": "Bram's Stash",
+      "hidden": true,
+      "summary": "Old Bram hid something behind the chapel, and is afraid he will forget where.",
+      "description": [
+        "Bram drinks at the Barrow's Back every night that the moon allows, which lately is every night. For the price of a mead he told you about a box he hid years ago, behind the chapel, under the woodpile.",
+        "He says it is yours if you can open it. He says he would only drink it."
+      ],
+      "objectives": [
+        {
+          "id": "stash",
+          "text": "Find the box under the woodpile behind the chapel",
+          "type": "open",
+          "target": "bram_stash"
+        },
+        {
+          "id": "tell",
+          "text": "Tell Bram what you found",
+          "type": "talk",
+          "target": "bram"
+        }
+      ]
+    },
+    {
       "id": "conclave",
       "title": "The Conclave Gathers",
       "summary": "The wizards of the Gloaming have gathered at the old house beyond Lanternholt.",

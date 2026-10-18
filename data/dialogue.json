@@ -148,12 +148,45 @@
         "line": "I came here to wash the blood from my armour. That was a long time ago. The water never gets any cleaner.",
         "options": [
           {
+            "text": "Sir Aldric of Hollowford says it is done. You can stop.",
+            "flag": "aldric_rewarded",
+            "next": "aldric"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "aldric": {
+        "line": "...Hollowford. A green door. The water... look at it. It is clear. I can see the stones on the bottom. Tell him I am coming home. Tell him to leave the door open.",
+        "effects": [
+          "flag:lake_told",
+          "gold:+40"
+        ],
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "told": {
+        "line": "The water is clear now. I am only waiting for the moon to move, and then I walk home.",
+        "options": [
+          {
             "text": "Farewell.",
             "end": true
           }
         ]
       }
-    }
+    },
+    "starts": [
+      {
+        "node": "told",
+        "flag": "lake_told"
+      }
+    ]
   },
   "oak_knight": {
     "name": "Ser Hollis",
@@ -223,7 +256,7 @@
         ]
       },
       "under": {
-        "line": "Old barrows. Doors that go down further than they should. East of here, past the cold standing stones. Go down, and you will dream with your eyes open.",
+        "line": "Old barrows. Doors that go down further than they should. North, up the lane through Hollowford and out of its north gate. The town built its inn with its back to it. Go down, and you will dream with your eyes open.",
         "options": [
           {
             "text": "I will find the door.",
@@ -312,6 +345,11 @@
             "next": "road"
           },
           {
+            "text": "Where is Hollowford?",
+            "next": "town",
+            "once": true
+          },
+          {
             "text": "Farewell.",
             "end": true
           }
@@ -334,6 +372,11 @@
           {
             "text": "Any news on the road?",
             "next": "road"
+          },
+          {
+            "text": "Where is Hollowford?",
+            "next": "town",
+            "once": true
           },
           {
             "text": "Farewell.",
@@ -414,6 +457,837 @@
             "text": "Show me what you have.",
             "effects": [
               "barter:ysolde"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "town": {
+        "line": "North, up the lane past the cottage. Inn, chapel, a smith who overcharges, and a hundred people who keep forgetting what they came out of the house for. Maren at the inn will put you up, if you have coin.",
+        "options": [
+          {
+            "text": "Show me what you have.",
+            "effects": [
+              "barter:ysolde"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "maren": {
+    "name": "Maren",
+    "start": "greet",
+    "starts": [
+      {
+        "node": "again",
+        "flag": "maren_met"
+      }
+    ],
+    "nodes": {
+      "greet": {
+        "line": "Welcome to the Barrow's Back. Mind the step, it's older than the door. You're not from Hollowford. I'd know. I still know everyone. For now.",
+        "effects": [
+          "flag:maren_met"
+        ],
+        "options": [
+          {
+            "text": "For now?",
+            "next": "forget"
+          },
+          {
+            "text": "What's for sale?",
+            "effects": [
+              "barter:maren"
+            ]
+          },
+          {
+            "text": "I need a bed.",
+            "check": {
+              "kind": "pay",
+              "gold": 10
+            },
+            "next": "bed",
+            "fail": "nobed"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "again": {
+        "line": "Back again. Bread's yesterday's, mead's last year's. The moon's been the same for nine nights, so who's counting.",
+        "options": [
+          {
+            "text": "Tell me about the forgetting.",
+            "next": "forget",
+            "noflag": "bell_rung"
+          },
+          {
+            "text": "The bell rang. Is it better?",
+            "next": "after",
+            "flag": "bell_rung",
+            "once": true
+          },
+          {
+            "text": "What's for sale?",
+            "effects": [
+              "barter:maren"
+            ]
+          },
+          {
+            "text": "I need a bed.",
+            "check": {
+              "kind": "pay",
+              "gold": 10
+            },
+            "next": "bed",
+            "fail": "nobed"
+          },
+          {
+            "text": "Who is the old man at the table?",
+            "next": "bram",
+            "once": true
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "forget": {
+        "line": "Since the moon stuck, people lose things. Not keys. Names. Old Jory walked into the river because he forgot it was there. Sir Aldric stands at the well all night because he can't remember which house is his. Brother Cass says it's the bell. Rang every night for three hundred years, and now it doesn't.",
+        "effects": [
+          "start:forgetting"
+        ],
+        "options": [
+          {
+            "text": "Where do I find Brother Cass?",
+            "next": "cass"
+          },
+          {
+            "text": "What's for sale?",
+            "effects": [
+              "barter:maren"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "cass": {
+        "line": "The chapel, west side of the square. You'll hear him before you see him, he reads the names out loud. Says if somebody hears a name, it's still kept.",
+        "options": [
+          {
+            "text": "What's for sale?",
+            "effects": [
+              "barter:maren"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "after": {
+        "line": "Aldric came in and paid his tab. Thirty years, he's never once paid his tab. Whatever you did, I'll pour you one on the house. Just the one.",
+        "effects": [
+          "give:mead"
+        ],
+        "options": [
+          {
+            "text": "What's for sale?",
+            "effects": [
+              "barter:maren"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "bram": {
+        "line": "Bram. Drinks here, sleeps here when I let him. He used to be the gravedigger, back when we buried people up at the barrow. Don't buy him a drink. Everybody buys him a drink.",
+        "options": [
+          {
+            "text": "What's for sale?",
+            "effects": [
+              "barter:maren"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "bed": {
+        "line": "Top of the stairs, the room with the moon in the window. They all have the moon in the window. Sleep well.",
+        "effects": [
+          "rest"
+        ],
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "nobed": {
+        "line": "Ten gold. I've a soft heart and a hard ledger, and the ledger wins.",
+        "options": [
+          {
+            "text": "What's for sale?",
+            "effects": [
+              "barter:maren"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "cass": {
+    "name": "Brother Cass",
+    "start": "greet",
+    "starts": [
+      {
+        "node": "done",
+        "flag": "bell_rung"
+      },
+      {
+        "node": "fixed",
+        "flag": "clapper_fixed"
+      },
+      {
+        "node": "clapper",
+        "requires": "bell_clapper"
+      },
+      {
+        "node": "waiting",
+        "flag": "cass_asked"
+      }
+    ],
+    "nodes": {
+      "greet": {
+        "line": "...Hesper the weaver. Tam Rook. Old Jory, who walked into the river. ...Forgive me. If I say them aloud, someone has heard them. Then they are kept. Are you here to give me a name?",
+        "options": [
+          {
+            "text": "Why has the town started forgetting?",
+            "next": "why"
+          },
+          {
+            "text": "Can you teach me to heal?",
+            "check": {
+              "kind": "pay",
+              "gold": 50
+            },
+            "effects": [
+              "train:restoration"
+            ],
+            "next": "taught",
+            "fail": "poor"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "why": {
+        "line": "The barrow behind the inn was the valley's first grave. Our bell was hung to call the sleeping back to their beds every night, so that nothing below would keep them. The night the moon stopped, something came up the barrow road and took the clapper. Since then the bell has no voice, and the sleeping do not come back. Not all the way.",
+        "effects": [
+          "start:forgetting",
+          "objective:forgetting.cass",
+          "flag:cass_asked"
+        ],
+        "options": [
+          {
+            "text": "I'll bring the clapper back.",
+            "next": "go"
+          },
+          {
+            "text": "What took it?",
+            "next": "what"
+          }
+        ]
+      },
+      "what": {
+        "line": "The Hollow Ones. They were the barrow-wardens once, when wardens were buried with their duty. They stand at the door now and keep anything from leaving. The clapper will be with them, at the barrow door, north up the lane.",
+        "options": [
+          {
+            "text": "I'll bring the clapper back.",
+            "next": "go"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "go": {
+        "line": "North up the lane, through the gate, past Hale. Do not let them touch you, they take more than blood. Go with the bell, stranger.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "waiting": {
+        "line": "The bell is still quiet. I've written forty names today. Yesterday it was thirty. The clapper is at the barrow door, north up the lane.",
+        "options": [
+          {
+            "text": "Can you teach me to heal?",
+            "check": {
+              "kind": "pay",
+              "gold": 50
+            },
+            "effects": [
+              "train:restoration"
+            ],
+            "next": "taught",
+            "fail": "poor"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "clapper": {
+        "line": "Is that... it is. It's cold. It has been under the hill. Give it here, I'll hang it myself. My hands remember how even if the rest of me is going.",
+        "effects": [
+          "take:bell_clapper",
+          "flag:clapper_fixed",
+          "objective:forgetting.return"
+        ],
+        "options": [
+          {
+            "text": "What now?",
+            "next": "fixed"
+          }
+        ]
+      },
+      "fixed": {
+        "line": "It hangs true. But I will not ring it. It should be rung by whoever brought its voice home. The rope is by the tower door.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "done": {
+        "line": "Did you hear it go down the valley? I have stopped writing names. I've started crossing them out. Thank you. Here, it isn't much, it's the alms box, but no one has come for alms in nine days.",
+        "options": [
+          {
+            "text": "Take the alms",
+            "effects": [
+              "gold:+60",
+              "flag:cass_thanked"
+            ],
+            "next": "after",
+            "noflag": "cass_thanked"
+          },
+          {
+            "text": "Can you teach me to heal?",
+            "check": {
+              "kind": "pay",
+              "gold": 50
+            },
+            "effects": [
+              "train:restoration"
+            ],
+            "next": "taught",
+            "fail": "poor"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "after": {
+        "line": "Sir Aldric is at the well. Go to him. He'll want to see the face of the one who gave him back his name.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "taught": {
+        "line": "Hold the wound in your mind as you hold it in your hand. Healing is only remembering what the body was. There. Better.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "poor": {
+        "line": "The chapel takes what you can give, but the lesson costs the candles it burns. Fifty gold.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "aldric": {
+    "name": "Sir Aldric",
+    "start": "greet",
+    "starts": [
+      {
+        "node": "thanks",
+        "flag": "aldric_rewarded"
+      },
+      {
+        "node": "remember",
+        "flag": "bell_rung"
+      }
+    ],
+    "nodes": {
+      "greet": {
+        "line": "They tell me my name is Aldric. I'll take their word for it. I've been standing at this well trying to think which of these doors is mine. One of them is. I'm nearly sure.",
+        "options": [
+          {
+            "text": "What do you remember?",
+            "next": "dream"
+          },
+          {
+            "text": "Who are you?",
+            "next": "who"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "who": {
+        "line": "The knight of Hollowford, Maren says. Thirty years. I have the sword for it, and the knees. The rest of it is... somewhere else.",
+        "options": [
+          {
+            "text": "What do you remember?",
+            "next": "dream"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "dream": {
+        "line": "One thing, every night. I'm standing in a lake that glows, under a sky that never lightens, washing blood off my armour, and the water never gets any cleaner. I don't know whose blood. I don't know where the lake is. That part, I remember perfectly.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "remember": {
+        "line": "That bell. I heard it and I knew the door. The green one. Thirty years I've walked through it. And her name, my wife's. Elsbeth. I'd lost her name. You gave it back. A man shouldn't need a stranger to give him back his own wife's name.",
+        "options": [
+          {
+            "text": "The lake you dreamed of. Is it real?",
+            "next": "lake"
+          }
+        ]
+      },
+      "lake": {
+        "line": "It's real. It's under the hills, past the barrow, where the country dreams. Part of me is still down there, washing. If you go down, tell him... tell me... it's done, and I can stop. And take this. I don't need a sword to stand by a well.",
+        "effects": [
+          "give:aldric_blade",
+          "flag:aldric_rewarded"
+        ],
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "thanks": {
+        "line": "The green door. Elsbeth. I keep saying them so I keep them. Go well, friend.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "bram": {
+    "name": "Old Bram",
+    "start": "greet",
+    "starts": [
+      {
+        "node": "found",
+        "flag": "bram_told",
+        "noflag": "bram_done"
+      },
+      {
+        "node": "done",
+        "flag": "bram_done"
+      }
+    ],
+    "nodes": {
+      "greet": {
+        "line": "Eh? Not you. You're not who I was waiting for. Who was I waiting for? Doesn't matter. You buying?",
+        "options": [
+          {
+            "text": "(Give him a mead)",
+            "requires": "mead",
+            "effects": [
+              "take:mead"
+            ],
+            "next": "secret"
+          },
+          {
+            "text": "You look like you have a story.",
+            "check": {
+              "kind": "persuade",
+              "level": 30
+            },
+            "next": "secret",
+            "fail": "nostory"
+          },
+          {
+            "text": "What was it like, digging graves at the barrow?",
+            "next": "barrow"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "barrow": {
+        "line": "Cold. We stopped putting folk up there when the Hollow Ones started standing about. Before that, you'd dig, and you'd hear them under you. Like someone shifting in bed in the next room.",
+        "options": [
+          {
+            "text": "(Give him a mead)",
+            "requires": "mead",
+            "effects": [
+              "take:mead"
+            ],
+            "next": "secret"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "nostory": {
+        "line": "A story? I've got a thirst. The story comes after the thirst.",
+        "options": [
+          {
+            "text": "(Give him a mead)",
+            "requires": "mead",
+            "effects": [
+              "take:mead"
+            ],
+            "next": "secret"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "secret": {
+        "line": "Ahh. That's the stuff. Listen. I hid a box once. Behind the chapel, under the woodpile, years back, when I had things worth hiding. I keep forgetting it's there. Next week I'll forget it entirely. Take it. Somebody should have it who'll remember.",
+        "effects": [
+          "give:note_bram",
+          "start:bram",
+          "flag:bram_told"
+        ],
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "found": {
+        "line": "Well? Was it there? Don't tell me what was in it. I'd only want it back.",
+        "options": [
+          {
+            "text": "It was there.",
+            "next": "thanks",
+            "flag": "opened:bram_stash"
+          },
+          {
+            "text": "I haven't found it yet.",
+            "next": "where"
+          }
+        ]
+      },
+      "where": {
+        "line": "Behind the chapel. Woodpile. I said woodpile, didn't I? It's locked. I had a key once. Had a lot of things once.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "thanks": {
+        "line": "Good. Good. Then it's kept. Here's to you, and to the box, and to whatever I was waiting for.",
+        "effects": [
+          "flag:bram_done",
+          "objective:bram.tell"
+        ],
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "done": {
+        "line": "Box? What box? ...I'm joking. I'm mostly joking.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "wren": {
+    "name": "Wren",
+    "start": "greet",
+    "starts": [
+      {
+        "node": "after",
+        "flag": "bell_rung"
+      }
+    ],
+    "nodes": {
+      "greet": {
+        "line": "I'm drawing the moon so I remember what it looked like when it moved. Mam says it'll move again. I can't remember Mam's name. Isn't that silly? I'm drawing her too, so I don't lose her face.",
+        "options": [
+          {
+            "text": "Why do you think everyone is forgetting?",
+            "next": "why"
+          },
+          {
+            "text": "I'll try to help.",
+            "end": true
+          }
+        ]
+      },
+      "why": {
+        "line": "Brother Cass says the bell has to ring or the sleepy people don't come back from the hill. I don't sleep. I'm not going up the hill.",
+        "options": [
+          {
+            "text": "I'll try to help.",
+            "end": true
+          }
+        ]
+      },
+      "after": {
+        "line": "Tilde! Her name is Tilde! I remembered when the bell went. I'm going to write it on everything.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "hale": {
+    "name": "Hale",
+    "start": "greet",
+    "starts": [
+      {
+        "node": "after",
+        "flag": "bell_rung"
+      }
+    ],
+    "nodes": {
+      "greet": {
+        "line": "North gate. Past here it's the barrow road, and the Hollow Ones on it. I'm to stop anyone going up. I'm also to stop anyone coming down. So far it's only been the second sort I worry about.",
+        "options": [
+          {
+            "text": "I'm going up to the barrow.",
+            "next": "up"
+          },
+          {
+            "text": "Tell me about the Hollow Ones.",
+            "next": "hollow"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "up": {
+        "line": "Then I didn't see you. If you come back, come back yourself. If something comes back wearing you, I'll know. I've got a list of questions.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "hollow": {
+        "line": "Slow. Heavy. They lean in before they swing, you'll see it coming. Get behind something, or get your shield up at the right moment, and they rock back on their heels. That's when you hit them.",
+        "options": [
+          {
+            "text": "Anything else?",
+            "check": {
+              "kind": "persuade",
+              "level": 25
+            },
+            "next": "tip",
+            "fail": "notip"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "tip": {
+        "line": "Between us, the one with the clapper stands nearest the door. They never sleep, but they don't look up much. Come round the side, crouched, and you might get a blade in before it knows you're there.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "notip": {
+        "line": "That's all I'm paid to say. I'm not paid much.",
+        "options": [
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "after": {
+        "line": "Heard the bell from up here. Remembered my brother's birthday. I'd missed it six days. He'll forgive me. He forgot too.",
+        "options": [
+          {
+            "text": "Tell me about the Hollow Ones.",
+            "next": "hollow"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      }
+    }
+  },
+  "torvin": {
+    "name": "Torvin the Smith",
+    "start": "greet",
+    "nodes": {
+      "greet": {
+        "line": "Forge is the one thing I don't forget. Iron's got a memory of its own, you see. Bend it once and it remembers. Need something?",
+        "options": [
+          {
+            "text": "Show me your wares.",
+            "effects": [
+              "barter:smith"
+            ]
+          },
+          {
+            "text": "Teach me some smithing.",
+            "check": {
+              "kind": "pay",
+              "gold": 40
+            },
+            "effects": [
+              "train:smithing"
+            ],
+            "next": "smith",
+            "fail": "poor"
+          },
+          {
+            "text": "Teach me to use a blade.",
+            "check": {
+              "kind": "pay",
+              "gold": 40
+            },
+            "effects": [
+              "train:one_handed"
+            ],
+            "next": "blade",
+            "fail": "poor"
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "smith": {
+        "line": "Watch the colour, not the clock. Cherry red, then strike. There. You'll ruin a few ingots before it sticks.",
+        "options": [
+          {
+            "text": "Show me your wares.",
+            "effects": [
+              "barter:smith"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "blade": {
+        "line": "Don't swing from the arm, swing from the hip. Let the steel do the work, it wants to. There. Again. Better.",
+        "options": [
+          {
+            "text": "Show me your wares.",
+            "effects": [
+              "barter:smith"
+            ]
+          },
+          {
+            "text": "Farewell.",
+            "end": true
+          }
+        ]
+      },
+      "poor": {
+        "line": "Forty gold. Coal isn't free and neither am I.",
+        "options": [
+          {
+            "text": "Show me your wares.",
+            "effects": [
+              "barter:smith"
             ]
           },
           {

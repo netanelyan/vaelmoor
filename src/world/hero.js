@@ -91,7 +91,7 @@ export async function heroProp(ctx, o, spec) {
   const foot = Math.max(S.x, S.z) * k;
   const idle = o.idle ?? spec.idle ?? 'static';
   const phase = Math.random() * 10;
-  let faceYaw = null;
+  let faceYaw = null, busy = false;
   const update = idle === 'static' ? null : (dt, time) => {
     if (!g.visible) return;
     // breathe (~1%) and sway; a talked-to NPC turns toward the speaker
@@ -103,9 +103,9 @@ export async function heroProp(ctx, o, spec) {
       let d = faceYaw - (base + body.rotation.y);
       d = Math.atan2(Math.sin(d), Math.cos(d));
       body.rotation.y += d * Math.min(1, dt * 4);
-    }
+    } else body.rotation.y *= 1 - Math.min(1, dt * 3); // ease back to the placed (or walking) facing
   };
-  const radius = spec.collide ?? (idle === 'static' ? foot * 0.4 : 0.4);
+  const radius = o.collide ?? spec.collide ?? (idle === 'static' ? foot * 0.4 : 0.4);
   return {
     object: g,
     colliders: radius > 0 ? [{ x: 0, z: 0, r: radius }] : [],
@@ -114,8 +114,9 @@ export async function heroProp(ctx, o, spec) {
     hero: {
       body,
       /** turn (the body, not the placement) toward a world point */
-      face(x, z) { const p = g.getWorldPosition(new THREE.Vector3()); faceYaw = Math.atan2(x - p.x, z - p.z); },
-      release() { faceYaw = g.rotation.y; }, // ease back to the placed facing
+      face(x, z) { const p = g.getWorldPosition(new THREE.Vector3()); faceYaw = Math.atan2(x - p.x, z - p.z); busy = true; },
+      release() { faceYaw = null; busy = false; },
+      get busy() { return busy; },
     },
   };
 }

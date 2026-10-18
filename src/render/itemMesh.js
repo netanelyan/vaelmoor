@@ -274,6 +274,15 @@ const BUILD = {
     g.add(m(new THREE.TorusGeometry(0.035, 0.008, 6, 12, Math.PI), metalMat('#9a9a98'), 0.05, 0.06, 0, 0, 0, -Math.PI / 2));
     return g;
   },
+  /** A bell clapper: iron rod, ring at the top, heavy ball at the end (lies along X). */
+  clapper(s) {
+    const g = new THREE.Group();
+    const iron = metalMat(s.color ?? '#5a5a5e');
+    g.add(m(new THREE.CylinderGeometry(0.014, 0.018, 0.42, 8), iron, 0, 0.04, 0, 0, 0, Math.PI / 2));
+    g.add(m(new THREE.SphereGeometry(0.055, 12, 10), iron, -0.23, 0.05, 0));
+    g.add(m(new THREE.TorusGeometry(0.03, 0.009, 6, 12), iron, 0.23, 0.04, 0, 0, Math.PI / 2, 0));
+    return g;
+  },
 };
 
 /** A fresh model for an item definition (or a spell glow for "spell:<id>"). */

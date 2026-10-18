@@ -87,6 +87,22 @@
         { "item": "potion_health_2", "chance": 1, "count": [2, 2] },
         { "item": "garnet", "chance": 1, "count": [1, 2] }
       ]
+    },
+    "bram_stash": {
+      "gold": [60, 110],
+      "rolls": [{ "item": "garnet", "chance": 1 }, { "item": "silver_ring", "chance": 0.7 }, { "item": "potion_health_2", "chance": 0.6 }, { "item": "book_steady_hand", "chance": 0.4 }],
+      "pick": [{ "item": "iron_helmet", "w": 1 }, { "item": "hunting_bow", "w": 1 }, { "item": "steel_sword", "w": 1 }],
+      "pickCount": 1
+    },
+    "smith_chest": {
+      "gold": [20, 50],
+      "rolls": [{ "item": "iron_ingot", "chance": 1, "count": [2, 4] }, { "item": "steel_ingot", "chance": 0.5, "count": [1, 2] }, { "item": "leather_strips", "chance": 0.6, "count": [2, 5] }],
+      "pick": [{ "item": "iron_war_axe", "w": 1 }, { "item": "iron_mace", "w": 1 }, { "item": "iron_gauntlets", "w": 1 }],
+      "pickCount": 1
+    },
+    "chapel_alms": {
+      "gold": [10, 25],
+      "rolls": [{ "item": "candle", "chance": 1, "count": [2, 4] }, { "item": "potion_health", "chance": 0.6 }]
     }
   },
   "merchants": {

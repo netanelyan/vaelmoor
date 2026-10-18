@@ -141,4 +141,5 @@
 .hurt-flash { position: absolute; inset: 0; pointer-events: none; opacity: 0;
   background: radial-gradient(ellipse at center, transparent 45%, rgba(110, 10, 6, 0.55) 100%); }
 .death-fade { position: absolute; inset: 0; background: #000; display: flex; align-items: center; justify-content: center; transition: opacity 1600ms ease; }
+.death-fade.sleep .dt { display: none; }
 .death-fade .dt { font-family: var(--serif); font-size: var(--t-xl); letter-spacing: 0.2em; color: var(--bone-70); }

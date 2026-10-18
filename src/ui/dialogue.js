@@ -3,10 +3,10 @@ import { el, rule, show, List } from './kit.js';
 // Dialogue: NPC name at the top, the line as a plain subtitle at the bottom,
 // player options as a bare list on the right. Options can require an item or
 // a flag, carry effects (quest objectives, barter, gold, flags) applied by the
-// caller, and test Speech: { check: { kind: persuade|intimidate|bribe, level, gold? },
+// caller, and test Speech: { check: { kind: persuade|intimidate|bribe|pay, level, gold? },
 // next (success), fail (failure) }.
 
-const LABEL = { persuade: 'Persuade', intimidate: 'Intimidate', bribe: 'Bribe' };
+const LABEL = { persuade: 'Persuade', intimidate: 'Intimidate', bribe: 'Bribe', pay: 'Pay' };
 
 export class DialogueScreen {
   constructor(root, { onEffect, onClose, check }) {

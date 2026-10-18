@@ -218,6 +218,9 @@ export class GameUI {
         return;
       }
       g.containers.open(t.container);
+      const cid = t.container.replace(/^\w+:/, '');
+      g.flags[`opened:${cid}`] = true; // dialogue can ask whether you've been in it
+      this.quests.notify('open', cid);
       g.audio?.play('open');
       this.setState('transfer');
       this.transfer.show(c);
@@ -232,6 +235,13 @@ export class GameUI {
       this.hud.toast(`${t.name} added`);
     } else if (t.kind === 'door') {
       this.hud.toast('The door is barred from within');
+    } else if (t.kind === 'use') {
+      const ok = (!t.requires || this.quests.has(t.requires) || g.inventory.has(t.requires)) && (!t.flag || g.flags[t.flag]) && (!t.noflag || !g.flags[t.noflag]);
+      if (!ok) { this.hud.toast(t.locked ?? 'Nothing happens'); return; }
+      if (t.sound) g.audio?.play(t.sound);
+      t.animate?.();
+      for (const fx of t.effects) this.effect(fx);
+      this.quests.notify('use', t.id);
     } else if (t.onUse) t.onUse(this);
   }
 
@@ -262,8 +272,27 @@ export class GameUI {
       case 'take': { const [id, n] = arg.split('*'); g.inventory.remove(id, +(n ?? 1)); return; }
       case 'flag': g.flags[arg] = true; return;
       case 'unflag': delete g.flags[arg]; return;
+      case 'train': g.character.raiseSkill(arg); return; // paid for by the option's bribe check
+      case 'rest': this.rest(); return;
+      case 'toast': this.hud.toast(arg); return;
+      case 'read': { const d = g.items.get(arg); if (d) { g.audio?.play('page'); this.openBook(d); } return; }
       default: this.quests.apply(fx);
     }
+  }
+
+  /** A bed at the inn: fade out, wake with full health, magicka and stamina, save. */
+  rest() {
+    this.dialogue.close();
+    this.setState('dead'); // no input, nothing simulates
+    this.hud.sleep(true);
+    setTimeout(() => {
+      const ch = this.game.character;
+      for (const k of ['health', 'magicka', 'stamina']) ch.cur[k] = ch.max(k);
+      this.hud.sleep(false);
+      this.setState('play');
+      this.hud.toast('You wake rested');
+      this.autosave();
+    }, 2600);
   }
 
   onGameEvent(e) {
@@ -276,6 +305,8 @@ export class GameUI {
     if (e.type === 'objective' && e.quest.status === 'active') {
       const next = this.quests.current(e.quest);
       if (next) this.hud.questNote(e.quest.title.toUpperCase(), next.text);
+    } else if (e.type === 'quest-start') {
+      this.hud.questNote('QUEST STARTED', e.quest.title);
     } else if (e.type === 'quest-complete') {
       this.hud.questNote('QUEST COMPLETED', e.quest.title);
     }
@@ -340,7 +371,8 @@ export class GameUI {
 
   objectivePos(o) {
     if (o.type === 'discover') return this.region.areas.find((a) => a.id === o.target)?.center;
-    const it = this.world.interactables.list.find((x) => x.id === o.target && x.enabled);
+    const id = o.type === 'open' ? `${this.region.id}:${o.target}` : o.target; // containers carry their realm
+    const it = this.world.interactables.list.find((x) => (x.id === id || (o.type === 'take' && x.item === o.target)) && x.enabled);
     if (it) return [it.pos.x, it.pos.z];
     if (o.type === 'talk') { // the item was handed over elsewhere: point at the npc
       const n = this.world.interactables.list.find((x) => x.id === o.target);

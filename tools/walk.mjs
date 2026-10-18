@@ -32,7 +32,7 @@ for (let i = 5; i < n - 15; i += 20) {
   const start = await page.evaluate((k) => {
     const v = window.vaelmoor, r = v.world.road;
     v.player.teleport(r.x[k], r.z[k], Math.atan2(-r.tx[k], -r.tz[k]), 0);
-    v.vitals.stamina = 1; // the check is about the road, not the player's lungs
+    v.game.character.cur.stamina = v.game.character.max("stamina"); // the check is about the road, not the player's lungs
     return [v.player.pos.x, v.player.pos.z];
   }, i);
   await page.waitForTimeout(600); // let the post-teleport frame (new chunks, shadow map) settle

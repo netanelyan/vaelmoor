@@ -178,10 +178,20 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
           pos: new THREE.Vector3(cx, y + (res.targetY ?? 0.5) * s, cz), object: res.object });
         ci.container = propId;
       }
+      let npc = null;
       if (prop.npc) {
-        const npc = interactables.add({ id: prop.npc, name: prop.name ?? prop.npc, action: 'Talk', kind: 'npc', radius: 0.6,
+        npc = interactables.add({ id: prop.npc, name: prop.name ?? prop.npc, action: 'Talk', kind: 'npc', radius: 0.6,
           pos: new THREE.Vector3(x, y + (prop.talkY ?? (res.height ? res.height * 0.85 : 1.5)) * s, z) });
         npc.hero = res.hero ?? null;
+      }
+      if (prop.path && res.object) updaters.push(walker(res, npc, prop.path.map(local), prop, groundAt));
+      // something to work (a bell rope, a lever): effects as in dialogue, optionally gated on a flag / item
+      if (prop.use) {
+        const u = prop.use;
+        const [ux, uz] = res.usePos ? toWorld(res.usePos[0], res.usePos[2]) : [x, z];
+        const it = interactables.add({ id: u.id, name: u.name, action: u.action ?? 'Use', kind: 'use', radius: u.radius ?? 0.5,
+          pos: new THREE.Vector3(ux, y + (res.usePos ? res.usePos[1] : u.y ?? 1) * s, uz) });
+        Object.assign(it, { effects: u.effects ?? [], requires: u.requires, flag: u.flag, noflag: u.noflag, locked: u.locked, sound: u.sound, animate: res.animate });
       }
       if (prop.item) {
         interactables.add({ id: prop.item, name: prop.name ?? prop.item, action: 'Take', kind: 'item', radius: 0.45,
@@ -276,6 +286,35 @@ export async function buildWorld({ scene, assets, region, lightPool }) {
   };
   scene.add(buildGrass(world, region));
   return world;
+}
+
+/**
+ * Townsfolk who walk a loop of points (world coords): they stroll with a gait
+ * bob, pause at each point, and stop to face whoever talks to them.
+ */
+function walker(res, npc, pts, o, groundAt) {
+  const g = res.object, body = res.hero?.body;
+  const speed = o.speed ?? 0.9, pause = o.pause ?? 3;
+  let i = 0, wait = pause * Math.random(), phase = 0;
+  const talkY = npc ? npc.pos.y - g.position.y : 0;
+  return (dt, t, cam) => {
+    if (res.hero?.busy) return;
+    if (Math.hypot(cam.x - g.position.x, cam.z - g.position.z) > 90) return; // nobody is watching
+    if (wait > 0) { wait -= dt; if (body) body.position.y *= 0.8; return; }
+    const [tx, tz] = pts[(i + 1) % pts.length];
+    const dx = tx - g.position.x, dz = tz - g.position.z, d = Math.hypot(dx, dz);
+    if (d < 0.1) { i = (i + 1) % pts.length; wait = pause * (0.6 + Math.random() * 0.8); return; }
+    const step = Math.min(d, speed * dt);
+    g.position.x += (dx / d) * step;
+    g.position.z += (dz / d) * step;
+    g.position.y = groundAt(g.position.x, g.position.z);
+    let turn = Math.atan2(dx, dz) - g.rotation.y;
+    turn = Math.atan2(Math.sin(turn), Math.cos(turn));
+    g.rotation.y += turn * Math.min(1, dt * 5);
+    phase += dt * speed * 6.5;
+    if (body) body.position.y = Math.abs(Math.sin(phase)) * 0.035;
+    if (npc) npc.pos.set(g.position.x, g.position.y + talkY, g.position.z);
+  };
 }
 
 function addTree(ctx, kind, x, z, scale, seed) {

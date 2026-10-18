@@ -96,6 +96,15 @@
         ],
         "radius": 45,
         "height": 12
+      },
+      {
+        "type": "flatten",
+        "at": [
+          21,
+          -80
+        ],
+        "radius": 34,
+        "blend": 18
       }
     ]
   },
@@ -234,6 +243,45 @@
         -70,
         40
       ]
+    ],
+    "branches": [
+      {
+        "name": "Hollowford Lane",
+        "points": [
+          [
+            6,
+            16
+          ],
+          [
+            16,
+            10
+          ],
+          [
+            23,
+            -6
+          ],
+          [
+            26,
+            -26
+          ],
+          [
+            25.7,
+            -46
+          ],
+          [
+            25,
+            -80
+          ],
+          [
+            24.3,
+            -114
+          ],
+          [
+            21,
+            -130
+          ]
+        ]
+      }
     ]
   },
   "forest": {
@@ -1686,6 +1734,16 @@
           ],
           "rot": 200,
           "patrol": 4
+        },
+        {
+          "type": "loot",
+          "id": "bell_clapper",
+          "item": "bell_clapper",
+          "at": [
+            2.4,
+            5.6
+          ],
+          "rot": 0.7
         }
       ],
       "clearings": [
@@ -3433,6 +3491,679 @@
           -22.8,
           14.5,
           6.5
+        ],
+        "fov": 62
+      }
+    },
+    {
+      "id": "hollowford",
+      "name": "Hollowford",
+      "ref": "",
+      "center": [
+        25,
+        -80
+      ],
+      "reach": 45,
+      "discoverRadius": 30,
+      "description": "A ford town under the stopped moon: inn, chapel, smithy, the well.",
+      "ground": {
+        "tint": "#56663e",
+        "grass": 0.28,
+        "grassTint": "#647e42",
+        "road": "#c4b8a8"
+      },
+      "atmosphere": {
+        "moonLight": {
+          "color": "#c8d6ff",
+          "intensity": 3.4,
+          "dir": [
+            200,
+            40
+          ]
+        },
+        "fill": {
+          "color": "#7a8ad0",
+          "intensity": 0.55
+        },
+        "ambient": {
+          "sky": "#5a6ac0",
+          "ground": "#1e2218",
+          "intensity": 1.7
+        },
+        "fog": {
+          "color": "#2a3a78",
+          "density": 0.012,
+          "falloff": 0.05
+        },
+        "post": {
+          "exposure": 1.75
+        },
+        "sky": {
+          "moonDir": [
+            195,
+            34
+          ],
+          "moonSize": 0.07,
+          "moonGlow": 0.3,
+          "moonBright": 2.2,
+          "cloudCover": 0.45,
+          "zenith": "#060e2e",
+          "mid": "#1a2c6a",
+          "horizon": "#4a5a9a",
+          "cloudDark": "#101a48",
+          "cloudLight": "#6070b8",
+          "cloudRim": "#c0c8ff"
+        }
+      },
+      "props": [
+        {
+          "type": "paving",
+          "at": [
+            -8.5,
+            0
+          ],
+          "size": [
+            11,
+            15
+          ],
+          "texture": "cobblestone_floor_08",
+          "color": "#b4aca4",
+          "tile": 2.2
+        },
+        {
+          "type": "well",
+          "at": [
+            -8.5,
+            0.5
+          ],
+          "rot": 20
+        },
+        {
+          "type": "stall",
+          "at": [
+            -6,
+            6.8
+          ],
+          "rot": 180,
+          "cloth": "#8a2424",
+          "seed": 4
+        },
+        {
+          "type": "notice_board",
+          "at": [
+            -2.9,
+            3.4
+          ],
+          "rot": 90,
+          "clear": 2,
+          "use": {
+            "id": "notice_board",
+            "name": "Notice Board",
+            "action": "Read",
+            "y": 1.5,
+            "effects": [
+              "read:notice_forgetting",
+              "start:forgetting"
+            ]
+          }
+        },
+        {
+          "type": "kenney",
+          "model": "kenney-town/cart",
+          "at": [
+            -15.4,
+            9.2
+          ],
+          "rot": 30,
+          "scale": 1.5,
+          "tint": "#8a6a4a",
+          "collide": 1.4
+        },
+        {
+          "type": "timber_house",
+          "at": [
+            -8,
+            -15
+          ],
+          "rot": 0,
+          "w": 12,
+          "d": 8,
+          "seed": 71,
+          "door": false,
+          "plaster": 13154464,
+          "roofColor": 4867152,
+          "windowColor": "#ffb85a",
+          "clear": 9
+        },
+        {
+          "type": "inn_sign",
+          "at": [
+            -1.4,
+            -10.6
+          ],
+          "rot": 90
+        },
+        {
+          "type": "yard_table",
+          "at": [
+            -11.8,
+            -6.2
+          ],
+          "rot": 0
+        },
+        {
+          "type": "person",
+          "hero": "maren_innkeeper",
+          "id": "maren",
+          "at": [
+            -4.4,
+            -8.4
+          ],
+          "rot": 0,
+          "npc": "maren",
+          "name": "Maren",
+          "talkY": 1.5
+        },
+        {
+          "type": "person",
+          "hero": "old_drunk",
+          "id": "bram",
+          "at": [
+            -11.4,
+            -4.7
+          ],
+          "rot": 180,
+          "npc": "bram",
+          "name": "Old Bram",
+          "talkY": 1.5
+        },
+        {
+          "type": "barrel",
+          "id": "inn_barrel_1",
+          "at": [
+            -2.6,
+            -9.4
+          ],
+          "loot": "barrel_food",
+          "owner": "maren",
+          "name": "Maren's Barrel"
+        },
+        {
+          "type": "barrel",
+          "id": "inn_barrel_2",
+          "at": [
+            -6.3,
+            -9.5
+          ],
+          "loot": "barrel_food",
+          "owner": "maren",
+          "name": "Maren's Barrel"
+        },
+        {
+          "type": "sack",
+          "id": "inn_sack",
+          "at": [
+            -7.3,
+            -9.6
+          ],
+          "loot": "sack_herbs",
+          "owner": "maren",
+          "name": "Maren's Sack"
+        },
+        {
+          "type": "chapel",
+          "at": [
+            -24,
+            -1
+          ],
+          "rot": 90,
+          "clear": 9,
+          "use": {
+            "id": "bell_rope",
+            "name": "Bell Rope",
+            "action": "Ring",
+            "flag": "clapper_fixed",
+            "locked": "The bell has no clapper. The rope only creaks.",
+            "sound": "bell",
+            "effects": [
+              "flag:bell_rung",
+              "toast:The bell's voice rolls down the valley"
+            ]
+          }
+        },
+        {
+          "type": "person",
+          "hero": "brother_cass",
+          "id": "cass",
+          "at": [
+            -15.4,
+            2.4
+          ],
+          "rot": 95,
+          "npc": "cass",
+          "name": "Brother Cass",
+          "talkY": 1.55
+        },
+        {
+          "type": "chest",
+          "id": "chapel_alms",
+          "at": [
+            -17.6,
+            -4.2
+          ],
+          "rot": 90,
+          "loot": "chapel_alms",
+          "owner": "cass",
+          "name": "Alms Box"
+        },
+        {
+          "type": "woodpile",
+          "at": [
+            -32.6,
+            1.4
+          ],
+          "rot": 90,
+          "length": 2.4,
+          "seed": 7
+        },
+        {
+          "type": "chest",
+          "id": "bram_stash",
+          "at": [
+            -32.2,
+            3.6
+          ],
+          "rot": 90,
+          "loot": "bram_stash",
+          "locked": "adept",
+          "name": "Old Box",
+          "color": "#5a4a3a"
+        },
+        {
+          "type": "smithy",
+          "at": [
+            8.5,
+            6
+          ],
+          "rot": -90,
+          "clear": 6
+        },
+        {
+          "type": "person",
+          "id": "torvin",
+          "at": [
+            6.9,
+            7.6
+          ],
+          "rot": -90,
+          "outfit": "Male_Peasant",
+          "cloth": "#4a3a30",
+          "hair": "none",
+          "beard": "#3a2a20",
+          "beardLen": 0.3,
+          "pose": "stand",
+          "seed": 23,
+          "npc": "torvin",
+          "name": "Torvin the Smith",
+          "talkY": 1.6
+        },
+        {
+          "type": "chest",
+          "id": "smith_chest",
+          "at": [
+            10.6,
+            9.4
+          ],
+          "rot": -90,
+          "loot": "smith_chest",
+          "locked": "apprentice",
+          "owner": "torvin",
+          "name": "Torvin's Chest"
+        },
+        {
+          "type": "woodpile",
+          "at": [
+            9.2,
+            11.8
+          ],
+          "rot": 0,
+          "length": 2,
+          "seed": 8
+        },
+        {
+          "type": "person",
+          "hero": "sir_aldric",
+          "id": "aldric",
+          "at": [
+            -9.7,
+            2.5
+          ],
+          "rot": 150,
+          "npc": "aldric",
+          "name": "Sir Aldric",
+          "talkY": 1.6
+        },
+        {
+          "type": "person",
+          "hero": "village_child",
+          "id": "wren",
+          "at": [
+            -12.5,
+            2.6
+          ],
+          "rot": 90,
+          "npc": "wren",
+          "name": "Wren",
+          "talkY": 1,
+          "collide": 0,
+          "path": [
+            [
+              -12.5,
+              2.6
+            ],
+            [
+              -5.2,
+              4.2
+            ],
+            [
+              -4.6,
+              -3
+            ],
+            [
+              -12.2,
+              -2.4
+            ]
+          ],
+          "speed": 1.1,
+          "pause": 2.5
+        },
+        {
+          "type": "person",
+          "hero": "town_guard",
+          "id": "hale",
+          "at": [
+            3.4,
+            -31
+          ],
+          "rot": 0,
+          "npc": "hale",
+          "name": "Hale",
+          "talkY": 1.6,
+          "collide": 0,
+          "path": [
+            [
+              3.4,
+              -31
+            ],
+            [
+              3.4,
+              -23.5
+            ]
+          ],
+          "speed": 0.7,
+          "pause": 5
+        },
+        {
+          "type": "person",
+          "hero": "town_guard",
+          "id": "guard_south",
+          "at": [
+            -3.4,
+            32.5
+          ],
+          "rot": 180,
+          "tint": "#b8b0a8"
+        },
+        {
+          "type": "town_gate",
+          "at": [
+            0.7,
+            -34
+          ],
+          "rot": 0,
+          "clear": 4
+        },
+        {
+          "type": "town_gate",
+          "at": [
+            -0.7,
+            34
+          ],
+          "rot": 180,
+          "clear": 4
+        },
+        {
+          "type": "cottage",
+          "at": [
+            13.6,
+            -14
+          ],
+          "rot": -90,
+          "seed": 61,
+          "clear": 6
+        },
+        {
+          "type": "cottage",
+          "at": [
+            13.2,
+            -25.5
+          ],
+          "rot": -95,
+          "seed": 62,
+          "clear": 6
+        },
+        {
+          "type": "stone_cottage",
+          "hero": "cottage",
+          "heroSize": 7.5,
+          "at": [
+            -14,
+            -28
+          ],
+          "rot": 90,
+          "clear": 7
+        },
+        {
+          "type": "cottage",
+          "at": [
+            -25.5,
+            -16
+          ],
+          "rot": 45,
+          "seed": 63,
+          "clear": 6
+        },
+        {
+          "type": "timber_house",
+          "at": [
+            16.5,
+            21
+          ],
+          "rot": -90,
+          "w": 9,
+          "d": 7,
+          "seed": 72,
+          "doorName": "A Green Door",
+          "plaster": 12103840,
+          "roofColor": 3820090,
+          "windowColor": "#ffc46a",
+          "clear": 8
+        },
+        {
+          "type": "cottage",
+          "at": [
+            -22.5,
+            15.5
+          ],
+          "rot": 120,
+          "seed": 64,
+          "clear": 6
+        },
+        {
+          "type": "cottage",
+          "at": [
+            -9.5,
+            21.5
+          ],
+          "rot": 180,
+          "seed": 65,
+          "clear": 6
+        },
+        {
+          "type": "stone_cottage",
+          "hero": "cottage",
+          "heroSize": 7,
+          "at": [
+            12.5,
+            32
+          ],
+          "rot": -110,
+          "clear": 7
+        },
+        {
+          "type": "fence",
+          "at": [
+            20.5,
+            12.5
+          ],
+          "rot": 0,
+          "length": 8,
+          "seed": 1
+        },
+        {
+          "type": "fence",
+          "at": [
+            -18,
+            25
+          ],
+          "rot": 90,
+          "length": 8,
+          "seed": 2
+        },
+        {
+          "type": "fence",
+          "at": [
+            -30,
+            -9
+          ],
+          "rot": 0,
+          "length": 6,
+          "seed": 3
+        },
+        {
+          "type": "fence",
+          "at": [
+            19,
+            -20
+          ],
+          "rot": 90,
+          "length": 9,
+          "seed": 4
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            -19.5,
+            -9.5
+          ],
+          "size": 0.6,
+          "seed": 95,
+          "leaves": "#2a4434",
+          "clear": 3
+        },
+        {
+          "type": "great_tree",
+          "at": [
+            21,
+            -3
+          ],
+          "size": 0.55,
+          "seed": 96,
+          "leaves": "#24402e",
+          "clear": 3
+        },
+        {
+          "type": "lantern",
+          "at": [
+            2.4,
+            -19
+          ],
+          "light": 7,
+          "intensity": 6
+        },
+        {
+          "type": "lantern",
+          "at": [
+            -2.5,
+            -3.5
+          ],
+          "light": 7,
+          "intensity": 6
+        },
+        {
+          "type": "lantern",
+          "at": [
+            2.4,
+            13
+          ],
+          "light": 7,
+          "intensity": 6
+        },
+        {
+          "type": "lantern",
+          "at": [
+            -2.6,
+            27
+          ],
+          "light": 7,
+          "intensity": 6
+        },
+        {
+          "type": "lantern",
+          "at": [
+            -1.6,
+            -30.5
+          ],
+          "light": 7,
+          "intensity": 6
+        }
+      ],
+      "clearings": [
+        [
+          -5,
+          0,
+          40
+        ]
+      ],
+      "scatter": [
+        {
+          "kind": "rock",
+          "count": 18,
+          "at": [
+            0,
+            0
+          ],
+          "radius": 44,
+          "minR": 34,
+          "minRoad": 3,
+          "scale": [
+            0.4,
+            1.1
+          ],
+          "seed": "hfr"
+        }
+      ],
+      "shot": {
+        "key": 13,
+        "at": [
+          3.2,
+          11
+        ],
+        "height": 1.7,
+        "target": [
+          -8,
+          -10,
+          3.2
         ],
         "fov": 62
       }

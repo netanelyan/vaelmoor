@@ -5,6 +5,8 @@ import { stylize } from '../render/materials.js';
 // The cobblestone road that links every area: a centripetal Catmull-Rom
 // spline sampled every metre, with a smoothed height profile, a coarse
 // distance field for terrain shaping and a crowned ribbon mesh.
+// `branches` (lists of points) are lanes off the main road: their samples
+// follow the main road's in the same arrays, `segs` marks where each starts.
 
 const STEP = 1.0;
 
@@ -16,24 +18,33 @@ export class Road {
     this.def = def;
     this.width = def.width ?? 6;
     this.half = this.width / 2;
-    const pts = def.points.map(([x, z]) => new THREE.Vector3(x, 0, z));
-    this.curve = new THREE.CatmullRomCurve3(pts, false, 'centripetal');
+    const lines = [def.points, ...(def.branches || []).map((b) => b.points ?? b)];
+    const curves = lines.map((l) => new THREE.CatmullRomCurve3(l.map(([x, z]) => new THREE.Vector3(x, 0, z)), false, 'centripetal'));
+    this.curve = curves[0];
     this.length = this.curve.getLength();
-    const n = Math.max(2, Math.ceil(this.length / STEP));
-    this.n = n + 1;
+    const counts = curves.map((c) => Math.max(2, Math.ceil(c.getLength() / STEP)) + 1);
+    this.n = counts.reduce((a, b) => a + b, 0);
     this.x = new Float32Array(this.n);
     this.z = new Float32Array(this.n);
     this.tx = new Float32Array(this.n);
     this.tz = new Float32Array(this.n);
     this.y = new Float32Array(this.n);
-    for (let i = 0; i <= n; i++) {
-      const u = i / n;
-      const p = this.curve.getPointAt(u);
-      const t = this.curve.getTangentAt(u);
-      this.x[i] = p.x; this.z[i] = p.z;
-      const l = Math.hypot(t.x, t.z) || 1;
-      this.tx[i] = t.x / l; this.tz[i] = t.z / l;
-    }
+    this.seg = new Uint8Array(this.n); // which line each sample belongs to (0 = the main road)
+    this.segs = [];
+    let i = 0;
+    curves.forEach((curve, si) => {
+      const n = counts[si] - 1;
+      this.segs.push({ start: i, end: i + n });
+      for (let k = 0; k <= n; k++, i++) {
+        const u = k / n;
+        const p = curve.getPointAt(u);
+        const t = curve.getTangentAt(u);
+        this.x[i] = p.x; this.z[i] = p.z;
+        const l = Math.hypot(t.x, t.z) || 1;
+        this.tx[i] = t.x / l; this.tz[i] = t.z / l;
+        this.seg[i] = si;
+      }
+    });
     this.buildHash();
     this.buildDistanceField(bounds);
   }
@@ -105,14 +116,36 @@ export class Road {
     const raw = new Float32Array(this.n);
     for (let i = 0; i < this.n; i++) raw[i] = heightFn(this.x[i], this.z[i]);
     const R = 18;
-    for (let i = 0; i < this.n; i++) {
-      let s = 0, w = 0;
-      for (let k = -R; k <= R; k++) {
-        const j = Math.min(this.n - 1, Math.max(0, i + k));
-        const wk = 1 - Math.abs(k) / (R + 1);
-        s += raw[j] * wk; w += wk;
+    for (const { start, end } of this.segs) {
+      for (let i = start; i <= end; i++) {
+        let s = 0, w = 0;
+        for (let k = -R; k <= R; k++) {
+          const j = Math.min(end, Math.max(start, i + k));
+          const wk = 1 - Math.abs(k) / (R + 1);
+          s += raw[j] * wk; w += wk;
+        }
+        this.y[i] = s / w;
       }
-      this.y[i] = s / w;
+    }
+    // a lane that starts or ends on another line eases onto that line's height
+    const BLEND = 16;
+    for (let si = 1; si < this.segs.length; si++) {
+      const { start, end } = this.segs[si];
+      for (const [i0, dir] of [[start, 1], [end, -1]]) {
+        let best = -1, bd = 16; // within 4 m
+        for (let j = 0; j < this.n; j++) {
+          if (this.seg[j] === si) continue;
+          const d = (this.x[j] - this.x[i0]) ** 2 + (this.z[j] - this.z[i0]) ** 2;
+          if (d < bd) { bd = d; best = j; }
+        }
+        if (best < 0) continue;
+        const yj = this.y[best];
+        for (let k = 0; k < BLEND; k++) {
+          const i = i0 + k * dir;
+          if (i < start || i > end) break;
+          this.y[i] = yj + (this.y[i] - yj) * smoothstep(0, BLEND, k);
+        }
+      }
     }
   }
 
@@ -134,7 +167,7 @@ export class Road {
         const edge = Math.abs(a) > 1.01;
         const crown = 0.1 * (1 - Math.min(1, a * a));
         pos[k * 3] = this.x[r] + nx * off;
-        pos[k * 3 + 1] = this.y[r] + (edge ? -0.04 : crown + 0.02);
+        pos[k * 3 + 1] = this.y[r] + (edge ? -0.04 : crown + 0.02) - (this.seg[r] ? 0.025 : 0); // lanes tuck under the road at a junction
         pos[k * 3 + 2] = this.z[r] + nz * off;
         const us = this.def.material?.uvScale ?? 3.2;
         uv[k * 2] = (off + this.half) / us;
@@ -146,6 +179,7 @@ export class Road {
       }
     }
     for (let r = 0; r < rows - 1; r++) {
+      if (this.seg[r] !== this.seg[r + 1]) continue;
       for (let c = 0; c < cols - 1; c++) {
         const a = r * cols + c, b = a + 1, d = a + cols, e = d + 1;
         idx.push(a, b, d, b, e, d);

@@ -1,0 +1,190 @@
+{
+  "results": [
+    {
+      "name": "Hollowford Lane branches off the road",
+      "ok": true,
+      "detail": "{\"segs\":2,\"n\":1981}"
+    },
+    {
+      "name": "the forgetting starts hidden",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "hidden quests stay out of the journal",
+      "ok": true,
+      "detail": "barrow,conclave,keeper,lanterns"
+    },
+    {
+      "name": "Hollowford is discovered on the way in",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "notice board prompt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "reading the notice opens it",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "the notice starts The Forgetting",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "...and tracks it",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "talk to Maren",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Maren sells food and drink",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "buy a mead",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "a bed restores health and stamina",
+      "ok": true,
+      "detail": "{\"h\":100,\"H\":100,\"s\":100}"
+    },
+    {
+      "name": "Cass's objective is current",
+      "ok": true,
+      "detail": "{\"status\":\"active\",\"done\":[true,false,false,false,false]}"
+    },
+    {
+      "name": "Cass explains the bell",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "bell rope prompt",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "no clapper, no bell",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "clapper prompt at the barrow door",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "the quest marker points at the clapper",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "take the clapper",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "the clapper is a quest item (cannot be dropped)",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Cass takes the clapper",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "ring the bell",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "the bell swings",
+      "ok": true,
+      "detail": "-0.187"
+    },
+    {
+      "name": "talking to Aldric completes The Forgetting",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Aldric remembers",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Aldric gives his blade",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Wren remembers too",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Bram's Stash starts",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "open the stash",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Bram's Stash completes",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Torvin trains Smithing for 40 gold",
+      "ok": true,
+      "detail": "15 -> 16, gold 202 -> 162"
+    },
+    {
+      "name": "talk to Hale at the north gate",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Wren walks her loop",
+      "ok": true,
+      "detail": "12.9,-82.4 -> 12.6,-78.7"
+    },
+    {
+      "name": "save / load keeps quests and flags",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Ser Aldric of the Glass hears from Hollowford",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "...and the water clears",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "fps in Hollowford",
+      "ok": true,
+      "detail": "avg 60, min 60"
+    }
+  ],
+  "console": []
+}

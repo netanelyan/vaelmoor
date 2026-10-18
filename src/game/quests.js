@@ -2,10 +2,13 @@
 // Objective types: discover <area id>, talk <npc id>, take <item id>, or
 // completed explicitly by a dialogue effect "objective:<quest>.<objective>".
 // Objectives in a quest are sequential; the first unfinished one is "current".
+// A quest with "hidden": true stays out of the journal until an effect
+// "start:<quest>" (dialogue, a note) begins it. Objective types also include
+// open <container prop id> and use <usable id>.
 
 export class QuestLog {
   constructor(data) {
-    this.quests = data.quests.map((q) => ({ ...q, objectives: q.objectives.map((o) => ({ ...o, done: false })), status: 'active' }));
+    this.quests = data.quests.map((q) => ({ ...q, objectives: q.objectives.map((o) => ({ ...o, done: false })), status: q.hidden ? 'hidden' : 'active' }));
     this.items = new Set();
     this.discovered = new Set();
     this.tracked = this.quests[0]?.id ?? null;
@@ -59,11 +62,24 @@ export class QuestLog {
     if (kind === 'objective') {
       const [qid, oid] = arg.split('.');
       this.complete(qid, oid);
-    } else if (kind === 'item') this.items.add(arg);
+    } else if (kind === 'start') this.start(arg);
+    else if (kind === 'item') this.items.add(arg);
     else if (kind === 'track') this.tracked = arg;
   }
 
   has(item) { return this.items.has(item); }
+
+  /** Begin a hidden quest (and track it). */
+  start(id) {
+    const q = this.get(id);
+    if (!q || q.status !== 'hidden') return;
+    q.status = 'active';
+    this.tracked = id;
+    this.emit({ type: 'quest-start', quest: q });
+  }
+
+  /** active | complete | hidden (or undefined for an unknown quest) */
+  status(id) { return this.get(id)?.status; }
 
   toJSON() {
     return {
@@ -81,9 +97,11 @@ export class QuestLog {
     for (const qs of s.quests) {
       const q = this.get(qs.id);
       if (!q) continue;
-      q.status = qs.status;
+      q.status = qs.status ?? (q.hidden ? 'hidden' : 'active');
       q.objectives.forEach((o, i) => { o.done = !!qs.done[i]; });
     }
+    // quests added after the save was made start fresh
+    for (const q of this.quests) if (!s.quests.some((x) => x.id === q.id)) { q.status = q.hidden ? 'hidden' : 'active'; for (const o of q.objectives) o.done = false; }
     this.emit({ type: 'restore' });
   }
 }

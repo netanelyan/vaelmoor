@@ -104,6 +104,7 @@ export class Game {
   drop(id) {
     const inv = this.inventory;
     if (!inv.has(id)) return;
+    if (this.items.get(id)?.quest) { this.ui?.hud.toast('You might need that'); return; }
     inv.remove(id, 1);
     const p = this.ui.player;
     const at = [p.pos.x - Math.sin(p.yaw) * 1.2, 0, p.pos.z - Math.cos(p.yaw) * 1.2];
@@ -197,6 +198,7 @@ export class Game {
 
   sell(m, id, n = 1) {
     const def = this.items.get(id);
+    if (def.quest) { this.ui?.hud.toast('You might need that'); return false; }
     const P = prices(this.character);
     let sold = 0;
     for (let i = 0; i < Math.min(n, this.inventory.count(id)); i++) {
@@ -221,6 +223,12 @@ export class Game {
   speechCheck(o) {
     const c = o.check, ch = this.character, sp = ch.skill('speech');
     let ok;
+    if (c.kind === 'pay') { // plain payment (a room, a lesson): no Speech involved
+      ok = this.inventory.gold >= (c.gold ?? 0);
+      if (ok) { this.inventory.gold -= c.gold ?? 0; this.audio?.play('coins'); }
+      else this.notify({ type: 'log', text: 'Not enough gold' });
+      return ok;
+    }
     if (c.kind === 'bribe') {
       ok = this.inventory.gold >= (c.gold ?? 0);
       if (ok) { this.inventory.gold -= c.gold ?? 0; this.audio?.play('coins'); }

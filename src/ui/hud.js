@@ -206,6 +206,8 @@ export class HUD {
   }
 
   death(on) { show(this.deathEl, on); }
+  /** The same fade to black, without the words (resting at the inn). */
+  sleep(on) { this.deathEl.classList.toggle('sleep', on); show(this.deathEl, on); }
 
   setFps(on, text = '') {
     show(this.fps, on);

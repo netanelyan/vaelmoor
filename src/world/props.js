@@ -12,6 +12,7 @@ import { mulberry32 } from '../engine/noise.js';
 import { lakeWater } from './water.js';
 import { cloudSea } from './particles.js';
 import { causeway } from './causeway.js';
+import { TOWN_BUILDERS } from './town.js';
 import { tent, trollBoat, pillarCabin, treeHouse, throneKing, glowVines, stoneTower, walkway } from './gloaming2.js';
 
 // type -> async (ctx, propJson, {x, z, area}) => { object, colliders, lights, glows, update }
@@ -148,6 +149,7 @@ export const PROP_BUILDERS = {
 
   castle_dark: (ctx, p) => darkCastle(ctx, p),
   ...CONTAINER_BUILDERS,
+  ...TOWN_BUILDERS,
   /** An item lying in the world (placed by the game, see Game.placePickup). */
   loot: (ctx, p) => ({ pickup: { item: p.item, count: p.count ?? 1 } }),
   /** A hostile creature (data/enemies.json kind), spawned and run by the game. */

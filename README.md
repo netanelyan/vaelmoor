@@ -25,6 +25,27 @@ Then open the printed URL. Any static server works; the game just can't be opene
 
 Vaelmoor is a first-person RPG in the old mould. Ten skills (One-Handed, Block, Archery, Destruction, Restoration, Sneak, Lockpicking, Speech, Alchemy and Smithing) rise as you use them, and your character level rises with them. Each level-up gives +10 to health, magicka or stamina and a perk point for that skill's constellation. Chests, barrels, sacks and bodies can be searched (take one with E, everything with R); locked ones need a lockpick and a steady hand. Merchants buy and sell at prices set by your Speech. Fights are light but physical: swings and power attacks, timed blocks that stagger, arrows that drop, Flames and Healing from either hand. Wolves roam the surface, Hollow Ones guard the barrow and shades drift through the Gloaming; each one notices you, gives chase, telegraphs its blows and sometimes flees. If you die, the screen fades and the last save loads. Items, loot tables, skills, perks and spells all live in `data/`.
 
+### Hollowford
+
+Hollowford is the town on **Hollowford Lane**, which forks off the cottage road just north of where you wake and runs on through the town's north gate to the barrow door. Since the moon stopped, its people have been forgetting names, faces and their own front doors. The town has:
+
+- **The Barrow's Back**, the inn, built with its back to the barrow. Maren sells food and mead and rents a bed (10 gold), which fades out and wakes you with full health, magicka and stamina, then saves.
+- **The Chapel of the Bell**, where Brother Cass reads out the names people have lost and teaches Restoration.
+- **Torvin's smithy**, open-fronted with a live forge. Torvin sells metal and armour and teaches Smithing and One-Handed (40 gold each).
+- **The square**, with the well (Sir Aldric stands at it, unsure which door is his), a stall and the notice board. Wren runs laps of it, and Hale walks the north gate.
+- Searchable barrels, chests and an alms box, most of them owned.
+
+**The Forgetting** starts from the notice board, from Maren or from Cass. You bring the bell's clapper back from the Hollow Ones at the barrow door, ring the bell, and the town remembers. Sir Aldric gives you his blade, and the lake knight in the Gloaming, the half of him that dreams, has something new to say. **Bram's Stash** is a side quest that costs a mead and an Adept lock.
+
+Supporting systems:
+
+- Quests can be `"hidden"` until a `start:<quest>` effect, and objectives can be `open` (a container) and `use` (a usable prop) as well as talk / take / discover.
+- A prop's `use` block makes it workable (the bell rope, the notice board), with effects, flag or item gates and a sound.
+- Dialogue options can `pay` gold (rooms, lessons), and effects now include `train:<skill>`, `rest`, `read:<item>` and `toast:<text>`.
+- Townsfolk with a `path` stroll it with a gait bob, pause at each point and stop to face you when you talk.
+- Quest items (`"quest": true`) cannot be sold or dropped.
+- The road can have `branches`. Lanes share the road's samples, terrain valley and walk check, and ease onto the main road's height where they join.
+
 ### Hero models (assets/hero)
 
 The main figures, buildings and monsters are hero models made with Meshy AI. `data/hero.json` sets each model's real-world size (by height, length or largest side), facing, idle style and material tweaks. A prop in the region data asks for one with `"hero": "<name>"`, plus optional `heroHeight`, `tint`, `dye` or `instance`; a prop whose model is missing falls back to its procedural version. Repeated static models (the rock spires) are drawn as one `InstancedMesh`.
@@ -102,7 +123,8 @@ src/main.js              realms, game loop, profile crossfade, quality presets
 src/engine/              renderer, assets, input, noise
 src/render/              post chain, painterly + sharpen passes, height fog, light pool
 src/shaders/             sky dome, shared GLSL noise
-src/world/               realms, profiles, terrain, road, water, vegetation, buildings,
+src/world/               realms, profiles, terrain, road (with lanes), water, vegetation, buildings,
+                         town.js (Hollowford: chapel + bell, smithy, well, stall, fences, gate),
                          surface.js (painted props), gloaming2.js (ref_11..17 props),
                          humans.js (rigged CC0 characters: outfits, robes, props, clips)
 src/player/              first-person controller, photo mode
@@ -125,6 +147,9 @@ node tools/perf.mjs --size=1920x1080 --dpr=1.5 --region=gloaming
 node tools/walk.mjs --region=surface # road walkability check
 node tools/regions/surface.cjs       # regenerate the surface region
 node tools/regions/gloaming-extra.cjs  # (re)add the ref_11..17 Gloaming areas
+node tools/playtest/step3.mjs        # Hollowford: lane, town, quests, trainers, walkers, save/load -> docs/playtest/step3
+node tools/dev/look.mjs out "x,z,yaw,pitch,name"   # quick in-game screenshots from given spots
+node tools/dev/hero-bench.mjs out.jpg maren_innkeeper town_guard   # hero models side by side
 ```
 
 The tools run headless Chromium on the real GPU (ANGLE/D3D11); pass `--swiftshader` to `shoot.mjs` on machines without one. References live in `refs/` (Gloaming) and `refs/dark/` (surface).
